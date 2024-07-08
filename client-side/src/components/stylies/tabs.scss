@@ -1,19 +1,20 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 $primary-color: black;
 $secondary-color: rgb(103, 252, 210);
-
-.profile-tabs{
-    background-color: $primary-color  !important;
-    color: $secondary-color  !important;
-}
-.footer-tabs{
-    background-color: $primary-color  !important;
-    color: $secondary-color  !important;
-}
+.profile-tabs,
+.footer-tabs,
 .navbar-tabs{
     background-color: $primary-color  !important;
     color: $secondary-color  !important;
+    font-family:  "Nanum Gothic", sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-style: normal !important;
 }
 .c{
    background-color: $secondary-color  !important;
 }
+
+body {
+
+  }
