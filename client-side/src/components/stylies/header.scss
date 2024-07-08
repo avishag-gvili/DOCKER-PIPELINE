@@ -1,3 +1,8 @@
-body{
-    background-color: rgb(103, 252, 210);
+
+$primary-color: black;
+$secondary-color: rgb(103, 252, 210);
+
+.navbar{
+    background-color: $primary-color  !important;
+    color: $secondary-color  !important;
 }

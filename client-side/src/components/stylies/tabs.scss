@@ -3,16 +3,17 @@ $primary-color: black;
 $secondary-color: rgb(103, 252, 210);
 
 .profile-tabs{
-
-}
-.footer-tabs{
-
-}
-.navbar-tabs{
-    width: 40px  !important;
     background-color: $primary-color  !important;
     color: $secondary-color  !important;
 }
-body{
-    background-color: aquamarine;
+.footer-tabs{
+    background-color: $primary-color  !important;
+    color: $secondary-color  !important;
+}
+.navbar-tabs{
+    background-color: $primary-color  !important;
+    color: $secondary-color  !important;
+}
+.c{
+   background-color: $secondary-color  !important;
 }

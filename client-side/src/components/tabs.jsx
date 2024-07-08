@@ -28,6 +28,7 @@ import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import './stylies/tabs.scss'
+
 export default function LabTabs({ nameOfClass, text = [] }) {
   const [value, setValue] = React.useState(0);
 
@@ -37,7 +38,10 @@ export default function LabTabs({ nameOfClass, text = [] }) {
 
   return (
     <Box sx={{ width: '100%'}} >
-      <Tabs value={value} onChange={handleChange} centered>
+      <Tabs value={value} onChange={handleChange} centered
+              TabIndicatorProps={{
+                className: 'c', 
+              }}>
         {Array.isArray(text) && text.map((label, index) => (
           <Tab  className={nameOfClass} key={index} label={label} />
         ))}
