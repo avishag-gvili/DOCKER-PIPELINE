@@ -1,28 +1,11 @@
-import { Header } from './Header';
-import { fn } from '@storybook/test';
+import * as React from 'react';
+import Header from '../components/header';
 
 export default {
-  title: 'Example/Header',
-  component: Header,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
-  parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-    layout: 'fullscreen',
-  },
-  args: {
-    onLogin: fn(),
-    onLogout: fn(),
-    onCreateAccount: fn(),
-  },
-};
+    title:"header",
+    component:"Header"
+}
 
-export const LoggedIn = {
-  args: {
-    user: {
-      name: 'Jane Doe',
-    },
-  },
-};
+const Template=(args)=><Header/>
 
-export const LoggedOut = {};
+export const clasicHeader=Template.bind({})
