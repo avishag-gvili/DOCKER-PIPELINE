@@ -21,25 +21,19 @@ const MyButton = ({className, label, onClick, size, disabled = false})=>{
 };
 
 MyButton.propTypes = {
-    /**
-     * Is this the principal call to action on the page?
-     */
+    
     className: PropTypes.string,
-    /**
-    /**
-     * How large should the button be?
-     */
+    
+    //How large should the button be?
     size: PropTypes.oneOf(['small', 'medium','large']).isRequired,
-    /**
-     * Button contents
-     */
+    
+    //Button contents
     label: PropTypes.string.isRequired,
-    /**
-     * Optional click handler
-     */
+    
+    //Optional click handler
     onClick: PropTypes.func,
 
-    // OPtional is disabled
+    //Optional is disabled
     disabled: PropTypes.bool,
   };
 
