@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import './stylies/tabs.scss'
 
 
-export default function LabTabs({ nameOfClass, text = [], nav=[]}) {
+export default function LabTabs({ nameOfClass = "every-tabs", text = [], nav=[]}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -25,6 +25,7 @@ export default function LabTabs({ nameOfClass, text = [], nav=[]}) {
   };
 
   return (
+    <div className='div'>
     <Box sx={{ width: '100%'}} >
       <Tabs value={value} onChange={handleChange} centered
               TabIndicatorProps={{
@@ -35,6 +36,7 @@ export default function LabTabs({ nameOfClass, text = [], nav=[]}) {
         ))}
       </Tabs>
     </Box>
+    </div>
   );
 }
 
@@ -42,4 +44,8 @@ LabTabs.propTypes = {
   text: PropTypes.arrayOf(PropTypes.string).isRequired,
   nameOfClass: PropTypes.string,
   nav:PropTypes.arrayOf(PropTypes.string).isRequired
+};
+
+LabTabs.defaultProps = {
+  nameOfClass: "every-tabs"
 };

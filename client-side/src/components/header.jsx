@@ -39,18 +39,9 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar className='navbar' position="static">
-      <Container maxWidth="xl">
+    <AppBar position="static">
+      <Container  className='navbar'  maxWidth="xl">
         <Toolbar disableGutters>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            className='logo'
-          >
-          </Typography>
-
           <Box className="left-side-box">
             <IconButton
               size="large"
