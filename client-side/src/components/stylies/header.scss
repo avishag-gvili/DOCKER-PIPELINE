@@ -1,8 +1,19 @@
 
 $primary-color: black;
 $secondary-color: rgb(103, 252, 210);
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 .navbar{
     background-color: $primary-color  !important;
     color: $secondary-color  !important;
+}
+.logo{
+    margin-right: 2 !important;
+    font-family: 'Nanum Gothic' !important;
+    color: rgb(103, 252, 210) !important;
+    text-decoration: none !important;
+}
+.menu{
+     display: 'block' !important;
+     math-depth: 'none'  !important;
 }
