@@ -30,8 +30,8 @@ MyButton.propTypes = {
     //Button contents
     label: PropTypes.string.isRequired,
     
-    //Optional click handler
-    onClick: PropTypes.func,
+    //Click handler
+    onClick: PropTypes.func.isRequired,
 
     //Optional is disabled
     disabled: PropTypes.bool,
