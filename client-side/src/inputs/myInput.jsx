@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
-import LockIcon from '@mui/icons-material/Person';
+import InputAdornment from '@mui/material/InputAdornment';
 import '../style/myInput.scss';
 
-const MyInput = ({ label, type, value, onChange, size, startIcon, validation, ...rest }) => {
+const MyInput = ({ label, type='text', value, onChange, size='medium',  icon: Icon,validation, ...rest }) => {
   const handleChange = (e) => {
     if (onChange) {
       onChange(e.target.value);
@@ -20,7 +20,7 @@ const MyInput = ({ label, type, value, onChange, size, startIcon, validation, ..
       error = true;
       helperText = validationResult.helperText || 'Invalid input';
     }
-  }//עד כאן זה ולידציה לא קשור אלייך
+  }
 
   return (
     <div className='my-input'>
@@ -33,7 +33,11 @@ const MyInput = ({ label, type, value, onChange, size, startIcon, validation, ..
         error={error}
         helperText={helperText}
         InputProps={{
-          startAdornment: startIcon && <LockIcon />,
+          startAdornment: Icon && (
+            <InputAdornment position="start">
+              <Icon />
+            </InputAdornment>
+          ),
           ...rest.InputProps,
         }}
         {...rest}
@@ -47,8 +51,8 @@ MyInput.propTypes = {
   type: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
-  startIcon: PropTypes.bool,
+  size: PropTypes.oneOf(['small', 'medium']),
+  icon: PropTypes.elementType,
   validation: PropTypes.func,
 };
 

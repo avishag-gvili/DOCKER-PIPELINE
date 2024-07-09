@@ -11,7 +11,7 @@ export default {
     size: {
       control: {
         type: 'select',
-        options: ['small', 'medium', 'large'],
+        options: ['small', 'medium'],
       },
     },
   },
@@ -50,7 +50,7 @@ EmailInput.args = {
 export const InputWithIcon = Template.bind({});
 InputWithIcon.args = {
   label: 'input with icon',  
-  startIcon: <PersonIcon />,
+  icon:PersonIcon,
 };
 
 export const NumberInput = Template.bind({});
@@ -82,34 +82,4 @@ PasswordInput.args = {
   type: 'password',
   
 };
-
-// import React from 'react';
-// import MyInput from '../inputs/myInput';
-
-// export default {
-//   title: 'Components/MyInput',
-//   component: MyInput,
-//   argTypes: {
-//     label: { control: 'text' },
-//     type: { control: 'select', options: ['text', 'email', 'password', 'number'] },
-//     value: { control: 'text' },
-//     onChange: { action: 'changed' },
-//     size: { control: { type: 'select', options: ['small', 'medium', 'large'] } },
-//     startIcon: { control: 'boolean' },
-//     validation: { control: null }, 
-//     disabled: { control: 'boolean' }, 
-//   },
-// };
-
-// const Template = (args) => <MyInput {...args} />;
-
-// export const Default = Template.bind({});
-// Default.args = {
-//   label: 'Enter your details',
-//   type: 'text',
-// };
-
-
-//מה שלמעלה זה כל מיני סוגי שימוש באינפוט ומה שמיורק זה האפשרות לעשות 'סיפור' אחד ובסטוריבוק לשחק עם כל ההגדרות
-//שימי לב להבדלים 
 
