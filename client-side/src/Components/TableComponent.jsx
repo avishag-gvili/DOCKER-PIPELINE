@@ -3,7 +3,7 @@ import React from 'react';
 import { Table, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
 import './TableComponent.scss'
 
-const TableComponent = ({ dataObject }) => {
+const TableComponent = ({ dataObject}) => {
  
   return (
     <Table className="table">

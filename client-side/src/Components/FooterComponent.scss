@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+
 .footer {
     background-color: #000000;
     color: rgb(103, 252, 210);
@@ -9,6 +11,9 @@
   .footer-text {
     font-size: 14px;
     font-weight: 300;
+    font-family:  "Nanum Gothic", sans-serif !important;
+    font-optical-sizing: auto !important;
+    font-style: normal !important;
   }
   .link {
     color: aqua;

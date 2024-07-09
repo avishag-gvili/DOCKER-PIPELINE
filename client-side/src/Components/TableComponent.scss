@@ -1,27 +1,28 @@
 
+
 .table {
-    width: 60%;
-  background-color: rgb(255, 247, 247);; 
-  margin-top: 10%; 
+  width: 60%;
+background-color: rgb(255, 247, 247);; 
+margin-top: 10%; 
 }
 
 .table thead {
-  background-color:rgb(26, 25, 25); 
+background-color:rgb(26, 25, 25); 
 
 }
 
 .table thead th {
-  color: rgb(72, 245, 193);
-  font-weight: bold;
-  text-align: center;
-  font-size: 120%;
-  border: 1px solid rgb(72, 245, 193);
+color: rgb(72, 245, 193);
+font-weight: bold;
+text-align: center;
+font-size: 120%;
+border: 1px solid rgb(72, 245, 193);
 }
 
 .table tbody tr td {
 color: #CCC;
-  background-color: rgb(53, 52, 52);
-  text-align: center;
-  border: 1px solid rgb(72, 245, 193);
-  font-size: 110%;
+background-color: rgb(53, 52, 52);
+text-align: center;
+border: 1px solid rgb(72, 245, 193);
+font-size: 110%;
 }
