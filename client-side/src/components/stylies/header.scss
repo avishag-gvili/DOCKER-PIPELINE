@@ -17,3 +17,21 @@ $secondary-color: rgb(103, 252, 210);
      display: 'block' !important;
      math-depth: 'none'  !important;
 }
+.left-side-box{
+    flex-grow: 1;
+    display: flex;
+  
+    @media (min-width: 768px) {
+      display: none;
+    }
+}
+.middle-side-box{
+      flex-grow: 1;
+      display: none; // ברירת מחדל - לא תוצג במסך רוחב נמוך
+    }
+    
+    @media (min-width: 768px) {
+      .middle-side-box {
+        display: flex; // תוצג כאשר המסך רוחבו 768px או יותר
+      } 
+}

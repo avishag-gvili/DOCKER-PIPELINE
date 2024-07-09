@@ -12,11 +12,12 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import LabTabs from './tabs';
+import { useNavigate } from 'react-router';
 import './stylies/header.scss'
+import LabTabs from './tabs';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+const settings = ['edit user profile','manage notifications'];
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -41,18 +42,16 @@ function ResponsiveAppBar() {
     <AppBar className='navbar' position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
-          <Typography 
+          <Typography
             variant="h6"
             noWrap
             component="a"
             href="#app-bar-with-responsive-menu"
             className='logo'
           >
-            TimeOut
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box className="left-side-box">
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -79,26 +78,37 @@ function ResponsiveAppBar() {
               onClose={handleCloseNavMenu}
               className='menu'
             >
-
-            </Menu>
-          </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
           <LabTabs
           nameOfClass="navbar-tabs"
           text={["home", "reports", "statistics", "profiles"]}
+          nav={["/home","/reports","/statistics","/profiles"] }
+        />
+            </Menu>
+          </Box>
+          <Typography
+            variant="h5"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            className='logo'
+          >
+            TimeOut
+          </Typography>
+          <Box className="middle-side-box">
+          <LabTabs
+          nameOfClass="navbar-tabs"
+          text={["home", "reports", "statistics", "profiles"]}
+          nav={["/home","/reports","/statistics","/profiles"] }
         />
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box >
             <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton onClick={handleOpenUserMenu} >
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{

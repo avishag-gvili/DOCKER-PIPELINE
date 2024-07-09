@@ -5,16 +5,13 @@ $secondary-color: rgb(103, 252, 210);
 .profile-tabs,
 .footer-tabs,
 .navbar-tabs{
-    background-color: $primary-color  !important;
+    background-color: $primary-color !important ;
     color: $secondary-color  !important;
     font-family:  "Nanum Gothic", sans-serif !important;
     font-optical-sizing: auto !important;
     font-style: normal !important;
 }
-.c{
+.tabs{
    background-color: $secondary-color  !important;
 }
 
-body {
-
-  }

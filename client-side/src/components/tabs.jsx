@@ -3,27 +3,43 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import './stylies/tabs.scss'
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import './stylies/tabs.scss'
 
-export default function LabTabs({ nameOfClass, text = [], nav=[],theFunction}) {
+
+export default function LabTabs({ nameOfClass, text = [], nav=[]}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const navigate = useNavigate();
+
+  const handleTabClick = (index) => {
+    if (nav && nav[index]) {
+      navigate(nav[index]);
+    }
+    debugger
+  };
 
   return (
     <Box sx={{ width: '100%'}} >
       <Tabs value={value} onChange={handleChange} centered
               TabIndicatorProps={{
-                className: 'c', 
+                className: 'tabs', 
               }}>
         {Array.isArray(text) && text.map((label, index) => (
-          <Tab  className={nameOfClass} key={index} label={label} />
+          <Tab  className={nameOfClass} key={index} label={label} onClick={() => handleTabClick(index)}/>
         ))}
       </Tabs>
     </Box>
   );
 }
+
+LabTabs.propTypes = {
+  text: PropTypes.arrayOf(PropTypes.string).isRequired,
+  nameOfClass: PropTypes.string,
+  nav:PropTypes.arrayOf(PropTypes.string).isRequired
+};
