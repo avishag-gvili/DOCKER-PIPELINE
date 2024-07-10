@@ -4,7 +4,7 @@ import GenericButton from './GenericButton';
 
 
 export default{
-    title: 'Components/GenericButton',
+    title: 'Button/GenericButton',
     component: GenericButton,
     argTypes:{
         className:{ control: {type: 'select', options:['primary','secondary']}},
