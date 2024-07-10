@@ -1,5 +1,4 @@
 import React from 'react';
-import { Meta, Story } from '@storybook/react';
 import TableComponent from '../Components/TableComponent';
 
 const meta = {
@@ -15,24 +14,24 @@ const Template = (args) => <TableComponent {...args} />;
 export const data1 = Template.bind({});
 data1.args = {
     dataObject: {
-        headers: ['שם', 'גיל', 'עיר'],
-        rows: [
-            { id: 1, cells: ['יונתן', 25, 'תל אביב'] },
-            { id: 2, cells: ['מיכל', 30, 'ירושלים'] },
-        ],
+        headers: ['id','name', 'age', 'city'],
+         rows: [
+      { id: 1, name: 'יונתן', age: 25, city: 'תל אביב' },
+      { id: 2, name: 'מיכל', age: 30, city: 'ירושלים' },
+    ],
     },
-
+    widthOfTable:"70%"
 };
 
 export const data2 = Template.bind({});
 data2.args = {
     dataObject: {
-        headers: ['שם', 'מקצוע', 'גיל', 'עיר'],
+        headers: ['id','name', 'profession','age', 'city'],
         rows: [
-            { id: 1, cells: ['אנגלית', 'יונתן', 25, 'תל אביב'] },
-            { id: 2, cells: ['מיכל', 'חשבון', 30, 'ירושלים'] },
-        ],
+            { id: 1, name: 'יונתן', profession: 'אנגלית', age: 25, city: 'תל אביב' },
+            { id: 2, name: 'מיכל', profession: 'חשבון', age: 30, city: 'ירושלים' },
+          ],
     },
-
+    widthOfTable:"80%"
 };
 

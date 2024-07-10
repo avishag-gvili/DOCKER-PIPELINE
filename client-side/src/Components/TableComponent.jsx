@@ -1,30 +1,30 @@
 
 import React from 'react';
-import { Table, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
-import './TableComponent.scss'
+import { DataGrid } from '@mui/x-data-grid';
+import './TableComponent.scss';
 
-const TableComponent = ({ dataObject}) => {
- 
+const TableComponent = ({ dataObject ,widthOfTable}) => {
+  const columns = dataObject.headers.map((header) => ({
+    field: header,
+    headerName: header,
+    width: 150, 
+  }));
+
   return (
-    <Table className="table">
-      <TableHead>
-        <TableRow>
-          {dataObject.headers.map((header) => (
-            <TableCell>{header}</TableCell>
-          ))}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {dataObject.rows.map((row) => (
-          <TableRow>
-            {row.cells.map((cell) => (
-              <TableCell>{cell}</TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <div className="table" style={{width:widthOfTable}}>      
+        <DataGrid 
+          rows={dataObject.rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+        />  
+    </div>
   );
-};
 
+}
 export default TableComponent;

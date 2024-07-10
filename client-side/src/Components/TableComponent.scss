@@ -1,28 +1,77 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
 .table {
-  width: 60%;
-background-color: rgb(255, 247, 247);; 
-margin-top: 10%; 
-}
+    background-color: rgb(255, 247, 247);
+    margin-top: 10%;
+    margin-left: 10%;
+    border: 2px solid rgb(0, 0, 0);
 
-.table thead {
-background-color:rgb(26, 25, 25); 
+    .MuiDataGrid-row:hover,
+    .MuiDataGrid-cell:hover {
+        background-color: rgba(72, 245, 193, 0.2);
+        border-color: rgb(72, 245, 193);
+    }
 
-}
+    .MuiDataGrid-row:active,
+    .MuiDataGrid-cell:active {
+        background-color: rgba(72, 245, 193, 0.2);
+        border-color: rgb(72, 245, 193);
+    }
 
-.table thead th {
-color: rgb(72, 245, 193);
-font-weight: bold;
-text-align: center;
-font-size: 120%;
-border: 1px solid rgb(72, 245, 193);
-}
+    .MuiDataGrid-root {
+        border: none;
+    }
 
-.table tbody tr td {
-color: #CCC;
-background-color: rgb(53, 52, 52);
-text-align: center;
-border: 1px solid rgb(72, 245, 193);
-font-size: 110%;
+    .MuiDataGrid-columnHeaders {
+        background-color: black;
+
+        .MuiDataGrid-columnHeaderTitle {
+            color: rgb(72, 245, 193);
+            font-weight: bold;
+            text-align: center;
+            font-size: 140%;
+            font-family: "Nanum Gothic", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+        }
+    }
+
+    .MuiDataGrid-cell {
+        color: #000000;
+        background-color: rgb(255, 255, 255);
+        text-align: center;
+        font-size: 110%;
+
+        &:hover {
+            border-color: rgb(72, 245, 193);
+        }
+    }
+
+    .MuiDataGrid-cellCheckbox,
+    .Mui-checked {
+        color: rgb(72, 245, 193) !important;
+    }
+
+    .MuiDataGrid-footerContainer {
+        background-color: rgb(255, 255, 255);
+
+        .MuiTablePagination-root {
+            color: #000000;
+        }
+    }
+
+    .MuiDataGrid-row {
+        &:hover {
+            background-color: rgba(72, 245, 193, 0.2);
+        }
+
+        &.Mui-selected {
+            background-color: rgba(72, 245, 193, 0.4);
+
+            &:hover {
+                background-color: rgba(72, 245, 193, 0.5);
+            }
+        }
+    }
+
 }
