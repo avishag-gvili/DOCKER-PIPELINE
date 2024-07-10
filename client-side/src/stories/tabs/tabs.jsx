@@ -1,15 +1,14 @@
 
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './stylies/tabs.scss'
+import PropTypes from 'prop-types';
+import {Box,Tabs,Tab} from '@mui/material';
+import './tabs.scss'
 
 
 export default function LabTabs({ nameOfClass = "every-tabs", text = [], nav=[]}) {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -21,7 +20,6 @@ export default function LabTabs({ nameOfClass = "every-tabs", text = [], nav=[]}
     if (nav && nav[index]) {
       navigate(nav[index]);
     }
-    debugger
   };
 
   return (

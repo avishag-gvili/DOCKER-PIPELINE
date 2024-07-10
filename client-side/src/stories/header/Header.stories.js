@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Header from '../components/header';
+import Header from './header';
 
 export default {
     title:"header",

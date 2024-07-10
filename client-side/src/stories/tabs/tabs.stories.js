@@ -1,5 +1,5 @@
 import * as React from 'react';
-import LabTabs from '../components/tabs';
+import LabTabs from './tabs';
 
 export default {
     title:"tab",
