@@ -6,7 +6,6 @@ export default {
     title:"tab",
     component:"LabTabs",
     argsTypes:{onclick:{action:"lll"}}
-    // nameOfClass:{ control: {type: 'select', options:['navbarTabs','footerTabs',"profileTabs"]}},
 }
 
 const Template=(args)=><LabTabs {...args}/>
@@ -34,5 +33,5 @@ export const profileTabs=Template.bind({})
 profileTabs.args={
     nameOfClass:"profile-tabs",
     text:["blocked sites","manage profiles","browsing data"],
-     nav:["/blockedsites","/manageprofiles","/browsingdata"] // קישורים לTABS 
+     nav:["/blockedsites","/manageprofiles","/browsingdata"]  
 }
