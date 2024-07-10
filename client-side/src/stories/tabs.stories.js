@@ -1,6 +1,5 @@
 import * as React from 'react';
 import LabTabs from '../components/tabs';
-import { action } from '@storybook/addon-actions';
 
 export default {
     title:"tab",
