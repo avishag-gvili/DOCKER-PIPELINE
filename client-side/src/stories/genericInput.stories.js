@@ -1,12 +1,11 @@
 
 import React from 'react';
-import MyInput from '../inputs/myInput';
+import GenericInput from '../inputs/genericInput';
 import PersonIcon from '@mui/icons-material/Person';
-
 
 export default {
   title: 'Components/StyledInput',
-  component: MyInput,
+  component: GenericInput,
   argTypes: {
     size: {
       control: {
@@ -17,7 +16,7 @@ export default {
   },
 };
 
-const Template = (args) => <MyInput {...args} />;
+const Template = (args) => <GenericInput {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
@@ -28,6 +27,7 @@ Default.args = {
 export const InputWithPlaceholder = Template.bind({});
 InputWithPlaceholder.args = { 
   type: 'text',
+  label:'this is lable',
   placeholder: 'This is Placeholder',
 };
 
@@ -41,7 +41,7 @@ InputWithError.args = {
 
 export const EmailInput = Template.bind({});
 EmailInput.args = {
-  
+  label:'email input',
   type: 'email',
   placeholder: 'example@example.com',
   
@@ -69,8 +69,8 @@ DisabledInput.args = {
 };
 
 export const TimeInput = Template.bind({});
-TimeInput.args = {
-  
+TimeInput.args = {  
+  label:'time',
   type: 'time', 
  size:'medium'
   

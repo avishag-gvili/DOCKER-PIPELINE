@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
-import '../style/myInput.scss';
+import  '../style/genericInput.scss';
 
-const MyInput = ({ label, type='text', value, onChange, size='medium',  icon: Icon,validation, ...rest }) => {
+const GenericInput = ({ label, type='text', value, onChange, size='medium',
+   icon: Icon,validation, ...rest }) => {
   const handleChange = (e) => {
     if (onChange) {
       onChange(e.target.value);
     }
   };
+
 
   let error = false;
   let helperText = '';
@@ -23,7 +25,7 @@ const MyInput = ({ label, type='text', value, onChange, size='medium',  icon: Ic
   }
 
   return (
-    <div className='my-input'>
+    <div className={`generic-input `} >
       <TextField
         label={label}
         type={type}
@@ -31,7 +33,7 @@ const MyInput = ({ label, type='text', value, onChange, size='medium',  icon: Ic
         onChange={handleChange}
         size={size}
         error={error}
-        helperText={helperText}
+        helperText={helperText}       
         InputProps={{
           startAdornment: Icon && (
             <InputAdornment position="start">
@@ -46,14 +48,16 @@ const MyInput = ({ label, type='text', value, onChange, size='medium',  icon: Ic
   );
 };
 
-MyInput.propTypes = {
+GenericInput.propTypes = {
   label: PropTypes.string.isRequired,
   type: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
   size: PropTypes.oneOf(['small', 'medium']),
+  width:PropTypes.oneOf(['small','medium']),
   icon: PropTypes.elementType,
   validation: PropTypes.func,
+ 
 };
 
-export default MyInput;
+export default GenericInput;
