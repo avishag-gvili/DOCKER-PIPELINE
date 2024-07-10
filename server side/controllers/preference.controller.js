@@ -1,10 +1,10 @@
 import  mongoose from 'mongoose';
-import  {Preferenec}from '../models/preference.model.js';
+import  {Preference}from '../models/preference.model.js';
 
 export const getAllPreference=async(req,res,next)=>{
      try {
-        const allPreferenecs=await  Preferenec.find().select('-__v');
-        return res.send(allPreferenecs);
+        const allPreferences=await  Preference.find().select('-__v');
+        return res.send(allPreferences);
      } catch (error) {
       return next({message:error.message})
      }
@@ -14,8 +14,8 @@ export const getPreferenceById=async(req,res,next)=>{
     if(mongoose.Types.ObjectId.isValid(id))
     {
         try {
-            const preferenecsById= await Preferenec.findById(id,{__v:false});
-            res.json(preferenecsById);
+            const PreferencesById= await Preference.findById(id,{__v:false});
+            res.json(PreferencesById);
         } catch (error) {
             return next({message:error.message})
         }
@@ -34,10 +34,10 @@ export const updatePreference=async(req,res,next)=>{
      if(!mongoose.Types.ObjectId.isValid(id))
         return next({message:'id isnot valid'});
         try {
-             const updatedPreferenec=await  Preferenec.findById(id);
-             if(!updatedPreferenec)
+             const updatedPreference=await  Preference.findById(id);
+             if(!updatedPreference)
                 return next({message:'Preferencs not found !!',status:404});
-            const newPreferenc= await Preferenec.findByIdAndUpdate(id,req.body,{new:true});
+            const newPreferenc= await Preference.findByIdAndUpdate(id,req.body,{new:true});
             return res.json(newPreferenc);
         } catch (error) {
             next({message:error})
@@ -47,7 +47,7 @@ export const updatePreference=async(req,res,next)=>{
 export const addPreference=async(req,res,next)=>{
   try {
      req.body.soundVoice=req.file.originalname;
-     const newPreferenc= new Preferenec(req.body);
+     const newPreferenc= new Preference(req.body);
      await  newPreferenc.save();
      return res.json(newPreferenc).status(201);
   } catch (error) {
@@ -63,10 +63,10 @@ export const deletePreference=async(req,res,next)=>{
         return next({message:'id isnot valid'})
     try { 
        
-         const preferenecForDelet=await Preferenec.findById(id);
-         if(!preferenecForDelet)
+         const PreferenceForDelet=await Preference.findById(id);
+         if(!PreferenceForDelet)
             return next({message:'Preferencs not found !!'})
-        await Preferenec.findByIdAndDelete(id);
+        await Preference.findByIdAndDelete(id);
         res.status(204).send();
         } catch (error) {
         return next({message:error.message});
