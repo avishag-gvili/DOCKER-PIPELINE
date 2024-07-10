@@ -1,9 +1,9 @@
 import express from 'express'
 import {getAllProfiles,getProfileById,createProfile,deleteProfile,updateProfile} from '../controllers/profileController'
 const router=express.Router();
-router.get('/getAllProfiles',getAllProfiles);
-router.get('/getProfileById/:id',getProfileById);
-router.post('/createProfile',createProfile);
-router.delete('/deleteProfile/:id',deleteProfile);
-router.put('/updateProfile/:id',updateProfile);
+router.get('/profiles',getAllProfiles);
+router.get('/profiles/:id',getProfileById);
+router.post('/profiles',createProfile);
+router.delete('/profiles/:id',deleteProfile);
+router.put('/profiles/:id',updateProfile);
 export default router;

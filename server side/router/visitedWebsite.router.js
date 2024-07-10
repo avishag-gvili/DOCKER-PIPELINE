@@ -1,9 +1,9 @@
 import express from 'express'
 import {getAllVisitedWebsites,getVisitedWebsiteById,deleteVisitedWebsite,updateVisitedWebsite,createVisitedWebsite} from '../controllers/visitedWebSiteController'
 const router=express.Router();
-router.get('/getAllVisitedWebsites',getAllVisitedWebsites)
-router.get('/getVisitedWebsiteById/:id',getVisitedWebsiteById)
-router.post('/createVisitedWebsite',createVisitedWebsite)
-router.put('/updateVisitedWebsite/:id',updateVisitedWebsite)
-router.delete('/deleteVisitedWebsite/:id',deleteVisitedWebsite)
+router.get('/vistedWebsite',getAllVisitedWebsites)
+router.get('/vistedWebsite/:id',getVisitedWebsiteById)
+router.post('/vistedWebsite',createVisitedWebsite)
+router.put('/vistedWebsite/:id',updateVisitedWebsite)
+router.delete('/vistedWebsite/:id',deleteVisitedWebsite)
 export default router;

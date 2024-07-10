@@ -13,7 +13,7 @@ export const getUsers = async (req, res) => {
   }
 };
 
-export const getUserId = async (req, res) => {
+export const getUserById = async (req, res) => {
   try {
     const idParams = req.params.id;
     const user = await userModel.findById(idParams).populate('visitsWebsites profiles preferences');

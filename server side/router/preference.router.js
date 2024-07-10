@@ -1,11 +1,11 @@
 import  express from 'express';
 import  {Upload}from '../middleware/uploadFiles.js';
-import  {getAllPreferenecs,getPreferenecById,updatePreferenec,deletePreferenec,addPreferenec} from '../controllers/preference.controller.js'
+import  {getAllPreference,getPreferenceById,updatePreference,deletePreference,addPreference} from '../controllers/preference.controller.js'
 
 const router=express.Router();
-router.get('/getAllPreferenecs',getAllPreferenecs);
-router.get('/getPreferenecById/:id',getPreferenecById);
-router.post('/addPreferenec',Upload.single('soundVoice'),addPreferenec);
-router.put('/updatePreferenec/:id',Upload.single('soundVoice'),updatePreferenec);
-router.delete('/deletePreferenec/:id',deletePreferenec);
+router.get('/preferences',getAllPreference);
+router.get('/preferences/:id',getPreferenceById);
+router.post('/preferences',Upload.single('soundVoice'),addPreference);
+router.put('/preferences/:id',Upload.single('soundVoice'),updatePreference);
+router.delete('/preferences/:id',deletePreference);
 export default router;

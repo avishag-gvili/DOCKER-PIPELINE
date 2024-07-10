@@ -1,7 +1,7 @@
 import express from 'express';
 import { 
   getUsers, 
-  getUserId, 
+  getUserById, 
   addUser, 
   deleteUser, 
   updatedUser, 
@@ -13,7 +13,7 @@ import upload from '../middleware/upload.js';
 const router = express.Router();
 
 router.get('/users', getUsers);
-router.get('/users/:id', getUserId);
+router.get('/users/:id', getUserById);
 router.post('/users', addUser);
 router.delete('/users/:id', deleteUser);
 router.put('/users/:id', updatedUser);

@@ -1,10 +1,10 @@
 import  express from 'express';
-import { getWebsitesById,getAllWebsites,addWebSites,UpdateWebSites,deleteWebsites} from '../controllers/websites.controller.js';
+import { getWebsiteById,getAllWebsites,addWebSite,UpdateWebSite,deleteWebsite} from '../controllers/websites.controller.js';
  const router=express.Router();
-router.get('/getAllWebsites',getAllWebsites);
-router.get('/getWebsitesById/:id',getWebsitesById);
-router.put('/UpdateWebSites/:id',UpdateWebSites);
-router.post('/addWebSites',addWebSites);
-router.delete('/deleteWebsites/:id',deleteWebsites);
+router.get('/websites',getAllWebsites);
+router.get('/websites/:id',getWebsiteById);
+router.put('/websites/:id',UpdateWebSite);
+router.post('/websites',addWebSite);
+router.delete('/websites/:id',deleteWebsite);
 export default router;
 

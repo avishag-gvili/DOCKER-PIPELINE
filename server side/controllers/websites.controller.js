@@ -10,7 +10,7 @@ export const getAllWebsites=async(req,res,next)=>{
     }
    
 }
-export const getWebsitesById=async(req,res,next)=>{
+export const getWebsiteById=async(req,res,next)=>{
       const id= req.params.id;
       if(!mongoose.Types.ObjectId.isValid(id))
         return next({message:'id is not valid!'})
@@ -23,7 +23,7 @@ export const getWebsitesById=async(req,res,next)=>{
     }
     
 }
-export const UpdateWebSites=async(req,res,next)=>{
+export const UpdateWebSite=async(req,res,next)=>{
     const id=req.params.id;
     if(!mongoose.Types.ObjectId.isValid(id))
         return next({message:'id is not valid'});
@@ -37,7 +37,7 @@ export const UpdateWebSites=async(req,res,next)=>{
         return next({message:error.message});
     }
 }
-export const addWebSites=async(req,res,next)=>{
+export const addWebSite=async(req,res,next)=>{
     try {
         const newWebsite= new Websites(req.body);
         await newWebsite.save();
@@ -48,7 +48,7 @@ export const addWebSites=async(req,res,next)=>{
     }
    
 };
-export const deleteWebsites=async(req,res,next)=>{
+export const deleteWebsite=async(req,res,next)=>{
    const id= req.params.id;
    if(!mongoose.Types.ObjectId.isValid(id))
       return next({message:'id is not valid'})
