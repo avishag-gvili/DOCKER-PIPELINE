@@ -1,14 +1,14 @@
 import VisitedWebsite from './models/visitedWebsite.js'; 
-const visitedWebsiteController = {
-    getAllVisitedWebsites: async (req, res) => {
+
+ export const    getAllVisitedWebsites= async (req, res) => {
         try {
             const visitedWebsites = await VisitedWebsite.find();
             res.json(visitedWebsites);
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
-    },
-    createVisitedWebsite: async (req, res) => {
+    };
+ export const    createVisitedWebsite=  async (req, res) => {
         const newVisitedWebsite = new VisitedWebsite(req.body);
         try {
             const savedVisitedWebsite = await newVisitedWebsite.save();
@@ -16,8 +16,8 @@ const visitedWebsiteController = {
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
-    },
-    getVisitedWebsiteById: async (req, res) => {
+    };
+  export const   getVisitedWebsiteById= async (req, res) => {
         try {
             const visitedWebsite = await VisitedWebsite.findById(req.params.id);
             if (!visitedWebsite) {
@@ -27,8 +27,8 @@ const visitedWebsiteController = {
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
-    },
-    updateVisitedWebsite: async (req, res) => {
+    };
+ export const    updateVisitedWebsite = async (req, res) => {
         try {
             const updatedVisitedWebsite = await VisitedWebsite.findByIdAndUpdate(req.params.id, req.body, { new: true });
             if (!updatedVisitedWebsite) {
@@ -38,8 +38,8 @@ const visitedWebsiteController = {
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
-    },
-    deleteVisitedWebsite: async (req, res) => {
+    };
+  export const    deleteVisitedWebsite= async (req, res) => {
         try {
             const deletedVisitedWebsite = await VisitedWebsite.findByIdAndDelete(req.params.id);
             if (!deletedVisitedWebsite) {
@@ -49,6 +49,6 @@ const visitedWebsiteController = {
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
-    },
-};
+    };
+
 export default visitedWebsiteController;

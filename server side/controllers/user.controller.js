@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import path from 'path';
 import fs from 'fs';
 
-const getUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
   try {
     const users = await userModel.find().populate('visitsWebsites profiles preferences');
     res.status(200).send(users);
@@ -13,7 +13,7 @@ const getUsers = async (req, res) => {
   }
 };
 
-const getUserId = async (req, res) => {
+export const getUserId = async (req, res) => {
   try {
     const idParams = req.params.id;
     const user = await userModel.findById(idParams).populate('visitsWebsites profiles preferences');
@@ -28,7 +28,7 @@ const getUserId = async (req, res) => {
   }
 };
 
-const addUser = async (req, res) => {
+export const addUser = async (req, res) => {
   const { name, password, email } = req.body;
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -45,7 +45,7 @@ const addUser = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   try {
     const idParams = req.params.id;
     const user = await userModel.findByIdAndDelete(idParams);
@@ -60,7 +60,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-const updatedUser = async (req, res) => {
+export const updatedUser = async (req, res) => {
   try {
     const idParams = req.params.id;
     const { name, password, email } = req.body;
@@ -80,7 +80,7 @@ const updatedUser = async (req, res) => {
   }
 };
 
-const updateUserProfileImage = async (req, res) => {
+export const updateUserProfileImage = async (req, res) => {
   try {
     const userId = req.params.id;
     const profileImage = req.file;
@@ -112,11 +112,4 @@ const updateUserProfileImage = async (req, res) => {
   }
 };
 
-export {
-  getUsers,
-  getUserId,
-  addUser,
-  deleteUser,
-  updatedUser,
-  updateUserProfileImage
-};
+

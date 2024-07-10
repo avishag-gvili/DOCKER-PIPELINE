@@ -4,6 +4,9 @@ import morgan from 'morgan'
 import cors from 'cors'
 import PreferenceRouter from './router/preference.router.js';
 import WebsitesRouter from './router/websites.router.js';
+import profileRouter from './router/profile.router.js'
+import visitedWebsiteRouter from './router/visitedWebsite.router.js'
+import userRouter from './router/user.router.js'
 import {pageNotFound,serverErrors} from './middleware/handleErrors.js'
 import dotenv from 'dotenv'
 import {connecMongo} from './config/db.js'
@@ -23,6 +26,9 @@ app.get('/',(req,res)=>{
 app.use('/uploads',express.static('uploads'))
 app.use('/preference',PreferenceRouter);
 app.use('/websites',WebsitesRouter);
+app.use('/profile',profileRouter);
+app.use('/vistedwebsite',visitedWebsiteRouter);
+app.use('/user',userRouter);
 app.use(pageNotFound);
 app.use(serverErrors)
 let port= process.env.PORT;

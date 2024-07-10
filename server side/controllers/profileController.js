@@ -1,17 +1,17 @@
 import Profile from '../models/profileModel.js';
 
 
-const profileController = {
-    getAllProfiles: async (req, res) => {
+
+   export const  getAllProfiles= async (req, res) => {
         try {
             const profiles = await Profile.find();
             res.json(profiles);
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
-    },
+    };
 
-    createProfile: async (req, res) => {
+    export const createProfile= async (req, res) => {
         const newProfile = new Profile(req.body);
         try {
             const savedProfile = await newProfile.save();
@@ -19,9 +19,9 @@ const profileController = {
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
-    },
+    };
 
-    getProfileById: async (req, res) => {
+   export const   getProfileById= async (req, res) => {
         try {
             const profile = await Profile.findById(req.params.id);
             if (!profile) {
@@ -31,9 +31,9 @@ const profileController = {
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
-    },
+    };
 
-    updateProfile: async (req, res) => {
+    export const updateProfile=  async (req, res) => {
         try {
             const updatedProfile = await Profile.findByIdAndUpdate(req.params.id, req.body, { new: true });
             if (!updatedProfile) {
@@ -43,9 +43,9 @@ const profileController = {
         } catch (err) {
             res.status(400).json({ message: err.message });
         }
-    },
+    };
 
-    deleteProfile: async (req, res) => {
+     export const deleteProfile = async (req, res) => {
         try {
             const deletedProfile = await Profile.findByIdAndDelete(req.params.id);
             if (!deletedProfile) {
@@ -55,8 +55,8 @@ const profileController = {
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
-    },
+    };
 
-};
+
 
 export default profileController;

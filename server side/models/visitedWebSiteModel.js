@@ -21,4 +21,4 @@ const visitedWebsitesSchema=new mongoose.Schema({
         }
     }]
 });
-module.exports.visitedWebsitesSchema=new mongoose.model("visitedWebsitesSchema",visitedWebsitesSchema)
+export  const  visitedSchema= mongoose.model("visitedWebsitesSchema",visitedWebsitesSchema)
