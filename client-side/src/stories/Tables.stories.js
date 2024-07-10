@@ -33,5 +33,6 @@ data2.args = {
           ],
     },
     widthOfTable:"80%"
+
 };
 
