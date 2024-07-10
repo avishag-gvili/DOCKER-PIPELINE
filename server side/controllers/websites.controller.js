@@ -50,7 +50,7 @@ export const addWebSites=async(req,res,next)=>{
 };
 export const deleteWebsites=async(req,res,next)=>{
    const id= req.params.id;
-   if(mongoose.Types.ObjectId.isValid(id))
+   if(!mongoose.Types.ObjectId.isValid(id))
       return next({message:'id is not valid'})
     try {
         const deletedWebsite= await Websites.findById(id);
