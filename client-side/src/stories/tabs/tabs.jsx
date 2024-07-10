@@ -30,7 +30,7 @@ export default function LabTabs({ nameOfClass = "every-tabs", text = [], nav=[]}
                 className: 'tabs', 
               }}>
         {Array.isArray(text) && text.map((label, index) => (
-          <Tab  className={nameOfClass} key={index} label={label} onClick={() => handleTabClick(index)}/>
+          <Tab className={nameOfClass} key={index} label={label} onClick={() => handleTabClick(index)}/>
         ))}
       </Tabs>
     </Box>
