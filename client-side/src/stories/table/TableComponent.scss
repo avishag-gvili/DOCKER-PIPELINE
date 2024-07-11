@@ -1,21 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
+@import '../stylies.scss';
 
 .table {
-    background-color: rgb(255, 247, 247);
+    background-color: $background-class;
     margin-top: 10%;
-    margin-left: 10%;
-    border: 2px solid rgb(0, 0, 0);
+    border: 2px solid $primary-color;
+    text-align: center;
+    margin: auto;
 
     .MuiDataGrid-row:hover,
     .MuiDataGrid-cell:hover {
-        background-color: rgba(72, 245, 193, 0.2);
-        border-color: rgb(72, 245, 193);
+        background-color: $secondary-color-hard;
+        border-color: $primary-color;
     }
 
     .MuiDataGrid-row:active,
     .MuiDataGrid-cell:active {
-        background-color: rgba(72, 245, 193, 0.2);
-        border-color: rgb(72, 245, 193);
+        background-color: $secondary-color-hard;
+        border-color: $secondary-color;
     }
 
     .MuiDataGrid-root {
@@ -23,10 +24,10 @@
     }
 
     .MuiDataGrid-columnHeaders {
-        background-color: black;
+        background-color: $primary-color;
 
         .MuiDataGrid-columnHeaderTitle {
-            color: rgb(72, 245, 193);
+            color: $secondary-color;
             font-weight: bold;
             text-align: center;
             font-size: 140%;
@@ -37,41 +38,42 @@
     }
 
     .MuiDataGrid-cell {
-        color: #000000;
-        background-color: rgb(255, 255, 255);
+        color: $primary-color;
+        background-color: $background-class;
         text-align: center;
         font-size: 110%;
 
         &:hover {
-            border-color: rgb(72, 245, 193);
+            border-color: $secondary-color;
         }
     }
 
     .MuiDataGrid-cellCheckbox,
-    .Mui-checked {
-        color: rgb(72, 245, 193) !important;
+    
+    .table.checkboxSelection{
+        .Mui-checked {
+            color: $secondary-color ;
+        }
     }
-
     .MuiDataGrid-footerContainer {
-        background-color: rgb(255, 255, 255);
+        background-color: $background-class;
 
         .MuiTablePagination-root {
-            color: #000000;
+            color: $primary-color;
         }
     }
 
     .MuiDataGrid-row {
         &:hover {
-            background-color: rgba(72, 245, 193, 0.2);
+            background-color: $secondary-color-hard;
         }
 
         &.Mui-selected {
-            background-color: rgba(72, 245, 193, 0.4);
+            background-color: secondary-color-hard;
 
             &:hover {
-                background-color: rgba(72, 245, 193, 0.5);
+                background-color: secondary-color-hard;
             }
         }
     }
-
 }

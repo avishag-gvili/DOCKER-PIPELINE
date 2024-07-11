@@ -1,11 +1,10 @@
-
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import PropTypes from 'prop-types'
 import './TableComponent.scss';
 
 const TableComponent = ({ dataObject, widthOfTable = "80%" }) => {
-  const columns = dataObject.headers.map((header) => ({
+  let columns = dataObject.headers.map((header) => ({
     field: header,
     headerName: header,
     width: 150,
@@ -13,7 +12,7 @@ const TableComponent = ({ dataObject, widthOfTable = "80%" }) => {
 
   return (
     <div className="table" style={{ width: widthOfTable }}>
-      <DataGrid
+      <DataGrid 
         rows={dataObject.rows}
         columns={columns}
         initialState={{
@@ -22,11 +21,10 @@ const TableComponent = ({ dataObject, widthOfTable = "80%" }) => {
           },
         }}
         pageSizeOptions={[5, 10]}
-        checkboxSelection
+         
       />
     </div>
   );
-
 }
 
 TableComponent.propTypes = {

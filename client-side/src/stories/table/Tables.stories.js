@@ -1,5 +1,5 @@
 import React from 'react';
-import TableComponent from '../Components/TableComponent';
+import TableComponent from './TableComponent';
 
 const meta = {
     title: 'TableComponent',
@@ -20,7 +20,7 @@ data1.args = {
       { id: 2, name: 'מיכל', age: 30, city: 'ירושלים' },
     ],
     },
-    widthOfTable:"70%"
+    widthOfTable:"60%"
 };
 
 export const data2 = Template.bind({});
@@ -33,6 +33,5 @@ data2.args = {
           ],
     },
     widthOfTable:"80%"
-
 };
 

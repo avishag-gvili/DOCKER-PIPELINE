@@ -1,6 +1,7 @@
 
+import Footer from './stories/footer/FooterComponent'
 import './App.css';
-import Footer from './Components/FooterComponent'
+
 function App() {
   return (
     <div className="App">
