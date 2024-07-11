@@ -12,6 +12,11 @@ export default {
         type: 'select',
         options: ['small', 'medium'],
       },
+      width: { 
+        control: 'text', 
+        description: 'Width of the input, e.g. 100%, 50%, 300px'
+      },
+     
     },
   },
 };
@@ -66,14 +71,15 @@ DisabledInput.args = {
   label: 'Disabled Input',
   type: 'text',
   disabled: true,
+  width:'300px',
 };
 
 export const TimeInput = Template.bind({});
 TimeInput.args = {  
-  label:'time',
+  label:'',
   type: 'time', 
- size:'medium'
-  
+ size:'medium',
+  width:'50%',
 };
 
 export const PasswordInput = Template.bind({});
