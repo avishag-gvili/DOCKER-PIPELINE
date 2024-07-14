@@ -1,11 +1,10 @@
 import Users from '../models/user.model.js';
 import bcrypt from 'bcrypt';
-import path from 'path';
-import fs from 'fs';
+
 
 export const getUsers = async (req, res) => {
   try {
-    const users = await Users.find().populate('visitsWebsites profiles preferences');
+    const users = await Users.find().populate('visitsWebsites profiles preferences')
     res.status(200).send(users);
   } catch (err) {
     console.error(err);
@@ -15,8 +14,8 @@ export const getUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    const idParams = req.params.id;
-    const user = await Users.findById(idParams).populate('visitsWebsites profiles preferences');
+    const id = req.params.id;
+    const user = await Users.findById(id).populate('visitsWebsites profiles preferences');
     if (!user) {
       res.status(404).send('User not found');
       return;
@@ -28,27 +27,37 @@ export const getUserById = async (req, res) => {
   }
 };
 
+
 export const addUser = async (req, res) => {
-  const { name, password, email } = req.body;
   try {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return res.status(400).send('Missing required fields');
+    }
+    if (req.file && req.file.originalname) {
+      profileImage = req.file.originalname;
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new Users({
       name,
-      password: hashedPassword,
       email,
+      password: hashedPassword,
+      profileImage
     });
     await newUser.save();
-    res.send('Data saved successfully!');
+    res.status(201).json(newUser);
   } catch (err) {
     console.error(err);
     res.status(500).send('Error saving user');
   }
 };
 
+
+
 export const deleteUser = async (req, res) => {
   try {
-    const idParams = req.params.id;
-    const user = await Users.findByIdAndDelete(idParams);
+    const id = req.params.id;
+    const user = await Users.findByIdAndDelete(id);
     if (!user) {
       res.status(404).send('User not found');
       return;
@@ -62,53 +71,23 @@ export const deleteUser = async (req, res) => {
 
 export const updatedUser = async (req, res) => {
   try {
-    const idParams = req.params.id;
-    const { name, password, email } = req.body;
-    const updatedUser = await Users.findByIdAndUpdate(
-      idParams,
-      { name, password, email },
-      { new: true }
-    );
-    if (!updatedUser) {
-      res.status(404).send('User not found...');
-      return;
+    const id = req.params.id;
+    const { name, email, password } = req.body;
+    const updateFields = { name, email, password };
+    if (req.file) {
+      updateFields.profileImage = req.file.originalname;
     }
-    res.status(200).send(updatedUser);
+    const updatedUser = await Users.findByIdAndUpdate(id, updateFields, { new: true });
+    if (!updatedUser) {
+      return res.status(404).send('User not found');
+    }
+    res.status(200).json(updatedUser);
   } catch (err) {
     console.error(err);
     res.status(500).send('Error updating user');
   }
 };
 
-export const updateUserProfileImage = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const profileImage = req.file;
 
-    if (!profileImage) {
-      return res.status(400).send('No file uploaded.');
-    }
-    const user = await Users.findById(userId);
-    if (!user) {
-      return res.status(404).send('User not found.');
-    }
-
-    // מחיקה של התמונה הישנה אם קיימת
-    if (user.profileImage) {
-      const oldImagePath = path.join('uploads', path.basename(user.profileImage));
-      fs.unlink(oldImagePath, (err) => {
-        if (err) console.error('Failed to delete old image:', err);
-      });
-    }
-
-    user.profileImage = `uploads/${profileImage.filename}`;
-    await user.save();
-
-    res.status(200).send('Profile image updated successfully!');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error updating profile image.');
-  }
-};
 
 

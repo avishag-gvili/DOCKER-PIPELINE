@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String },
   googleId: { type: String },
-  profileImage: { type: String },
+  profileImage: { type: String,default:"profile.jpg" },
   visitsWebsites: [{ type: Schema.Types.ObjectId, ref: 'VisitedWebsite' }],
   profiles: [{ type: Schema.Types.ObjectId, ref: 'Profiles' }],
   preferences: [{ type: Schema.Types.ObjectId, ref: 'Preference' }]

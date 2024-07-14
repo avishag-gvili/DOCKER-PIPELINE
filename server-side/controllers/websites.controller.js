@@ -37,6 +37,7 @@ export const UpdateWebSite=async(req,res,next)=>{
         return next({message:error.message});
     }
 }
+
 export const addWebSite=async(req,res,next)=>{
     try {
         const newWebsite= new Websites(req.body);
