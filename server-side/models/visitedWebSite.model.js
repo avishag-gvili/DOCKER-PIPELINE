@@ -1,12 +1,11 @@
 
 import mongoose, { Schema } from "mongoose";
 
-
 const visitedWebsitesSchema = new mongoose.Schema({
     visitedWebsites: [{
         website: {
             type: Schema.Types.ObjectId,
-            ref: 'Website',
+            ref: 'Websites',
             required: true
         },
         visitsTime: [{
@@ -21,4 +20,6 @@ const visitedWebsitesSchema = new mongoose.Schema({
         }]
     }]
 });
-export default mongoose.model("VisitedWebsites", visitedWebsitesSchema)
+
+export default mongoose.model("VisitedWebsite", visitedWebsitesSchema)
+
