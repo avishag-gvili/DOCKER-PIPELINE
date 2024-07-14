@@ -3,7 +3,7 @@ import express from 'express';
 import morgan from 'morgan'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import PreferenceRouter from './router/preference.router.js';
+import preferencesRouter from './router/preference.router.js';
 import WebsitesRouter from './router/websites.router.js';
 import profileRouter from './router/profile.router.js'
 import visitedWebsiteRouter from './router/visitedWebsite.router.js'
@@ -24,7 +24,7 @@ app.get('/',(req,res)=>{
     res.send('welcome to time out ');
 })
 app.use('/uploads',express.static('uploads'))
-app.use('/preferences',PreferenceRouter);
+app.use('/preferences',preferencesRouter);
 app.use('/websites',WebsitesRouter);
 app.use('/profiles',profileRouter);
 app.use('/vistedWebsite',visitedWebsiteRouter);
