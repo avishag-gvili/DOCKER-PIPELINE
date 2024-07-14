@@ -1,7 +1,5 @@
 import Profiles from '../models/profile.model.js';
 
-
-
    export const  getAllProfiles= async (req, res) => {
         try {
             const profiles = await Profiles.find();
