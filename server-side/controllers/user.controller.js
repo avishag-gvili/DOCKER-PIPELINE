@@ -88,7 +88,6 @@ export const updateUserProfileImage = async (req, res) => {
     if (!profileImage) {
       return res.status(400).send('No file uploaded.');
     }
-
     const user = await Users.findById(userId);
     if (!user) {
       return res.status(404).send('User not found.');

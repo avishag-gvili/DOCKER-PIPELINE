@@ -1,3 +1,4 @@
+
 import VisitedWebsite from '../models/visitedWebSite.model.js';
 
 export const getAllVisitedWebsites = async (req, res) => {
@@ -50,4 +51,5 @@ export const deleteVisitedWebsite = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
 

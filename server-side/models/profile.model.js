@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 const profileSchema = new mongoose.Schema({
+
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     profileName: { type: String, required: true, minlength: 2, maxlength: 50 },
     blockedSites: [{ type: Schema.Types.ObjectId, ref: 'Websites' }],
