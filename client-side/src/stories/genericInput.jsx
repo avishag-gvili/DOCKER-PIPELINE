@@ -1,30 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
+import { TextField, InputAdornment } from '@mui/material';
 import '../style/genericInput.scss';
 
-const GenericInput = ({ label, type='text', value, onChange, size='medium', width='20%',
-   icon: Icon, validation, ...rest }) => {
+const GenericInput = ({ 
+  label, 
+  type = 'text', 
+  value = '', 
+  onChange = () => {}, 
+  size = 'medium', 
+  width = '20%', 
+  icon: Icon=null, 
+  disabled= false,
+  validation  = () => {}, 
+  ...rest 
+}) => {
+  const [inputValue, setInputValue] = useState(value);
+  const [error, setError] = useState(false);
+  const [helperText, setHelperText] = useState('');
+
+  useEffect(() => {
+    if (validation && typeof validation === 'function') {
+      handleValidation(inputValue);
+    }
+  }, [inputValue]);
+
   const handleChange = (e) => {
-    if (onChange) {
-      onChange(e.target.value);
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    onChange(newValue);
+  };
+
+  const handleValidation = (inputValue) => {
+    const validationResult = validation(inputValue);
+    if (validationResult && validationResult.error) {
+      setError(true);
+      setHelperText(validationResult.helperText || 'Invalid input');
+    } else {
+      setError(false);
+      setHelperText(''); 
     }
   };
 
-  let error = false;
-  let helperText = '';
-
-  if (validation && typeof validation === 'function') {
-    const validationResult = validation(value);
-    if (validationResult && validationResult.error) {
-      error = true;
-      helperText = validationResult.helperText || 'Invalid input';
-    }
-  }
-
   const inputStyle = {
-    width: width
+    width,
   };
 
   return (
@@ -32,11 +51,12 @@ const GenericInput = ({ label, type='text', value, onChange, size='medium', widt
       <TextField
         label={label}
         type={type}
-        value={value}
+        value={inputValue}
         onChange={handleChange}
         size={size}
         error={error}
-        helperText={helperText} 
+        disabled={disabled}
+        helperText={helperText}
         InputProps={{
           startAdornment: Icon && (
             <InputAdornment position="start">
@@ -54,11 +74,11 @@ const GenericInput = ({ label, type='text', value, onChange, size='medium', widt
 
 GenericInput.propTypes = {
   label: PropTypes.string.isRequired,
-  type: PropTypes.string,
+  type: PropTypes.oneOf(['text', 'number', 'email', 'password']),
   value: PropTypes.string,
   onChange: PropTypes.func,
   size: PropTypes.oneOf(['small', 'medium']),
-  width: PropTypes.string, 
+  width: PropTypes.string,
   icon: PropTypes.elementType,
   validation: PropTypes.func,
 };
