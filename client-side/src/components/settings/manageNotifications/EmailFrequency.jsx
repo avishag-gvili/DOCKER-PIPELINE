@@ -6,6 +6,7 @@ const EmailFrequency = () => {
   const [emailFrequency, setEmailFrequency] = useState('');
   const [message, setMessage] = useState('');
   const preferenceId = '66930c2e2aad987e24078e12';
+  const url ='http://localhost:3000'
 
   const handleChange = async (e) => {
     const selectedFrequency = e.target.value;
@@ -16,7 +17,7 @@ const EmailFrequency = () => {
     formData.append('emailFrequency', selectedFrequency);
 
     try {
-      const response = await axios.put(`http://localhost:3000/preferences/${preferenceId}`, formData, {
+      const response = await axios.put(`${url}/preferences/${preferenceId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
