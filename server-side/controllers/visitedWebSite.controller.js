@@ -22,7 +22,7 @@ export const getVisitedWebsiteById = async (req, res) => {
     try {
         const visitedWebsite = await VisitedWebsite.findById(req.params.id).populate('websiteId').select('-__v');
         if (!visitedWebsite) {
-            return res.status(404).json({ message: 'Visited website not found' });
+            return next({message:'visited Websites not found ',status:404})
         }
         res.json(visitedWebsite);
     } catch (err) {
@@ -33,7 +33,7 @@ export const updateVisitedWebsite = async (req, res) => {
     try {
         const updatedVisitedWebsite = await VisitedWebsite.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedVisitedWebsite) {
-            return res.status(404).json({ message: 'Visited website not found' });
+            return next({message:'visited Websites not found ',status:404})
         }
         res.json(updatedVisitedWebsite);
     } catch (err) {
@@ -44,7 +44,7 @@ export const deleteVisitedWebsite = async (req, res) => {
     try {
         const deletedVisitedWebsite = await VisitedWebsite.findByIdAndDelete(req.params.id);
         if (!deletedVisitedWebsite) {
-            return res.status(404).json({ message: 'Visited website not found' });
+            return next({message:'visited Websites not found ',status:404})
         }
         res.json({ message: 'Visited website deleted successfully' }).status(201);
     } catch (err) {

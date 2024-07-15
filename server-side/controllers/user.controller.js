@@ -8,7 +8,7 @@ export const getUsers = async (req, res) => {
     res.status(200).send(users);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error retrieving users');
+    next({message:err.message})
   }
 };
 
@@ -17,13 +17,13 @@ export const getUserById = async (req, res) => {
     const id = req.params.id;
     const user = await Users.findById(id).populate('visitsWebsites profiles preferences').select('-__v');
     if (!user) {
-      res.status(404).send('User not found');
+        return next({message:'user not found ',status:404})
       return;
     }
     res.send(user);
   } catch (err) {
     console.error(err);
-    res.status(500).send('Error retrieving user');
+    next({message:err.message})
   }
 };
 
@@ -43,7 +43,7 @@ export const addUser = async (req, res) => {
     res.status(201).json(newUser);
   } catch (err) {
     console.error(err);
-      res.status(500).send(err.message);
+    next({message:err.message})
   }
 };
 
@@ -54,7 +54,7 @@ export const deleteUser = async (req, res) => {
     const id = req.params.id;
     const user = await Users.findByIdAndDelete(id);
     if (!user) {
-       return  res.status(404).send('User not found');
+      return next({message:'user not found ',status:404})
       
     }
     res.send('User deleted successfully!');
@@ -74,7 +74,7 @@ export const updatedUser = async (req, res) => {
     }
     const updatedUser = await Users.findByIdAndUpdate(id, req.body, { new: true });
     if (!updatedUser) {
-      return res.status(404).send('User not found');
+      return next({message:'user not found ',status:404})
     }
     res.status(200).json(updatedUser);
   } catch (err) {
