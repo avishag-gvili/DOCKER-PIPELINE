@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, AdbIcon, MenuItem, Tooltip, Button, Avatar, Container } from '@mui/material';
+import {AppBar,Box,Toolbar,IconButton,Typography,Menu,AdbIcon,MenuItem,Tooltip,Button,Avatar,Container} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LabTabs from '../tabs/tabs';
 import './header.scss';
@@ -10,8 +10,6 @@ import './header.scss';
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
-
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -30,7 +28,7 @@ function ResponsiveAppBar() {
 
   return (
     <AppBar position="static">
-      <Container className='navbar' maxWidth="xl">
+      <Container  className='navbar'  maxWidth="xl">
         <Toolbar disableGutters>
           <Box className="left-side-box">
             <IconButton
@@ -59,11 +57,11 @@ function ResponsiveAppBar() {
               onClose={handleCloseNavMenu}
               className='menu'
             >
-              <LabTabs
-                nameOfClass="navbar-tabs"
-                text={["home", "reports", "statistics", "profiles"]}
-                nav={["/home", "/reports", "/statistics", "/profiles"]}
-              />
+          <LabTabs
+          nameOfClass="navbar-tabs"
+          text={["home", "reports", "statistics", "profiles"]}
+          nav={["/home","/reports","/statistics","/profiles"] }
+        />
             </Menu>
           </Box>
           <Typography
@@ -76,11 +74,11 @@ function ResponsiveAppBar() {
             TimeOut
           </Typography>
           <Box className="middle-side-box">
-            <LabTabs
-              nameOfClass="navbar-tabs"
-              text={["home", "reports", "statistics", "profiles"]}
-              nav={["/home", "/reports", "/statistics", "/profiles"]}
-            />
+          <LabTabs
+          nameOfClass="navbar-tabs"
+          text={["home", "reports", "statistics", "profiles"]}
+          nav={["/home","/reports","/statistics","/profiles"] }
+        />
           </Box>
 
           <Box >
@@ -104,11 +102,11 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <LabTabs
-                nameOfClass="navbar-tabs"
-                text={['edit user profile', 'manage notifications']}
-                nav={['/editUserProfile', '/manageNotifications']}
-              />
+                        <LabTabs
+          nameOfClass="navbar-tabs"
+          text={['edit user profile','manage notifications']}
+          nav={['/editUserProfile','/manageNotifications'] }
+        />
             </Menu>
           </Box>
         </Toolbar>

@@ -1,6 +1,6 @@
 import Header from './stories/header/header'
 import Footer from './stories/footer/FooterComponent'
-import ManageNotifications from './components/settings/manageNotificatins/ManageNotifications.jsx';
+import ManageNotifications from './components/settings/manageNotifications/ManageNotifications.jsx';
 import './App.scss';
 
 function App() {
