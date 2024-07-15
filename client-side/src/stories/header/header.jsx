@@ -4,14 +4,12 @@ import { AppBar, Box, Toolbar, IconButton, Typography, Menu, AdbIcon, MenuItem, 
 import MenuIcon from '@mui/icons-material/Menu';
 import LabTabs from '../tabs/tabs';
 import './header.scss';
-import ManageNotifications from '../../components/notifications/manage-notifications/ManageNotifications.jsx'
-
 
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [openManageNotifications, setOpenManageNotifications] = useState(false);
+
 
 
   const handleOpenNavMenu = (event) => {
@@ -28,16 +26,6 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const handleManageNotifications = () => {
-    setOpenManageNotifications(true);
-    handleCloseUserMenu(); // סגירת תפריט המשתמש אחרי לחיצה
-  };
-
-  const handleCloseManageNotifications = () => {
-    setOpenManageNotifications(false);
-  };
-
-
 
   return (
     <AppBar position="static">
@@ -119,15 +107,11 @@ function ResponsiveAppBar() {
                 nameOfClass="navbar-tabs"
                 text={['edit user profile', 'manage notifications']}
                 nav={['/editUserProfile', '/manageNotifications']}
-                handleItemClick={handleManageNotifications}
               />
             </Menu>
           </Box>
         </Toolbar>
       </Container>
-      {openManageNotifications && (
-        <ManageNotifications onClose={handleCloseManageNotifications} />
-      )}
     </AppBar>
   );
 }
