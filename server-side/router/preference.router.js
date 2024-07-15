@@ -2,10 +2,6 @@ import  express from 'express';
 import  upload from '../middleware/uploadFiles.js';
 import  {getAllPreference,getPreferenceById,updatePreference,deletePreference,addPreference} from '../controllers/preference.controller.js'
 
-<<<<<<< HEAD
-
-=======
->>>>>>> mongoDB-team
 const preferencesRouter=express.Router();
 
 preferencesRouter.get('/',getAllPreference);
@@ -15,7 +11,3 @@ preferencesRouter.put('/:id',upload.single('soundVoice'),updatePreference);
 preferencesRouter.delete('/:id',deletePreference);
 
 export default preferencesRouter;
-<<<<<<< HEAD
-
-=======
->>>>>>> mongoDB-team

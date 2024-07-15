@@ -1,13 +1,6 @@
 import Profiles from '../models/profile.model.js';
 
-<<<<<<< HEAD
-   export const  getAllProfiles= async (req, res) => {
-        try {
-            const profiles = await Profiles.find();
-            res.json(profiles);
-        } catch (err) {
-            res.status(500).json({ message: err.message });
-=======
+
 export const getAllProfiles = async (req, res) => {
     try {
         const profiles = await Profiles.find();
@@ -32,7 +25,6 @@ export const getProfileById = async (req, res) => {
         const profile = await Profiles.findById(req.params.id);
         if (!profile) {
             return res.status(404).json({ message: 'Profile not found' });
->>>>>>> mongoDB-team
         }
         res.json(profile);
     } catch (err) {

@@ -3,11 +3,11 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {Box,Tabs,Tab} from '@mui/material';
+import { Box, Tabs, Tab } from '@mui/material';
 import './tabs.scss'
 
 
-export default function LabTabs({ nameOfClass = "every-tabs", text = [], nav=[]}) {
+export default function LabTabs({ nameOfClass = "every-tabs", text = [], nav = [] }) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -24,16 +24,16 @@ export default function LabTabs({ nameOfClass = "every-tabs", text = [], nav=[]}
 
   return (
     <div className='div'>
-    <Box sx={{ width: '100%'}} >
-      <Tabs value={value} onChange={handleChange} centered
-              TabIndicatorProps={{
-                className: 'tabs', 
-              }}>
-        {Array.isArray(text) && text.map((label, index) => (
-          <Tab className={nameOfClass} key={index} label={label} onClick={() => handleTabClick(index)}/>
-        ))}
-      </Tabs>
-    </Box>
+      <Box sx={{ width: '100%' }} >
+        <Tabs value={value} onChange={handleChange} centered
+          TabIndicatorProps={{
+            className: 'tabs',
+          }}>
+          {Array.isArray(text) && text.map((label, index) => (
+            <Tab className={nameOfClass} key={index} label={label} onClick={() => handleTabClick(index)} />
+          ))}
+        </Tabs>
+      </Box>
     </div>
   );
 }
@@ -41,7 +41,7 @@ export default function LabTabs({ nameOfClass = "every-tabs", text = [], nav=[]}
 LabTabs.propTypes = {
   text: PropTypes.arrayOf(PropTypes.string).isRequired,
   nameOfClass: PropTypes.string,
-  nav:PropTypes.arrayOf(PropTypes.string).isRequired
+  nav: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
 LabTabs.defaultProps = {
