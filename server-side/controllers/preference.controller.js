@@ -50,7 +50,8 @@ export const updatePreference = async (req, res, next) => {
 
 export const addPreference = async (req, res, next) => {
     try {
-        req.body.soundVoice = req.file.originalname;
+         if(req.file)
+           req.body.soundVoice = req.file.originalname;
         const newPreference = new Preference(req.body);
         await newPreference.save();
         return res.json(newPreference).status(201);
@@ -70,7 +71,7 @@ export const deletePreference = async (req, res, next) => {
         if (!PreferenceForDelet)
             return next({ message: 'Preferencs not found !!' })
         await Preference.findByIdAndDelete(id);
-        res.status(204).send();
+        res.status(204).send('deleted succesfully !!');
     } catch (error) {
         return next({ message: error.message });
     }

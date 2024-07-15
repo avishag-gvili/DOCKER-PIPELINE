@@ -3,7 +3,7 @@ import VisitedWebsite from '../models/visitedWebSite.model.js';
 
 export const getAllVisitedWebsites = async (req, res) => {
     try {
-        const visitedWebsites = await VisitedWebsite.find();
+        const visitedWebsites = await VisitedWebsite.find().populate('websiteId').select('-__v');
         res.json(visitedWebsites);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -20,7 +20,7 @@ export const createVisitedWebsite = async (req, res) => {
 };
 export const getVisitedWebsiteById = async (req, res) => {
     try {
-        const visitedWebsite = await VisitedWebsite.findById(req.params.id);
+        const visitedWebsite = await VisitedWebsite.findById(req.params.id).populate('websiteId').select('-__v');
         if (!visitedWebsite) {
             return res.status(404).json({ message: 'Visited website not found' });
         }
@@ -46,7 +46,7 @@ export const deleteVisitedWebsite = async (req, res) => {
         if (!deletedVisitedWebsite) {
             return res.status(404).json({ message: 'Visited website not found' });
         }
-        res.json({ message: 'Visited website deleted successfully' });
+        res.json({ message: 'Visited website deleted successfully' }).status(201);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

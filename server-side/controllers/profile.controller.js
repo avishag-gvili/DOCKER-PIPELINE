@@ -2,7 +2,7 @@ import Profiles from '../models/profile.model.js';
 
 export const getAllProfiles = async (req, res) => {
     try {
-        const profiles = await Profiles.find();
+        const profiles = await Profiles.find().populate('limitedWebsites.websiteId').select('-__v');
         res.json(profiles);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -21,7 +21,7 @@ export const createProfile = async (req, res) => {
 
 export const getProfileById = async (req, res) => {
     try {
-        const profile = await Profiles.findById(req.params.id);
+        const profile = await Profiles.findById(req.params.id).populate('limitedWebsites.websiteId');;
         if (!profile) {
             return res.status(404).json({ message: 'Profile not found' });
         }
