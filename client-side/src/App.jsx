@@ -1,14 +1,13 @@
+import React from 'react';
 import './App.scss';
-
-import { Route, Routes } from 'react-router';
-import LabTabs from './stories/tabs/tabs';
-import Header from './stories/header/header'
-import './App.scss';
+import Header from './stories/header/header';
+import ProfileImageEditButton from './components/ProfileImageEdit';
 
 function App() {
   return (
     <div className="App">
-      <Header/>
+      <Header />
+      <ProfileImageEditButton />
     </div>
   );
 }

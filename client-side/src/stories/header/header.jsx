@@ -6,8 +6,6 @@ import LabTabs from '../tabs/tabs';
 import {SETTINGS_LIST} from './header.constants'
 import './header.scss'
 
-
-
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
