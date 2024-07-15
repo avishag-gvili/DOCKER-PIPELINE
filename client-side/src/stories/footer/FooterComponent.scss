@@ -5,7 +5,9 @@
     color: $secondary-color;
     padding: 20px;
     text-align: left;
-    margin-top: 40%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
   }
   
   .footer-text {

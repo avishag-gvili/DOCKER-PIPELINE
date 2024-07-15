@@ -3,16 +3,18 @@ import { DataGrid } from '@mui/x-data-grid';
 import PropTypes from 'prop-types'
 import './TableComponent.scss';
 
-const TableComponent = ({ dataObject, widthOfTable = "80%" }) => {
-  let columns = dataObject.headers.map((header) => ({
+const TableComponent = ({ dataObject, widthOfTable = "80%" ,widthOfColums}) => {
+  let columns = dataObject.headers.map((header,i) => ({
     field: header,
     headerName: header,
-    width: 150,
+    width: widthOfColums[i],
+    align:'center',
+    headerAlign: 'center'
   }));
 
   return (
-    <div className="table" style={{ width: widthOfTable }}>
-      <DataGrid 
+    <div className="table" style={{ width: widthOfTable ,marginTop:"8%"}}>
+      <DataGrid
         rows={dataObject.rows}
         columns={columns}
         initialState={{
@@ -20,8 +22,7 @@ const TableComponent = ({ dataObject, widthOfTable = "80%" }) => {
             paginationModel: { page: 0, pageSize: 5 },
           },
         }}
-        pageSizeOptions={[5, 10]}
-         
+        pageSizeOptions={[4, 8]}
       />
     </div>
   );
@@ -30,6 +31,7 @@ const TableComponent = ({ dataObject, widthOfTable = "80%" }) => {
 TableComponent.propTypes = {
   dataObject: PropTypes.shape({}).isRequired,
   widthOfTable: PropTypes.string,
+  widthOfColums:PropTypes.arrayOf(PropTypes.number).isRequired
 };
 
 export default TableComponent;

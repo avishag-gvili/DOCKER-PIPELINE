@@ -20,7 +20,8 @@ data1.args = {
       { id: 2, name: 'מיכל', age: 30, city: 'ירושלים' },
     ],
     },
-    widthOfTable:"60%"
+    widthOfTable:"60%",
+    widthOfColums:[150,150,150,150]
 };
 
 export const data2 = Template.bind({});
@@ -32,6 +33,9 @@ data2.args = {
             { id: 2, name: 'מיכל', profession: 'חשבון', age: 30, city: 'ירושלים' },
           ],
     },
-    widthOfTable:"80%"
+    widthOfTable:"80%",
+    widthOfColums:[150,150,150,150,150]
+    
+
 };
 
