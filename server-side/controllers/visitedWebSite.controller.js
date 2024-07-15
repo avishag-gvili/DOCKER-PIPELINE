@@ -1,24 +1,24 @@
 
 import VisitedWebsite from '../models/visitedWebSite.model.js';
 
-export const getAllVisitedWebsites = async (req, res) => {
+export const getAllVisitedWebsites = async (req, res,next) => {
     try {
         const visitedWebsites = await VisitedWebsite.find().populate('websiteId').select('-__v');
         res.json(visitedWebsites);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        next({message:err.message})
     }
 };
-export const createVisitedWebsite = async (req, res) => {
+export const createVisitedWebsite = async (req, res,next) => {
     const newVisitedWebsite = new VisitedWebsite(req.body);
     try {
         const savedVisitedWebsite = await newVisitedWebsite.save();
         res.status(201).json(savedVisitedWebsite);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        next({message:err.message})
     }
 };
-export const getVisitedWebsiteById = async (req, res) => {
+export const getVisitedWebsiteById = async (req, res,next) => {
     try {
         const visitedWebsite = await VisitedWebsite.findById(req.params.id).populate('websiteId').select('-__v');
         if (!visitedWebsite) {
@@ -26,10 +26,10 @@ export const getVisitedWebsiteById = async (req, res) => {
         }
         res.json(visitedWebsite);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        next({message:err.message})
     }
 };
-export const updateVisitedWebsite = async (req, res) => {
+export const updateVisitedWebsite = async (req, res,next) => {
     try {
         const updatedVisitedWebsite = await VisitedWebsite.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedVisitedWebsite) {
@@ -37,10 +37,10 @@ export const updateVisitedWebsite = async (req, res) => {
         }
         res.json(updatedVisitedWebsite);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        next({message:err.message})
     }
 };
-export const deleteVisitedWebsite = async (req, res) => {
+export const deleteVisitedWebsite = async (req, res,next) => {
     try {
         const deletedVisitedWebsite = await VisitedWebsite.findByIdAndDelete(req.params.id);
         if (!deletedVisitedWebsite) {
@@ -48,7 +48,7 @@ export const deleteVisitedWebsite = async (req, res) => {
         }
         res.json({ message: 'Visited website deleted successfully' }).status(201);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        next({message:err.message})
     }
 };
 
