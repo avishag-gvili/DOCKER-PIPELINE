@@ -12,17 +12,17 @@ export const getAllPreference=async(req,res,next)=>{
 export const getPreferenceById=async(req,res,next)=>{
     const id= req.params.id;
     if(mongoose.Types.ObjectId.isValid(id))
-    {
+        return  next({message:'id is not valid'});
+
         try {
             const PreferencesById= await Preference.findById(id,{__v:false});
             res.json(PreferencesById);
         } catch (error) {
-            return next({message:error.message})
+            return next({message:error.message});
         }
-    }
-    else{
-        next({message:'id is not valid'});
-    }
+   
+  
+  
     
 
 };

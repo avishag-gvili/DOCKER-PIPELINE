@@ -7,7 +7,7 @@ import Profiles from '../models/profile.model.js';
             const profiles = await Profiles.find();
             res.json(profiles);
         } catch (err) {
-            res.status(500).json({ message: err.message });
+            next({message:err.message})
         }
     };
 
@@ -17,19 +17,19 @@ import Profiles from '../models/profile.model.js';
             const savedProfile = await Profiles.save();
             res.status(201).json(savedProfile);
         } catch (err) {
-            res.status(400).json({ message: err.message });
+             next({message:err.message});
         }
     };
 
-   export const   getProfileById= async (req, res) => {
+   export const  getProfileById= async (req, res) => {
         try {
             const profile = await Profiles.findById(req.params.id);
             if (!profile) {
-                return res.status(404).json({ message: 'Profile not found' });
+                return next({message:'profile not found',status:404})
             }
             res.json(profile);
         } catch (err) {
-            res.status(500).json({ message: err.message });
+             next({message:err.message});
         }
     };
 
@@ -37,11 +37,11 @@ import Profiles from '../models/profile.model.js';
         try {
             const updatedProfile = await Profiles.findByIdAndUpdate(req.params.id, req.body, { new: true });
             if (!updatedProfile) {
-                return res.status(404).json({ message: 'Profile not found' });
+                return next({message:'profile not found',status:404})
             }
             res.json(updatedProfile);
         } catch (err) {
-            res.status(400).json({ message: err.message });
+            next({message:err.message});
         }
     };
 
@@ -49,11 +49,11 @@ import Profiles from '../models/profile.model.js';
         try {
             const deletedProfile = await Profiles.findByIdAndDelete(req.params.id);
             if (!deletedProfile) {
-                return res.status(404).json({ message: 'Profile not found' });
+                return next({message:'profile not found',status:404});
             }
             res.json({ message: 'Profile deleted successfully' });
         } catch (err) {
-            res.status(500).json({ message: err.message });
+             next({message:err.message});
         }
     };
 
