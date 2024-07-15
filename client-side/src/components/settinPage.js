@@ -38,7 +38,7 @@ const RingtoneEditButton = () => {
         formData.append('sendNotificationTime',sendNotificationTime);
         formData.append('EmailFrequency',sendEmail);
           try {
-            const response = await axios.put(`${url}/preferences/preferences/${id}`, formData, {
+            const response = await axios.put(`${url}/preferences/${id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
