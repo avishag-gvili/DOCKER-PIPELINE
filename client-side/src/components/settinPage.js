@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import GenericButton  from '../stories/Button/GenericButton';
 import ResponsiveAppBar from '../stories/header/header.jsx';
+import { Sync } from '@mui/icons-material';
+import './settingPage.scss'
 const RingtoneEditButton = () => {
     let id='668fcf21a103bc60815420b6';
     let sendNotificationTime = 56;
@@ -11,18 +13,17 @@ const RingtoneEditButton = () => {
     // const [image, setImage] = useState(null);
     // const [preview, setPreview] = useState(null);
     const [audioSrc,setAudioSrc]  = useState();
-    const handleFileChange = (e) => {
+    const handleFileChange=(e) => {
          console.log('at handle file ');
-          setFileHandle(e.target.files[0]);
+         setFileHandle(e.target.files[0]);
          console.log('file',file);
-        if(file)
-        {
-          const audioUrl= URL.createObjectURL(file);
+         if(e.target.files[0])
+         {
+          const audioUrl= URL.createObjectURL(e.target.files[0]);
           console.log('audioUrl',audioUrl);
-          setAudioSrc(audioUrl);
-        }
-           
-
+          setAudioSrc(URL.createObjectURL(e.target.files[0]));
+         }
+          
     };
   const setFileHandle=(file)=>{setFile(file)}
     const handleUpload = async () => {
@@ -51,33 +52,20 @@ const RingtoneEditButton = () => {
           }
            
     };
-//   const uploadFile =()=>{
-   
-//   };
-//     const handleImageChange = (e) => {
-//         const file = e.target.files[0];
-//         if (file) {
-//           setImage(file);
-//           const reader = new FileReader();
-//           reader.onloadend = () => {
-//             setPreview(reader.result);
-//           };
-//           reader.readAsDataURL(file);
-//         }
-//         console.log(image);
-//       };
+
     return (
     
-         <div>
+         <div> 
+           <h2  className='font'>change  user preferences</h2>
           <div className='uploadWarper'>
-            <GenericButton size='small'  label='send audio' onClick={handleUpload} className=''/>
             <input type="file" onChange={handleFileChange} accept="audio/*" />
           </div>
           { audioSrc &&
             <audio controls>
                <source src={audioSrc} ></source>
             </audio>}
-         
+            <GenericButton size='small'  label='send preference' onClick={handleUpload} className=''/>
+
         </div>
         
 
