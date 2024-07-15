@@ -1,7 +1,6 @@
 
 import mongoose, { Schema } from "mongoose";
 
-
 const visitedWebsitesSchema = new mongoose.Schema({
     visitedWebsites: [{
         website: {
@@ -21,5 +20,10 @@ const visitedWebsitesSchema = new mongoose.Schema({
         }]
     }]
 });
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> mongoDB-team
 export default mongoose.model("VisitedWebsite", visitedWebsitesSchema)
 

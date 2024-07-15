@@ -6,4 +6,7 @@ const PreferenceSchema= new mongoose.Schema({
     soundVoice:{type:String,default:'×××ª ××¢× ×¢×©×'}
 })
 export default mongoose.model('Preference',PreferenceSchema);
+<<<<<<< HEAD
 
+=======
+>>>>>>> mongoDB-team

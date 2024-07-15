@@ -41,8 +41,8 @@ export const updatePreference = async (req, res, next) => {
         const updatedPreference = await Preference.findById(id);
         if (!updatedPreference)
             return next({ message: 'Preferencs not found !!', status: 404 });
-        const newPreferenc = await Preference.findByIdAndUpdate(id, req.body, { new: true });
-        return res.json(newPreferenc);
+        const newPreference = await Preference.findByIdAndUpdate(id, req.body, { new: true });
+        return res.json(newPreference);
     } catch (error) {
         next({ message: error })
     }
@@ -51,9 +51,9 @@ export const updatePreference = async (req, res, next) => {
 export const addPreference = async (req, res, next) => {
     try {
         req.body.soundVoice = req.file.originalname;
-        const newPreferenc = new Preference(req.body);
-        await newPreferenc.save();
-        return res.json(newPreferenc).status(201);
+        const newPreference = new Preference(req.body);
+        await newPreference.save();
+        return res.json(newPreference).status(201);
     } catch (error) {
         return next({ message: error.message })
     }

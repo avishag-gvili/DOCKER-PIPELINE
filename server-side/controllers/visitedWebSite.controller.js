@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import VisitedWebsite from '../models/visitedWebSite.model.js';
 
+=======
+
+import VisitedWebsite from '../models/visitedWebSite.model.js';
+
+>>>>>>> mongoDB-team
 export const getAllVisitedWebsites = async (req, res) => {
     try {
         const visitedWebsites = await VisitedWebsite.find();
@@ -11,7 +17,11 @@ export const getAllVisitedWebsites = async (req, res) => {
 export const createVisitedWebsite = async (req, res) => {
     const newVisitedWebsite = new VisitedWebsite(req.body);
     try {
+<<<<<<< HEAD
         const savedVisitedWebsite = await VisitedWebsite.save();
+=======
+        const savedVisitedWebsite = await newVisitedWebsite.save();
+>>>>>>> mongoDB-team
         res.status(201).json(savedVisitedWebsite);
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -50,4 +60,8 @@ export const deleteVisitedWebsite = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+<<<<<<< HEAD
+=======
+
+>>>>>>> mongoDB-team
 
