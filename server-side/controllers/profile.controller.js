@@ -23,7 +23,7 @@ export const getProfileById = async (req, res,next) => {
     try {
         const profile = await Profiles.findById(req.params.id).populate('limitedWebsites.websiteId blockedSites').select('-__v');
         if (!profile) {
-          return  next({message:'profile was not found ',status:404});
+          return  next({message:'profile was not found ',status:404}); 
         }
         res.json(profile);
     } catch (err) {
