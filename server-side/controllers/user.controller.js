@@ -4,7 +4,7 @@ import Users from '../models/user.model.js'
 
 export const getUsers = async (req, res,next) => {
   try {
-    const users = await Users.find().populate('visitsWebsites.websiteId  profiles.blockedSites profiles.limitedWebsites.websiteId' )
+    const users = await Users.find().populate('visitsWebsites.websiteId  profiles.blockedSites profiles.limitedWebsites.websiteId' ).select('-__v')
     .select('-__v')
     res.status(200).send(users);
   } catch (err) {

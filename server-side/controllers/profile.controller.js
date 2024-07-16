@@ -4,8 +4,8 @@ import Profiles from '../models/profile.model.js';
 
 export const getAllProfiles = async (req, res, next) => {
     try {
-        const profiles = await Profiles.find().populate('limitedWebsites.websiteId').select('-__v');
-        res.status(200).json(profiles);
+        const profiles = await Profiles.find().populate('limitedWebsites.websiteId blockedSites').select('-__v');
+        res.json(profiles);
     } catch (err) {
         next({ message: err.message })
         return;
@@ -28,9 +28,9 @@ export const getProfileById = async (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(id))
         return next({ message: 'ID is not valid', status: 400 });
     try {
-        const profile = await Profiles.findById(id).populate('limitedWebsites.websiteId').select('-__v');
+        const profile = await Profiles.findById(req.params.id).populate('limitedWebsites.websiteId blockedSites').select('-__v');
         if (!profile) {
-            return next({ message: 'profile was not found ', status: 404 });
+          return  next({message:'profile was not found ',status:404}); 
         }
         res.json(profile);
     } catch (err) {
