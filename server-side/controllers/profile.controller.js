@@ -3,7 +3,7 @@ import Profiles from '../models/profile.model.js';
 
 export const getAllProfiles = async (req,res,next) => {
     try {
-        const profiles = await Profiles.find().populate('limitedWebsites.websiteId blockedSites.websiteId').select('-__v');
+        const profiles = await Profiles.find().populate('limitedWebsites.websiteId blockedSites').select('-__v');
         res.json(profiles);
     } catch (err) {
         next({message:err.message})
