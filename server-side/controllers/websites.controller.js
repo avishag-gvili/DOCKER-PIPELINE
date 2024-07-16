@@ -37,6 +37,7 @@ export const UpdateWebSite=async(req,res,next)=>{
         return next({message:error.message});
     }
 }
+
 export const addWebSite=async(req,res,next)=>{
     try {
         const newWebsite= new Websites(req.body);
@@ -57,7 +58,7 @@ export const deleteWebsite=async(req,res,next)=>{
     if(!deletedWebsite)
         return next({message:'website not found'});
     await Websites.findByIdAndDelete(id);
-    return res.status(204).send();
+    return res.status(204).send('website deleted succesfully');
     } catch (error) {
         return next({message: error.message});
     } 

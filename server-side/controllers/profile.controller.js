@@ -1,37 +1,41 @@
 import Profiles from '../models/profile.model.js';
 
 
+export const getAllProfiles = async (req,res,next) => {
+    try {
+        const profiles = await Profiles.find().populate('limitedWebsites.websiteId blockedSites').select('-__v');
+        res.json(profiles);
+    } catch (err) {
+        next({message:err.message})
+    }
+};
 
-   export const  getAllProfiles= async (req, res) => {
-        try {
-            const profiles = await Profiles.find();
-            res.json(profiles);
-        } catch (err) {
-            next({message:err.message})
-        }
-    };
+  
 
-    export const createProfile= async (req, res) => {
+    
+export const createProfile = async (req, res,next) => {
+    try {
         const newProfile = new Profiles(req.body);
-        try {
-            const savedProfile = await Profiles.save();
-            res.status(201).json(savedProfile);
-        } catch (err) {
-             next({message:err.message});
-        }
-    };
+        await newProfile.save();
+        res.status(201).json(newProfile);
+    } catch (err) {
+        next({message:err.message})
+    }
+};
 
-   export const  getProfileById= async (req, res) => {
-        try {
-            const profile = await Profiles.findById(req.params.id);
-            if (!profile) {
-                return next({message:'profile not found',status:404})
-            }
-            res.json(profile);
-        } catch (err) {
-             next({message:err.message});
+export const getProfileById = async (req, res,next) => {
+    try {
+        const profile = await Profiles.findById(req.params.id).populate('limitedWebsites.websiteId blockedSites').select('-__v');
+        if (!profile) {
+          return  next({message:'profile was not found ',status:404}); 
         }
-    };
+        res.json(profile);
+    } catch (err) {
+        next({message:err.message})
+    }
+};
+
+
 
     export const updateProfile=  async (req, res) => {
         try {
@@ -56,6 +60,7 @@ import Profiles from '../models/profile.model.js';
              next({message:err.message});
         }
     };
+
 
 
 
