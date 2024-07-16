@@ -5,18 +5,20 @@ export const getAllVisitedWebsites = async (req, res,next) => {
         const visitedWebsites = await VisitedWebsite.find().populate('websiteId').select('-__v');
         res.json(visitedWebsites);
     } catch (err) {
-        next({message:err.message})
+        next({message:err.message,status:500})
     }
 };
+
 export const createVisitedWebsite = async (req, res,next) => {
     const newVisitedWebsite = new VisitedWebsite(req.body);
     try {
         const savedVisitedWebsite = await newVisitedWebsite.save();
         res.status(201).json(savedVisitedWebsite);
     } catch (err) {
-        next({message:err.message})
+        next({message:err.message,status:500})
     }
 };
+
 export const getVisitedWebsiteById = async (req, res,next) => {
     try {
         const visitedWebsite = await VisitedWebsite.findById(req.params.id).populate('websiteId').select('-__v');
@@ -25,9 +27,10 @@ export const getVisitedWebsiteById = async (req, res,next) => {
         }
         res.json(visitedWebsite);
     } catch (err) {
-        next({message:err.message})
+        next({message:err.message,status:500})
     }
 };
+
 export const updateVisitedWebsite = async (req, res,next) => {
     try {
         const updatedVisitedWebsite = await VisitedWebsite.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -36,9 +39,10 @@ export const updateVisitedWebsite = async (req, res,next) => {
         }
         res.json(updatedVisitedWebsite);
     } catch (err) {
-        next({message:err.message})
+        next({message:err.message,status:500})
     }
 };
+
 export const deleteVisitedWebsite = async (req, res,next) => {
     try {
         const deletedVisitedWebsite = await VisitedWebsite.findByIdAndDelete(req.params.id);
@@ -47,6 +51,6 @@ export const deleteVisitedWebsite = async (req, res,next) => {
         }
         res.json({ message: 'Visited website deleted successfully' }).status(201);
     } catch (err) {
-        next({message:err.message})
+        next({message:err.message,status:500})
     }
 };

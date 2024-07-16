@@ -5,12 +5,12 @@ import Users from '../models/user.model.js';
 
 export const getUsers = async (req, res,next) => {
   try {
-    const users = await Users.find().populate('visitsWebsites.websiteId  profiles.blockedSites profiles.limitedWebsites.websiteId' ).select('-__v')
+    const users = await Users.find().populate('visitsWebsites profiles preferences' ).select('-__v')
     .select('-__v')
     res.status(200).send(users);
   } catch (err) {
     console.error(err);
-    next({message:err.message})
+    next({message:err.message,status:500})
   }
 };
 
@@ -27,7 +27,7 @@ export const getUserById = async (req, res,next) => {
     res.send(user);
   } catch (err) {
     console.error(err);
-    next({message:err.message})
+    next({message:err.message,status:500})
   }
 };
 
@@ -44,7 +44,7 @@ export const addUser = async (req, res,next) => {
     res.status(201).json(newUser);
   } catch (err) {
     console.error(err);
-    next({message:err.message})
+    next({message:err.message,status:500})
   }
 };
 
@@ -63,7 +63,7 @@ export const deleteUser = async (req, res,next) => {
     res.send('User deleted successfully!');
   } catch (err) {
     console.error(err);
-    next({message:err.message})
+    next({message:err.message,status:500})
   }
 };
 
@@ -82,7 +82,7 @@ export const updatedUser = async (req, res,next) => {
     res.status(200).json(updatedUser);
   } catch (err) {
     console.error(err);
-    next({message:err.message})
+    next({message:err.message,status:500})
   }
 };
 
