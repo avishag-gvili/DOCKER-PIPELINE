@@ -47,7 +47,7 @@ export const addPreference=async(req,res,next)=>{
   } catch (error) {
     return next({message:error.message,status:500});
   }
-};
+}
 
 export const deletePreference=async(req,res,next)=>{
 
@@ -60,7 +60,8 @@ export const deletePreference=async(req,res,next)=>{
          if(!PreferenceForDelet)
             return next({message:'Preferencs not found !!'})
        
-        res.status(204).send('deleted succesfully!!');
+        res.json({message:'deleted succesfully!!'}).status(204)
         } catch (error) {
         return next({message:error.message,status:500});
- }};
+ }
+};

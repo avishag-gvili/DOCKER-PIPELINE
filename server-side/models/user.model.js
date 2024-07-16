@@ -6,6 +6,8 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   googleId: { type: String },
   profileImage: { type: String,default:"profile.jpg" },
+  timeZone: { type: String, default: 'UTC' },
+  language: { type: String, default: 'en'} ,
   visitsWebsites: [{ type: Schema.Types.ObjectId, ref: 'VisitedWebsite' }],
   profiles: [{ type: Schema.Types.ObjectId, ref: 'Profiles' }],
   preferences: { type: Schema.Types.ObjectId, ref: 'Preference' }

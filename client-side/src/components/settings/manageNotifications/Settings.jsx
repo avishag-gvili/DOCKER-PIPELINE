@@ -1,13 +1,13 @@
 import React from 'react';
 import EmailFrequency from './EmailFrequency';
 
-const ManageNotifications = () => {
+const Settings = () => {
   return (
     <div className="manage-notifications">
-      <h2>Manage Notifications</h2>
+      <h2>Settings</h2>
       <EmailFrequency></EmailFrequency>
     </div>
   );
 };
 
-export default ManageNotifications;
+export default Settings;
