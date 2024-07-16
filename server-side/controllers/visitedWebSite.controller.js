@@ -1,4 +1,3 @@
-
 import VisitedWebsite from '../models/visitedWebSite.model.js';
 
 export const getAllVisitedWebsites = async (req, res,next) => {
@@ -51,5 +50,3 @@ export const deleteVisitedWebsite = async (req, res,next) => {
         next({message:err.message})
     }
 };
-
-

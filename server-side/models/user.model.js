@@ -1,4 +1,3 @@
-
 import mongoose, { Schema } from "mongoose";
 
 const userSchema = new mongoose.Schema({
@@ -10,6 +9,7 @@ const userSchema = new mongoose.Schema({
   visitsWebsites: [{ type: Schema.Types.ObjectId, ref: 'VisitedWebsite' }],
   profiles: [{ type: Schema.Types.ObjectId, ref: 'Profiles' }],
   preferences: [{ type: Schema.Types.ObjectId, ref: 'Preference' }]
+
 });
 
 export default mongoose.model('Users', userSchema);

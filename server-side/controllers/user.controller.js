@@ -71,7 +71,6 @@ export const updatedUser = async (req, res,next) => {
   if(!mongoose.Types.ObjectId.isValid(id))
     return next({message:'id is not valid'})
   try {
-    
     if (req.file) 
       req.body.profileImage = req.file.originalname;
   
@@ -85,7 +84,5 @@ export const updatedUser = async (req, res,next) => {
     next({message:err.message})
   }
 };
-
-
 
 

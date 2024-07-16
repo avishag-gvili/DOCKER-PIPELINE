@@ -21,6 +21,5 @@ const visitedWebsitesSchema = new mongoose.Schema({
    
 });
 
-
 export default mongoose.model("VisitedWebsite", visitedWebsitesSchema)
 
