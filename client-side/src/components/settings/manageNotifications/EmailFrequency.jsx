@@ -4,29 +4,13 @@ import axios from 'axios';
 import Select from '../../../stories/Select/Select.jsx';
 
 const emailFrequencyEnum = {
-  NEVER: 'never',
-  DAILY: 'daily',
-  WEEKLY: 'weekly',
-  MONTHLY: 'monthly',
-  YEARLY: 'yearly'
+  'never':'🚫',
+  'daily':'📅',
+  'weekly':'🗓️',
+  'monthly':'📆',
+  'yearly':'📅'
 };
- const getIconForFrequency = (frequency) => {
 
-  switch (frequency) {
-    case 'never':
-      return '🚫';
-    case 'daily':
-      return '📅';
-    case 'weekly':
-      return '📆';
-    case 'monthly':
-      return '🗓️';
-    case 'yearly':
-      return '📅';
-    default:
-      return '🚫'; 
-  }
-};
 
 const EmailFrequency = () => {
   // const preferenceId = useSelector(state => state.user.preferenceId);
@@ -37,9 +21,9 @@ const EmailFrequency = () => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const handleChange = async (e) => {
     const selectedFrequency = e.target.value;
-    if (!Object.values(emailFrequencyEnum).includes(selectedFrequency)) {
+    if (!Object.keys(emailFrequencyEnum).includes(selectedFrequency)) {
       console.error('Invalid email frequency selected:', selectedFrequency);
-      return; 
+      return;
     }
     setEmailFrequency(selectedFrequency);
     const formData = new FormData();
@@ -57,21 +41,23 @@ const EmailFrequency = () => {
       setMessage('Error updating email frequency preference. Please try again later.');
     }
   };
-
+  const getIconForFrequency = (frequency) => {
+    return emailFrequencyEnum[frequency] || '⏰';
+  };
   return (
     <div>
       <Select
         className='select-email-frequency'
         options={Object.keys(emailFrequencyEnum).map(key => ({
           text: key.toLowerCase(),
-          value: emailFrequencyEnum[key],
-          icon: getIconForFrequency(emailFrequencyEnum[key]) 
+          value: key,
+          icon: getIconForFrequency(key)
         }))}
         title='Select Email Frequency'
         onChange={handleChange}
         value={emailFrequency}
         size='large'
-        widthOfSelect='200px'
+        widthOfSelect='210px'
       />
       /* TO DO: replace message */
       <p>{message}</p>

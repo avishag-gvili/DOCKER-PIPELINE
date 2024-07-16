@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   googleId: { type: String },
   profileImage: { type: String,default:"profile.jpg" },
-  timeZone: { type: String, default: 'UTC' },
+  timeZone: { type: String,enum:['America/New_York','Europe/London','Asia/Tokyo','Asia/Jerusalem','Europe/Paris','Europe/Madrid'], default: 'Asia/Jerusalem' },
   language: { type: String, default: 'en'} ,
   visitsWebsites: [{ type: Schema.Types.ObjectId, ref: 'VisitedWebsite' }],
   profiles: [{ type: Schema.Types.ObjectId, ref: 'Profiles' }],
