@@ -1,14 +1,14 @@
 import React from 'react';
 import Header from './stories/header/header'
 import Footer from './stories/footer/FooterComponent'
-import ManageNotifications from './components/settings/manageNotifications/ManageNotifications.jsx';
+import Settings from './components/settings/manageNotifications/Settings.jsx';
 import './App.scss';
 
 function App() {
   return (
     <div className="App">
       <Header/>
-      <ManageNotifications></ManageNotifications>
+      <Settings></Settings>
       <Footer/>
     </div>
   );

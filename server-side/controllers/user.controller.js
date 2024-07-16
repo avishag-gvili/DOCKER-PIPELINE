@@ -1,7 +1,7 @@
-import { populate } from 'dotenv';
 import mongoose  from 'mongoose';
 import bcrypt from 'bcrypt';
 import Users from '../models/user.model.js'
+
 export const getUsers = async (req, res,next) => {
   try {
     const users = await Users.find().populate('visitsWebsites.websiteId  profiles.blockedSites profiles.limitedWebsites.websiteId' )
@@ -15,7 +15,6 @@ export const getUsers = async (req, res,next) => {
 
 export const getUserById = async (req, res,next) => {
   const id = req.params.id;
-
   if(!mongoose.Types.ObjectId.isValid(id))
     return next({message:'id is not valid'})
   try {
@@ -34,11 +33,11 @@ export const getUserById = async (req, res,next) => {
 export const addUser = async (req, res,next) => {
   try {
     
-    if (req.file ) 
+    if (req.file ) {
      req.body.profileImage=req.file.originalname;
-     req.body.password= await bcrypt.hash(password, 10);
+    }
+    req.body.password= await bcrypt.hash(req.body.password, 10);
     const newUser = new Users(req.body);
-    console.log('newUser',newUser);
     await newUser.save();
     res.status(201).json(newUser);
   } catch (err) {
