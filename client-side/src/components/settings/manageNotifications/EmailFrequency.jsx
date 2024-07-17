@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
 import Select from '../../../stories/Select/Select.jsx';
+import GenericButton from '../../../stories/Button/GenericButton.jsx';
 
 const emailFrequencyEnum = {
   'never':'🚫',
@@ -13,21 +13,14 @@ const emailFrequencyEnum = {
 
 
 const EmailFrequency = () => {
-  // const preferenceId = useSelector(state => state.user.preferenceId);
-  const currentUserId = '66965136fb5f9b2164b28383';
   const [emailFrequency, setEmailFrequency] = useState('');
   const [message, setMessage] = useState('');
-  const preferenceId = '66930c2e2aad987e24078e12';
+  const preferenceId = '66930c2e2aad987e24078e12';//TO DO: get from state
   const baseUrl = process.env.REACT_APP_BASE_URL;
-  const handleChange = async (e) => {
-    const selectedFrequency = e.target.value;
-    if (!Object.keys(emailFrequencyEnum).includes(selectedFrequency)) {
-      console.error('Invalid email frequency selected:', selectedFrequency);
-      return;
-    }
-    setEmailFrequency(selectedFrequency);
+  const handleFormSubmit  = async () => {
+  
     const formData = new FormData();
-    formData.append('emailFrequency', selectedFrequency);
+    formData.append('emailFrequency', emailFrequency);
 
     try {
       const response = await axios.put(`${baseUrl}/preferences/${preferenceId}`, formData, {
@@ -40,6 +33,14 @@ const EmailFrequency = () => {
       console.error('Error updating email frequency preference:', error);
       setMessage('Error updating email frequency preference. Please try again later.');
     }
+  };
+  const handleChange = (e) => {
+    const selectedFrequency = e.target.value;
+    if (!Object.keys(emailFrequencyEnum).includes(selectedFrequency)) {
+      console.error('Invalid email frequency selected:', selectedFrequency);
+      return;
+    }
+    setEmailFrequency(selectedFrequency);
   };
   const getIconForFrequency = (frequency) => {
     return emailFrequencyEnum[frequency] || '⏰';
@@ -59,7 +60,8 @@ const EmailFrequency = () => {
         size='large'
         widthOfSelect='210px'
       />
-      /* TO DO: replace message */
+      <GenericButton label='Update Email Frequency' size = 'medium' onClick={handleFormSubmit}></GenericButton>
+       {/* TO DO: replace message  */}
       <p>{message}</p>
     </div>
   );

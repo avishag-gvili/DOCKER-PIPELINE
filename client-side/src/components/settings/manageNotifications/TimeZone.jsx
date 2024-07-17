@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment-timezone';
 import axios from 'axios';
 import Select from '../../../stories/Select/Select.jsx';
+import GenericButton from '../../../stories/Button/GenericButton.jsx';
 
 const validTimeZones = {
     'America/New_York': '🗽', 
@@ -16,9 +17,23 @@ const validTimeZones = {
 const TimeZone = () => {
     const [timeZone, setTimeZone] = useState('');
     const baseUrl = process.env.REACT_APP_BASE_URL;
-    const userId = '66940b051ccb2852370d5a17';
+    const preferenceId = '66930c2e2aad987e24078e12';//TO DO: get from state
 
-    const handleTimeZoneChange = async (event) => {
+    const handleFormSubmit  = async (event) => {
+        const formData = new FormData();
+        formData.append('timeZone', timeZone);
+
+        try {
+            const response = await axios.put(`${baseUrl}/preferences/${preferenceId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+        } catch (error) {
+            console.error('Error updating time zone preference:', error);
+        }
+    };
+    const handleTimeZoneChange = (event) => {
         const selectedTimeZone = event.target.value;
         if (!Object.keys(validTimeZones).includes(selectedTimeZone)) {
             console.error('Invalid time zone selected:', selectedTimeZone);
@@ -26,20 +41,6 @@ const TimeZone = () => {
         }
 
         setTimeZone(selectedTimeZone);
-
-        const formData = new FormData();
-        formData.append('timeZone', selectedTimeZone);
-
-        try {
-            const response = await axios.put(`${baseUrl}/users/${userId}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            });
-            console.log('Time zone preference updated successfully!', response.data);
-        } catch (error) {
-            console.error('Error updating time zone preference:', error);
-        }
     };
 
     const formatTime = (time) => {
@@ -68,6 +69,7 @@ const TimeZone = () => {
                 size='large'
                 widthOfSelect='200px'
             />
+             <GenericButton label='Update Time Zone' size ='medium' onClick={handleFormSubmit}></GenericButton>
             <p>Current time in {timeZone}: {formatTime(new Date())}</p>
         </div>
     );
