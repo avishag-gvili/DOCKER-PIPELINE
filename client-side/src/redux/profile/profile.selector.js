@@ -1,5 +1,3 @@
-// selectors.js
-
 /**
  * @typedef {Object} RootState
  * @property {ProfileStateType} profile

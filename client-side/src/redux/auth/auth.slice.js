@@ -1,4 +1,3 @@
-// auth.slice.js
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { AuthUser } from "../../types/types.js";
 
@@ -24,7 +23,7 @@ const authSlice = createSlice({
          * @param {AuthStateType} state
          * @param {PayloadAction<AuthUser>} action
          */
-        setCurentUser: (state, action) => {
+        setCurrentUser: (state, action) => {
             state.user = action.payload;
             state.isAuthenticated = true;
             state.isInitialized = true;
@@ -38,7 +37,7 @@ const authSlice = createSlice({
         /**
          * @param {AuthStateType} state
          */
-        deleteCurentUser: (state) => {
+        deleteCurrentUser: (state) => {
             state.user = null;
             state.isAuthenticated = false;
             state.isInitialized = false;
@@ -47,12 +46,12 @@ const authSlice = createSlice({
          * @param {AuthStateType} state
          * @param {PayloadAction<AuthUser>} action
          */
-        updateCurentUser: (state, action) => {
+        updateCurrentUser: (state, action) => {
             state.user = action.payload;
         }
     }
 });
 
-export const { setCurentUser, setInitialized, deleteCurentUser, updateCurentUser } = authSlice.actions;
+export const { setCurrentUser, setInitialized, deleteCurrentUser, updateCurrentUser } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,4 +1,3 @@
-// visitedWebsites.slice.js
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { VisitedWebsites } from '../../types/types.js';
 

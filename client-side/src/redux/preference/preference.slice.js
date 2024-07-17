@@ -1,5 +1,3 @@
-// preference.slice.js
-
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Preference } from '../../types/types';
 

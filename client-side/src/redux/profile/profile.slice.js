@@ -1,5 +1,3 @@
-// profile.slice.js
-
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Profile } from '../../types/types';
 
