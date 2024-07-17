@@ -1,4 +1,4 @@
-import axiosInstance from '../axios/axios.ts';
+import axiosInstance from '../axios/axios.js';
 
 export const getAllWebsites = async () => {
     try {

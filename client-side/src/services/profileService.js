@@ -1,5 +1,5 @@
 import axios from "axios";
-import axiosInstance from '../axios/axios.ts';
+import axiosInstance from '../axios/axios.js';
 export const getAllProfiles = async () => {
     try {
         const response = await axiosInstance.get('/profiles');
