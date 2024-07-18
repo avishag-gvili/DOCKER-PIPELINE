@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function () {
   var blockDiv = document.getElementById('blockDiv');
   var browsingDataDiv = document.getElementById('browsingDataDiv');
   var blockedSitesList = document.getElementById('blockedSitesList');
+  var enterSite = document.getElementById('enterSite');
+  //TODO change address to be according to docker-file
+  enterSite.addEventListener('click', function () {
+    chrome.tabs.create({url:'http://localhost:3000/home'})
+  });
   blockSitesBtn.addEventListener('click', function () {
     blockDiv.classList.remove('hidden');
     browsingDataDiv.classList.add('hidden');
