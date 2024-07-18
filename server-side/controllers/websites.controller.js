@@ -40,6 +40,7 @@ export const UpdateWebSite=async(req,res,next)=>{
 export const addWebSite=async(req,res,next)=>{
     try {
         const newWebsite= new Websites(req.body);
+        await newWebsite.validate();
         await newWebsite.save();
         return res.json(newWebsite).status(201);
       

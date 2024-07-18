@@ -11,8 +11,9 @@ export const getAllVisitedWebsites = async (req, res,next) => {
 };
 
 export const createVisitedWebsite = async (req, res,next) => {
-    const newVisitedWebsite = new VisitedWebsite(req.body);
     try {
+        const newVisitedWebsite = new VisitedWebsite(req.body);
+        await newVisitedWebsite.validate();
         const savedVisitedWebsite = await newVisitedWebsite.save();
         res.status(201).json(savedVisitedWebsite);
     } catch (err) {

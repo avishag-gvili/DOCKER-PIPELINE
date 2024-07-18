@@ -33,12 +33,11 @@ export const getUserById = async (req, res,next) => {
 
 export const addUser = async (req, res,next) => {
   try {
-    
     if (req.file ) {
      req.body.profileImage=req.file.originalname;
      req.body.password= await bcrypt.hash(req.body.password, 10);
-
     const newUser = new Users(req.body);
+    await newUser.validate();
     await newUser.save();
     res.status(201).json(newUser);
   } 

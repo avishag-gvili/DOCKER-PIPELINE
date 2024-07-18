@@ -19,6 +19,7 @@ export const getAllProfiles = async (req, res, next) => {
 export const createProfile = async (req, res, next) => {
     try {
         const newProfile = new Profiles(req.body);
+        await newProfile.validate();
         await newProfile.save();
         res.status(201).json(newProfile);
     } catch (err) {

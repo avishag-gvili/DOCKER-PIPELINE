@@ -43,6 +43,7 @@ export const addPreference = async (req, res, next) => {
         if (req.file)
             req.body.soundVoice = req.file.originalname;
         const newPreference = new Preference(req.body);
+        await newPreference.validate();
         await newPreference.save();
         return res.json(newPreference).status(201);
     } catch (error) {
