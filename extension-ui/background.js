@@ -20,6 +20,7 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
         chrome.scripting.executeScript({
           target: { tabId: details.tabId },
           func: () => {
+            //TODO  add UI for the hoops window
             window.stop();
             window.location.href = chrome.runtime.getURL('hoops.html');
           }

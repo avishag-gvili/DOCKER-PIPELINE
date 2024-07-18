@@ -1,6 +1,5 @@
 chrome.storage.local.get("blockedSites", (data) => {
     const blockedSites = data.blockedSites || [];
-    console.log({blockedSites});
     const hostname = window.location.hostname.toLowerCase();
     const domain = hostname.split(".")[1];
     if (blockedSites.includes(domain)) {
