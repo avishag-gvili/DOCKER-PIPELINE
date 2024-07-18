@@ -14,7 +14,6 @@ const initialState = {
     isAuthenticated: false,
     isInitialized: false
 };
-
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -53,5 +52,4 @@ const authSlice = createSlice({
 });
 
 export const { setCurrentUser, setInitialized, deleteCurrentUser, updateCurrentUser } = authSlice.actions;
-
 export default authSlice.reducer;

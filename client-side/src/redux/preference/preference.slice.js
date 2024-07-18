@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Preference } from '../../types/types';
-
 /**
  * @typedef {Object} PreferenceStateType
  * @property {Preference[]} preferences

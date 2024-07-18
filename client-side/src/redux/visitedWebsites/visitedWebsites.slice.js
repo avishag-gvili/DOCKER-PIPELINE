@@ -10,28 +10,28 @@ import { VisitedWebsites } from '../../types/types.js';
 const initialState = { visitedWebsites: [] };
 
 const visitedWebsiteSlice = createSlice({
-    name: 'profile',
+    name: 'visitedWebsite',
     initialState,
     reducers: {
         /**
          * @param {visitedWebsitesStateType} state
          * @param {PayloadAction<VisitedWebsites[]>} action
          */
-        setvisitedWebsite: (state, action) => {
+        setVisitedWebsite: (state, action) => {
             state.visitedWebsites = action.payload;
         },
         /**
          * @param {visitedWebsitesStateType} state
          * @param {PayloadAction<VisitedWebsites>} action
          */
-        addvisitedWebsite: (state, action) => {
+        addVisitedWebsite: (state, action) => {
             state.visitedWebsites.push(action.payload);
         },
         /**
          * @param {visitedWebsitesStateType} state
          * @param {PayloadAction<VisitedWebsites>} action
          */
-        updatevisitedWebsite: (state, action) => {
+        updateVisitedWebsite: (state, action) => {
             const index = state.visitedWebsites.findIndex(visitedWebsite => visitedWebsite.id === action.payload.id);
             if (index !== -1) {
                 state.visitedWebsites[index] = action.payload;
@@ -41,7 +41,7 @@ const visitedWebsiteSlice = createSlice({
          * @param {visitedWebsitesStateType} state
          * @param {PayloadAction<string>} action
          */
-        deletevisitedWebsite: (state, action) => {
+        deleteVisitedWebsite: (state, action) => {
             const index = state.visitedWebsites.findIndex(visitedWebsite => visitedWebsite.id === action.payload);
             if (index !== -1) {
                 state.visitedWebsites.splice(index, 1);
@@ -50,5 +50,5 @@ const visitedWebsiteSlice = createSlice({
     }
 });
 
-export const { setvisitedWebsite, addvisitedWebsite, updatevisitedWebsite, deletevisitedWebsite } = visitedWebsiteSlice.actions;
+export const { setVisitedWebsite, addVisitedWebsite, updateVisitedWebsite, deleteVisitedWebsite } = visitedWebsiteSlice.actions;
 export default visitedWebsiteSlice.reducer;

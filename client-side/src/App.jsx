@@ -6,18 +6,16 @@ import './App.scss';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router/router.jsx';
 import { store } from './redux/store.jsx';
-import { Provider } from 'react-redux'; 
+import { Provider } from 'react-redux';
 
 function App() {
   return (
     <>
       <RouterProvider router={router} />
       <Provider store={store}>
-        {/* Other components that need access to the Redux store */}
+        <Footer />
       </Provider>
-      <Footer />
     </>
   );
 }
-
 export default App;

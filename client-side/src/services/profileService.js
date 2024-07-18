@@ -1,4 +1,3 @@
-import axios from "axios";
 import axiosInstance from '../axios/axios.js';
 export const getAllProfiles = async () => {
     try {
@@ -20,9 +19,7 @@ export const createProfile = async (profileData) => {
 };
 export const getProfileById = async (id) => {
     try {
-        console.log(id,"id");
         const response = await axiosInstance.get(`/profiles/${id}`);
-        console.log(response.data,"response.data");
         return response.data;
     } catch (err) {
         console.error(`Error getting profile with id ${id}:`, err);
@@ -40,9 +37,7 @@ export const updateProfile = async (id, profileData) => {
 };
 export const getProfilesByUserId = async (userId) => {
     try {
-        console.log(userId,"userId");
         const response = await axiosInstance.get(`/profiles/user/${userId}`);
-        console.log(response.data,"response.data");
         return response.data;
     } catch (err) {
         console.error(`Error getting profiles for user ${userId}:`, err);

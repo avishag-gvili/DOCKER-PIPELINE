@@ -1,17 +1,29 @@
 /**
+ * @typedef {Object} ProfileStateType
+ * @property {Profile[]} profilesName
+ * @property {ProfileDetails[]} profilesDetails
+ */
+
+/**
  * @typedef {Object} RootState
  * @property {ProfileStateType} profile
  */
 
 /**
- * @typedef {Object} ProfileStateType
- * @property {Profile[]} profiles
+ * @param {RootState} state
+ * @returns {Profile[]}
  */
+export const selectProfilesName = (state) => state.profile.profilesName;
 
 /**
- * Selects the profiles array from the state.
- * 
- * @param {RootState} state - The current Redux state.
- * @returns {Profile[]} The array of profiles.
+ * @param {RootState} state
+ * @param {string} profileId
+ * @returns {ProfileDetails | null}
  */
-export const selectProfile = (state) => state.profile.profiles;
+export const selectProfileDetails = (state, profileId) => {
+    const profile = state.profile.profilesDetails.find(profile => profile.id === profileId);
+    return profile ? profile.details : null;
+};
+
+
+

@@ -11,9 +11,7 @@
  */
 
 /**
- * Selects the auth state from the root state.
- * 
- * @param {RootState} state - The current Redux state.
- * @returns {AuthStateType} The auth state.
+ * @param {RootState} state
+ * @returns {AuthStateType}
  */
 export const selectAuth = (state) => state.auth;
