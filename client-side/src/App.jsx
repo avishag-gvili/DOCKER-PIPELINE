@@ -1,12 +1,9 @@
-import { Route, Routes } from 'react-router';
-import LabTabs from './stories/tabs/tabs';
-import Header from './stories/header/header';
-import Footer from './stories/footer/FooterComponent';
-import './App.scss';
+import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
+import Footer from './stories/footer/FooterComponent';
 import { router } from './router/router.jsx';
 import { store } from './redux/store.jsx';
-import { Provider } from 'react-redux';
+import './App.scss';
 
 function App() {
   return (
