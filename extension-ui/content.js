@@ -11,7 +11,7 @@ initializeBlockedSitesCache(() => {
   const hostname = window.location.hostname.toLowerCase();
   const domain = hostname.split(".")[1];
   if (blockedSitesCache && blockedSitesCache.includes(domain)) {
-    window.location.href = chrome.runtime.getURL('hoops.html');
+    window.location.href = chrome.runtime.getURL('oops.html');
   }
 });
 

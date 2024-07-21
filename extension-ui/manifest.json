@@ -21,6 +21,6 @@
     "default_popup": "popup.html"
   },
    "web_accessible_resources": 
-   [{"resources": ["hoops.html"],
+   [{"resources": ["oops.html"],
     "matches": ["<all_urls>"]}]
 }

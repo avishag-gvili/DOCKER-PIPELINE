@@ -47,9 +47,9 @@ function handleBeforeNavigate(details) {
         chrome.scripting.executeScript({
           target: { tabId: details.tabId },
           func: () => {
-            //TODO  add UI for the hoops window
+            //TODO  add UI for the oops window
              window.stop();
-            window.location.href = chrome.runtime.getURL('hoops.html');
+            window.location.href = chrome.runtime.getURL('oops.html');
           }
         }).catch(error => {
           console.error("Error executing script: ", error);
