@@ -1,0 +1,10 @@
+@import '../stylies.scss';
+
+.wrapDiv{
+    .secondary{
+        color: $secondary-color;
+    }
+    .primary{
+        color: $primary-color;
+    }
+}
