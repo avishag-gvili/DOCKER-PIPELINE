@@ -1,0 +1,19 @@
+.MuiAlert-root {
+  font-family: 'Montserrat', sans-serif;
+}
+
+.MuiSnackbar-root .MuiAlert-standardSuccess {
+  background-color: rgba(76, 175, 80, 0.3); 
+}
+
+.MuiSnackbar-root .MuiAlert-standardError {
+  background-color: rgba(244, 67, 54, 0.3); 
+}
+
+.MuiSnackbar-root .MuiAlert-standardWarning {
+  background-color: rgba(255, 152, 0, 0.3); 
+}
+
+.MuiSnackbar-root .MuiAlert-standardInfo {
+  background-color: rgba(33, 150, 243, 0.3); 
+}
