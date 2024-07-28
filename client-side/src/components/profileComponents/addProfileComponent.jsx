@@ -76,22 +76,18 @@ export default function AddProfile() {
   };
 
   const handleChange = (e) => {
-    console.log(e.target.name)
-    if (e.target.name == ':rd:') {
-      e.target.name = 'status'
-    }
+    console.log(e)
     const { name, value } = e.target;
-    if (name === 'status') {
+    var adjustedName = ['limit', 'open', 'blocked'].includes(value) ? 'urlStatus' : name;
+    adjustedName = ['name', 'timeStart' ,'timeEnd'  ,'status' , 'url' , 'urlTimeLimit', 'urlStatus'].includes(adjustedName) ?adjustedName : 'status' ;
+    console.log(e) 
+    if (adjustedName === 'status') {
       if (arrUrl.length > 0 && value !== data.status && data.status !== '') {
         setdataToast({ open: true, message: 'You cannot change the list type after adding URLs.', type: 'error' });
         return;
       }
-
-      if (data.status === 'isBlackList') {
-      }
     }
-
-    const adjustedName = ['limit', 'open', 'blocked'].includes(value) ? 'urlStatus' : name;
+console.log( adjustedName,value)
     setData(prevData => ({
       ...prevData,
       [adjustedName]: value
@@ -135,7 +131,7 @@ export default function AddProfile() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const userId = '669df26ef8a111309dc9e862';
+    const userId = '6698da056e5c07ebd3c11ec1';
     const profileData = {
       userId: userId,
       profileName: data.name,

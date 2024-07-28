@@ -27,11 +27,9 @@ const ProfilePageComponent = () => {
   const profiles = useAppSelector(selectProfile);
   const navigate = useNavigate();
   const fetchProfiles = async () => {
-    debugger
     try {
-      const userId = '669df26ef8a111309dc9e862';
+      const userId = '6698da056e5c07ebd3c11ec1';
       const profileData = await getProfilesByUserId(userId);
-      debugger
       dispatch(setProfiles(profileData));
       console.log('1', profiles)
       setLoading(false);
@@ -51,7 +49,6 @@ const ProfilePageComponent = () => {
     setSelectedProfile(profile);
     setEditRowId(null);
     setEditedRows(null);
-    debugger
     const start = parseTimeStringToDate(profile.timeProfile.start);
     const end = parseTimeStringToDate(profile.timeProfile.end);
     const durationMinutes = (end - start) / 1000 / 60;
