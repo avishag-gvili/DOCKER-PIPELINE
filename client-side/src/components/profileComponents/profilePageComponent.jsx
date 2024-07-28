@@ -1,28 +1,29 @@
-import React, { useEffect, useState} from 'react';
-import Select from '../stories/Select/Select.jsx';
-import TableComponent from '../stories/table/TableComponent.jsx';
-import { updateProfileApi, getProfilesByUserId } from '../services/profileService.js';
-import { deleteWebsite, updateWebsite } from '../services/websiteService.js';
-import { useAppSelector } from '../redux/store.jsx';
-import { setProfiles, updateProfile } from '../redux/profile/profile.slice.js';
-import { selectProfile } from '../redux/profile/profile.selector.js';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import Select from '../../stories/Select/Select.jsx';
+import TableComponent from '../../stories/table/TableComponent.jsx';
+import { updateProfileApi, getProfilesByUserId } from '../../services/profileService.js';
+import { deleteWebsite, updateWebsite } from '../../services/websiteService.js';
+import { useAppSelector } from '../../redux/store.jsx';
+import { setProfiles, updateProfile } from '../../redux/profile/profile.slice.js';
+import { selectProfile } from '../../redux/profile/profile.selector.js';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
-// import AddProfile from './addProfileComponent.jsx';
+import AddProfileComponent from './addProfileComponent.jsx';
 import UpdateProfileComponent from './updateProfileCpmponent.jsx';
-import { useNavigate } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
-import '../styles/profilePageStyle.scss';
-import{useDispatch} from 'react-redux';
+import ProfileActivationTimer from './profileActivationComponent.jsx';
+import '../../styles/profilePageStyle.scss';
+
 const ProfilePageComponent = () => {
   const dispatch = useDispatch();
   const [selectedProfile, setSelectedProfile] = useState(null);
-  const [isChange, setIsChange] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editRowId, setEditRowId] = useState(null);
   const [editedRows, setEditedRows] = useState(null);
+  const [time, setTime] = useState(0);
   const profiles = useAppSelector(selectProfile);
   const navigate = useNavigate();
   const fetchProfiles = async () => {
@@ -50,7 +51,19 @@ const ProfilePageComponent = () => {
     setSelectedProfile(profile);
     setEditRowId(null);
     setEditedRows(null);
+    debugger
+    const start = parseTimeStringToDate(profile.timeProfile.start);
+    const end = parseTimeStringToDate(profile.timeProfile.end);
+    const durationMinutes = (end - start) / 1000 / 60;
+    setTime(durationMinutes);
   };
+
+  function parseTimeStringToDate(timeString) {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  }
 
   const handleDelete = async (id) => {
     const updatedWebsites = selectedProfile.listWebsites.filter(website => website.websiteId._id !== id);
@@ -169,27 +182,39 @@ const ProfilePageComponent = () => {
       rows: rows,
     };
   };
-
   return (
-    <div>
-      {/* <AddProfile /> */}
-      <Select
-        options={profiles.map((profile) => ({ text: profile.profileName, value: profile._id }))}
-        title="Select a profile..."
-        onChange={handleProfileSelect}
-        className="custom-select"
-        widthOfSelect={200}
-      />
-      {selectedProfile && (
-        <div>
-          
-            <div className="alert-container">
-                Hello! You have selected your {selectedProfile.profileName} profile that
-                operates between {selectedProfile?.timeProfile?.start + " / " + selectedProfile?.timeProfile?.end}
-                . Below are the sites that your profile contains:
-                <UpdateProfileComponent profile={selectedProfile} onProfileUpdated={handleProfileUpdated} />
-            </div>
-          
+    <div className="profile-list-container">
+      <div className="profile-list-select-wrapper">
+        <div className="component-add">
+          <AddProfileComponent />
+        </div>
+        <Select
+          options={profiles.map((profile) => ({ text: profile.profileName, value: profile._id }))}
+          onChange={handleProfileSelect}
+          className="profile-list-select"
+        />
+
+
+
+        {time!==0 &&
+          <div className='timer'>
+            <ProfileActivationTimer profileActivationTime={time} />
+          </div>}
+        {selectedProfile &&
+          <div className="component-update">
+            <UpdateProfileComponent profile={selectedProfile} onProfileUpdated={handleProfileUpdated} />
+          </div>}
+      </div>
+      {loading ? (
+        <div className="profile-list-loading">Loading profiles...</div>
+      ) : selectedProfile ? (
+        <div className="profile-list-details">
+          <h1>
+            Hello! You have selected your {selectedProfile.profileName} profile that
+            operates between <br />
+            {selectedProfile?.timeProfile?.start + " / " + selectedProfile?.timeProfile?.end}
+            . Below are the sites that your profile contains:
+          </h1>
           <TableComponent
             dataObject={generateTableData(selectedProfile)}
             widthOfTable="80%"
@@ -197,8 +222,11 @@ const ProfilePageComponent = () => {
             actions={actions}
             editRowId={editRowId}
             handleFieldChange={handleFieldChange}
+            className="profile-list-table"
           />
         </div>
+      ) : (
+        <h1>No profile selected</h1>
       )}
     </div>
   );

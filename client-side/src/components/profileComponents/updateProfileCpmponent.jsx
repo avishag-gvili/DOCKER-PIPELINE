@@ -7,14 +7,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Alert from '@mui/material/Alert';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import GenericInput from '../stories/GenericInput/genericInput.jsx';
-import Select from '../stories/Select/Select.jsx';
-import GenericButton from '../stories/Button/GenericButton.jsx';
-import { updateProfileApi, deleteProfileApi } from '../services/profileService.js';
-import { createWebsite, updateWebsite } from '../services/websiteService.js';
-import { deleteProfile } from '../redux/profile/profile.slice.js';
+import GenericInput from '../../stories/GenericInput/genericInput.jsx';
+import Select from '../../stories/Select/Select.jsx';
+import GenericButton from '../../stories/Button/GenericButton.jsx';
+import { updateProfileApi, deleteProfileApi } from '../../services/profileService.js';
+import { createWebsite, updateWebsite } from '../../services/websiteService.js';
+import { deleteProfile } from '../../redux/profile/profile.slice.js';
 import { useDispatch } from 'react-redux';
-import ToastMessage from '../stories/Toast/ToastMessage.jsx';
+import ToastMessage from '../../stories/Toast/ToastMessage.jsx';
 export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
@@ -242,9 +242,7 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                Edit Profile
-            </Button>
+            <GenericButton label='Edit Profile'onClick={handleClickOpen} size = "medium" className="profile-list-button"/>
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
                 <DialogTitle>Edit Profile</DialogTitle>
                 <DialogContent>

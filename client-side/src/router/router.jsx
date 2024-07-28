@@ -1,6 +1,6 @@
 import React from "react";
 import {createBrowserRouter } from "react-router-dom";
-import ProfilePageComponent from "../components/profilePageComponent.jsx";
+import ProfilePageComponent from "../components/profileComponents/profilePageComponent.jsx";
 import Layout from "./layout.jsx";
 export  const router = createBrowserRouter([
     {
