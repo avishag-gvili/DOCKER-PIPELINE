@@ -1,0 +1,26 @@
+.timer-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timer-time {
+    font-size: 90%;
+}
+
+.timer-label {
+    font-size: 60%;
+    margin-top: 4%;
+}
+
+.countdown-circle-timer {
+    stroke-width: 0.25%;
+    size: 6.25%;
+    // trail-color: #d6d6d6;
+}
