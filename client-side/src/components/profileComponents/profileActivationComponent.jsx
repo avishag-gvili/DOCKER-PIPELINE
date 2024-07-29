@@ -71,7 +71,6 @@ const ProfileActivationTimer = ({ profileActivationTime }) => {
         strokeWidth={4}
         size={100}
         trailColor="#d6d6d6"
-        onComplete={() => console.log('Timer completed')}
       >
         {renderTime}
       </CountdownCircleTimer>
