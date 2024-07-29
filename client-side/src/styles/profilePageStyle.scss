@@ -67,10 +67,21 @@ button {
 }
 
 
-.div-time{
-    display: flex;
-    justify-content: flex-start;
+
+.div-time {
+  display: flex;
+  justify-content: center;
 }
+
+.div-time > *:not(:last-child) {
+  margin-right: 10%;
+}
+.dialog-content-text {
+  padding: 20px; 
+ 
+}
+
+
 
 
 .component-add {
@@ -112,7 +123,6 @@ button {
     color: red;
   }
   .divAddUrl{
-    margin-top: 5%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
