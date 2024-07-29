@@ -31,7 +31,6 @@ const ProfilePageComponent = () => {
       const userId = '6698da056e5c07ebd3c11ec1';
       const profileData = await getProfilesByUserId(userId);
       dispatch(setProfiles(profileData));
-      console.log('1', profiles)
       setLoading(false);
     } catch (err) {
       console.error('Failed to fetch profiles:', err);
@@ -115,7 +114,6 @@ const ProfilePageComponent = () => {
       await updateWebsite(id, { name: editedRows.name, url: editedRows.url });
       await updateProfileApi(selectedProfile._id, profileToUpdate);
       dispatch(updateProfile(profileToUpdate));
-      console.log('2', profiles)
       setSelectedProfile(profileToUpdate);
       setEditRowId(null);
       setEditedRows(null);

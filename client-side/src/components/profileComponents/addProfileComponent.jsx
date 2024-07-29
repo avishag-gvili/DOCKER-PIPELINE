@@ -63,7 +63,6 @@ export default function AddProfile() {
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    console.log(name,value);
     if (name === 'status') {
       if (URLSUser.length > 0 && value !== data.status && data.status !== '') {
         setDataToast({ open: true, message: TOAST_MESSAGES.TYPE_LIST_CHANGE_ERROR, type: 'error' });

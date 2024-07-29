@@ -33,5 +33,4 @@ app.use(serverErrors)
 let port= process.env.PORT;
 
 app.listen(port,()=>{
-    console.log(` running at http://localhost:${port}`);
 })
