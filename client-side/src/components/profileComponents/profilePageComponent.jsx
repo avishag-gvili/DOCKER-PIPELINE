@@ -49,10 +49,16 @@ const ProfilePageComponent = () => {
     setSelectedProfile(profile);
     setEditRowId(null);
     setEditedRows(null);
+
     const start = parseTimeStringToDate(profile.timeProfile.start);
     const end = parseTimeStringToDate(profile.timeProfile.end);
     const durationMinutes = (end - start) / 1000 / 60;
-    setTime(durationMinutes);
+    if (durationMinutes >= 0) {
+      setTime(durationMinutes);
+    }else{
+      setTime(durationMinutes*-1);
+    }
+
   };
 
   function parseTimeStringToDate(timeString) {
@@ -193,7 +199,7 @@ const ProfilePageComponent = () => {
 
 
 
-        {time!==0 &&
+        {time !== 0 &&
           <div className='timer'>
             <ProfileActivationTimer profileActivationTime={time} />
           </div>}
