@@ -77,13 +77,8 @@ const handleChange = (e) => {
 
 GenericInput.propTypes = {
   label: PropTypes.string.isRequired,
-<<<<<<< HEAD
-  type: PropTypes.oneOf(['text', 'number', 'email', 'password','time','url']),
-  value: PropTypes.string,
-=======
   type: PropTypes.oneOf(['text', 'number', 'email', 'password','time']),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
->>>>>>> eb6ad6282d1d5be8f6e58863e171ab20455e0d11
   onChange: PropTypes.func,
   size: PropTypes.oneOf(['small', 'medium']),
   width: PropTypes.string,

@@ -14,17 +14,6 @@ import { handleAddUrl } from '../../utils/profileUtil.js';
 import { SELECT_OPTIONS,INPUT_LABELS,DIALOG_TITLES, TOAST_MESSAGES, VALIDATE_MESSAGES, CONSOLE_MESSAGES, BUTTON_LABELS, TOOLTIP_MESSAGES } from '../../constants/profileConstants.js';
 import '../../styles/profilePageStyle.scss';
 
-export const options = {
-  black: [
-    { text: 'open', value: 'open' },
-    { text: 'limit', value: 'limit' }
-  ],
-  white: [
-    { text: 'blocked', value: 'blocked' },
-    { text: 'limit', value: 'limit' }
-  ]
-};
-
 export default function AddProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -106,7 +95,7 @@ export default function AddProfile() {
     const profileData = {
       userId: userId,
       profileName: data.name,
-      statusBlockedSites: data.status === 'isWhiteList' ? 'white list' : 'black list',
+      statusBlockedSites: data.status,
       listWebsites: URLSUser.map(url => ({
         websiteId: url.id,
         status: url.urlStatus === 'blocked' ? 'block' : url.urlStatus,
@@ -211,7 +200,7 @@ export default function AddProfile() {
               <Select
                 name='urlStatus'
                 size="small"
-                options={data.status === 'isWhiteList' ? SELECT_OPTIONS.WEBSITE_STATUS_OPEN : SELECT_OPTIONS.WEBSITE_STATUS_BLOCK}
+                options={data.status === 'white list' ? SELECT_OPTIONS.WEBSITE_STATUS_OPEN : SELECT_OPTIONS.WEBSITE_STATUS_BLOCK}
                 value={data.urlStatus}
                 onChange={handleChange}
                 title="Site Status"
@@ -231,12 +220,12 @@ export default function AddProfile() {
               ) : null}
               <GenericButton label={BUTTON_LABELS.ADD_WEBSITE} size="medium" className="" onClick={handleAddUrlWrapper} disabled={!data.url || !data.urlStatus} />
             </div>
-            {(URLSUser.length > 0) ? (
+          
               <TableComponent
                 dataObject={tableData}
                 widthOfTable="90%"
                 widthOfColums={[200, 100, 150]}
-              />) : null}
+              />
           </div>
         </DialogContent>
         <DialogActions>
