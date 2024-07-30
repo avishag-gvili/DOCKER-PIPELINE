@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Select from '../../stories/Select/Select.jsx';
-import TableComponent from '../../stories/table/TableComponent.jsx';
+
 import { updateProfileApi, getProfilesByUserId } from '../../services/profileService.js';
 import { deleteWebsite, updateWebsite } from '../../services/websiteService.js';
 import { useAppSelector } from '../../redux/store.jsx';
 import { setProfiles, updateProfile } from '../../redux/profile/profile.slice.js';
 import { selectProfile } from '../../redux/profile/profile.selector.js';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Cancel';
+
+import { Delete as DeleteIcon, Edit as EditIcon, Save as SaveIcon, Cancel as CancelIcon } from '@mui/icons-material';
+
+import Select from '../../stories/Select/Select.jsx';
+import TableComponent from '../../stories/table/TableComponent.jsx';
+import Loader from '../../stories/loader/loader.jsx';
+
 import AddProfileComponent from './addProfileComponent.jsx';
 import UpdateProfileComponent from './updateProfileCpmponent.jsx';
 import ProfileActivationTimer from './profileActivationComponent.jsx';
+
 import '../../styles/profilePageStyle.scss';
 
 const ProfilePageComponent = () => {
@@ -54,8 +57,8 @@ const ProfilePageComponent = () => {
     const durationMinutes = (end - start) / 1000 / 60;
     if (durationMinutes >= 0) {
       setTime(durationMinutes);
-    }else{
-      setTime(durationMinutes*-1);
+    } else {
+      setTime(durationMinutes * -1);
     }
 
   };
@@ -183,6 +186,8 @@ const ProfilePageComponent = () => {
       rows: rows,
     };
   };
+
+
   return (
     <div className="profile-list-container">
       <div className="profile-list-select-wrapper">
@@ -207,7 +212,7 @@ const ProfilePageComponent = () => {
           </div>}
       </div>
       {loading ? (
-        <div className="profile-list-loading">Loading profiles...</div>
+        <div className="profile-list-loading"><Loader /> </div>
       ) : selectedProfile ? (
         <div className="profile-list-details">
           <h1>
