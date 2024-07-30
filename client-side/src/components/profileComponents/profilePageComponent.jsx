@@ -29,7 +29,7 @@ const ProfilePageComponent = () => {
   
   const fetchProfiles = async () => {
     try {
-      const userId = '669df26ef8a111309dc9e862';
+      const userId = '6698da056e5c07ebd3c11ec1';
       const profileData = await getProfilesByUserId(userId);
       dispatch(setProfiles(profileData));
       setLoading(false);
@@ -52,7 +52,12 @@ const ProfilePageComponent = () => {
     const start = parseTimeStringToDate(profile.timeProfile.start);
     const end = parseTimeStringToDate(profile.timeProfile.end);
     const durationMinutes = (end - start) / 1000 / 60;
-    setTime(durationMinutes);
+    if (durationMinutes >= 0) {
+      setTime(durationMinutes);
+    }else{
+      setTime(durationMinutes*-1);
+    }
+
   };
 
   function parseTimeStringToDate(timeString) {
@@ -191,7 +196,6 @@ const ProfilePageComponent = () => {
           onChange={handleProfileSelect}
           className="profile-list-select"
         />
-
         {time !== 0 &&
           <div className='timer'>
             <ProfileActivationTimer profileActivationTime={time} />

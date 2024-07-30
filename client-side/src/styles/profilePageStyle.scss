@@ -1,125 +1,114 @@
 .profile-list-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 20px;
 }
-
 .profile-list-select-wrapper {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .profile-list-select {
-    position: absolute;
-    top:25px;
-    width: 200px;
+  position: absolute;
+  top:25px;
+  width: 200px;
 }
-
-
 .profile-list-loading {
-    font-size: 1.2em;
-    color: #333;
+  font-size: 1.2em;
+  color: #333;
 }
-
-
 .profile-list-details {
-    text-align: center;
-    width: 100%;
-    max-width: 1200px;
-    margin-bottom: 90px;
+  text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 90px;
 }
-
 .profile-list-table {
-    margin-top: 20px;
-    width: 98%;
-    max-width: 1200px;
+  margin-top: 20px;
+  width: 98%;
+  max-width: 1200px;
 }
-
 h1, h2, p {
-    text-align: center;
+  text-align: center;
 }
-
 button {
-    display: block;
-    margin: 20px auto;
+  display: block;
+  margin: 20px auto;
 }
-
 .custom-time-input {
-    color: #000;
-    background-color: white;
-    border: 2px solid #67FCD2;
-    padding: 5px;
-    border-radius: 10px;
-    margin: 20px;
-    &:hover {
-        border-color: rgb(45, 158, 126);
-    }
-    &:focus {
-        border-color: 2px solid rgb(21, 22, 22);
-        outline: none; 
-        box-shadow: 0 0 8px rgb(45, 158, 126, 0.5);
-    }
+  color: #000;
+  background-color: white;
+  border: 2px solid #67FCD2;
+  padding: 5px;
+  border-radius: 10px;
+  margin: 20px;
+  &:hover {
+      border-color: rgb(45, 158, 126);
+  }
+  &:focus {
+      border-color: 2px solid rgb(21, 22, 22);
+      outline: none;
+      box-shadow: 0 0 8px rgb(45, 158, 126, 0.5);
+  }
 }
-
-
-.div-time{
-    display: flex;
-    justify-content: flex-start;
+.div-time {
+display: flex;
+justify-content: center;
 }
-
-
+.div-time > *:not(:last-child) {
+margin-right: 10%;
+}
+.dialog-content-text {
+padding: 20px;
+}
 .component-add {
-    position: absolute;
-    margin-bottom: 20px;
-    margin: 20px;
-    right: 7px;
+  position: absolute;
+  margin-bottom: 20px;
+  margin: 20px;
+  right: 7px;
 }
 .component-update {
-    position: absolute;
-    top:150px;
-    margin-bottom: 20px;
-    margin: 20px;
-    right: 7px;
+  position: absolute;
+  top:150px;
+  margin-bottom: 20px;
+  margin: 20px;
+  right: 7px;
 }
 .profile-list-container {
-    .profile-list-button {
-      background-color: transparent;
-      border: 2px solid rgb(103, 252, 210);
-      color: rgb(103, 252, 210);
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-bottom: 10px;
-      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-  
-      &:hover {
-        background-color: rgb(103, 252, 210);
-        color: white;
-      }
-  
-      &:focus {
-        outline: none;
-      }
+  .profile-list-button {
+    background-color: transparent;
+    border: 2px solid rgb(103, 252, 210);
+    color: rgb(103, 252, 210);
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    &:hover {
+      background-color: rgb(103, 252, 210);
+      color: white;
+    }
+    &:focus {
+      outline: none;
     }
   }
-  
-  .helper-text-error {
-    color: red;
-  }
-  .divAddUrl{
-    margin-top: 5%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-  .profile-select{
-    width: 150px;
-  }
-  .timer{
-    margin-left: 10px;
-  }
+}
+.helper-text-error {
+  color: red;
+}
+.divAddUrl{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.profile-select{
+  width: 150px;
+}
+.timer{
+  margin-left: 10px;
+}

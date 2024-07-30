@@ -42,7 +42,6 @@ export const updateWebsite = async (id, websiteData) => {
 
 export const deleteWebsite = async (id) => {
     try {
-        console.log(id)
         const response = await axiosInstance.delete(`/websites/${id}`);
         return response.data;
     } catch (err) {

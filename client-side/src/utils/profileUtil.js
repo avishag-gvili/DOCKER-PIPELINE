@@ -1,4 +1,5 @@
 import { SELECT_OPTIONS } from '../constants/profileConstants.js';
+import { createWebsite } from "../services/websiteService";
 
 export const formatProfileData = (profile) => {
     return {
@@ -38,6 +39,7 @@ export const updateFormDataWithStatusBlockedSites = (formData, value) => {
         websites: updatedWebsites
     };
 };
+
 export const getStatusOptions = (statusType) => {
     switch (statusType) {
         case 'black list':
@@ -57,3 +59,25 @@ export const extractWebsiteName = (url) => {
         return '';
     }
 };
+
+export const handleAddUrl = async (data, URLSUser, setURLSUser, setdataToast, setData) => {
+    try {
+        const parsedUrl = new URL(data.url);
+        const dataWebsites = {
+            name: parsedUrl.hostname,
+            url: data.url
+        };
+        if (URLSUser.some(item => item.url === data.url)) {
+            setdataToast({ open: true, message: 'URL already exists in the list.', type: 'error' });
+            return;
+        }
+
+        const newWebsites = await createWebsite(dataWebsites);
+        setURLSUser([{ id: newWebsites._id, url: data.url, urlStatus: data.urlStatus, urlTimeLimit: data.urlTimeLimit }, ...URLSUser]);
+        setData({ ...data, url: '', urlStatus: '', urlTimeLimit: 0 });
+    } catch (e) {
+        setdataToast({ open: true, message: 'Invalid URL', type: 'error' });
+        return null;
+    }
+};
+
