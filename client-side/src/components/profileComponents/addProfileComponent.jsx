@@ -14,6 +14,17 @@ import { handleAddUrl } from '../../utils/profileUtil.js';
 import { SELECT_OPTIONS,INPUT_LABELS,DIALOG_TITLES, TOAST_MESSAGES, VALIDATE_MESSAGES, CONSOLE_MESSAGES, BUTTON_LABELS, TOOLTIP_MESSAGES } from '../../constants/profileConstants.js';
 import '../../styles/profilePageStyle.scss';
 
+export const options = {
+  black: [
+    { text: 'open', value: 'open' },
+    { text: 'limit', value: 'limit' }
+  ],
+  white: [
+    { text: 'blocked', value: 'blocked' },
+    { text: 'limit', value: 'limit' }
+  ]
+};
+
 export default function AddProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

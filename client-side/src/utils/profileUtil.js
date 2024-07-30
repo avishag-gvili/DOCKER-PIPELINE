@@ -1,11 +1,11 @@
+import { SELECT_OPTIONS } from '../constants/profileConstants.js';
 import { createWebsite } from "../services/websiteService";
-// profileUtil.js
 
 export const formatProfileData = (profile) => {
     return {
         id: profile._id,
         userId: profile.userId,
-        profileName: profile.profileName || 'Default Profile Name',
+        profileName: profile.profileName || '',
         timeProfile: {
             timeStart: profile?.timeProfile?.start || '00:00',
             timeEnd: profile?.timeProfile?.end || '00:00'
@@ -21,6 +21,7 @@ export const formatProfileData = (profile) => {
         }))
     };
 };
+
 export const updateFormDataWithStatusBlockedSites = (formData, value) => {
     const updatedWebsites = formData.websites.map(website => {
         if (website.status === 'limit') {
@@ -31,50 +32,52 @@ export const updateFormDataWithStatusBlockedSites = (formData, value) => {
             status: value === 'black list' ? 'open' : 'block'
         };
     });
+
     return {
         ...formData,
         statusBlockedSites: value,
         websites: updatedWebsites
     };
 };
-export const updateFormDataWithWebsite = (formData, website, index) => {
-    const updatedWebsites = [...formData.websites];
-    const updatedWebsite = {
-        ...updatedWebsites[index],
-        ...website
-    };
-    if (website.name === 'url') {
-        try {
-            const parsedUrl = new URL(website.value);
-            updatedWebsite.name = parsedUrl.hostname;
-        } catch (error) {
-            console.error('Invalid URL:', website.value, error);
-        }
+
+export const getStatusOptions = (statusType) => {
+    switch (statusType) {
+        case 'black list':
+            return SELECT_OPTIONS.WEBSITE_STATUS_BLOCK;
+        case 'white list':
+            return SELECT_OPTIONS.WEBSITE_STATUS_OPEN;
+        default:
+            return [];
     }
-    updatedWebsites[index] = updatedWebsite;
-    return {
-        ...formData,
-        websites: updatedWebsites
-    };
 };
-// handleAddUrl.js
+
+export const extractWebsiteName = (url) => {
+    try {
+        const hostname = new URL(url).hostname;
+        return hostname.replace('www.', '').split('.')[0];
+    } catch {
+        return '';
+    }
+};
 
 export const handleAddUrl = async (data, URLSUser, setURLSUser, setdataToast, setData) => {
-  try {
-    const parsedUrl = new URL(data.url);
-    const dataWebsites = {
-      name: parsedUrl.hostname,
-      url: data.url
-    };
-    if (URLSUser.some(item => item.url === data.url)) {
-      setdataToast({ open: true, message: 'URL already exists in the list.', type: 'error' });
-      return;
+    try {
+        const parsedUrl = new URL(data.url);
+        const dataWebsites = {
+            name: parsedUrl.hostname,
+            url: data.url
+        };
+        if (URLSUser.some(item => item.url === data.url)) {
+            setdataToast({ open: true, message: 'URL already exists in the list.', type: 'error' });
+            return;
+        }
+
+        const newWebsites = await createWebsite(dataWebsites);
+        setURLSUser([{ id: newWebsites._id, url: data.url, urlStatus: data.urlStatus, urlTimeLimit: data.urlTimeLimit }, ...URLSUser]);
+        setData({ ...data, url: '', urlStatus: '', urlTimeLimit: 0 });
+    } catch (e) {
+        setdataToast({ open: true, message: 'Invalid URL', type: 'error' });
+        return null;
     }
-    const newWebsites = await createWebsite(dataWebsites);
-    setURLSUser([{ id: newWebsites._id, url: data.url, urlStatus: data.urlStatus, urlTimeLimit: data.urlTimeLimit }, ...URLSUser]);
-    setData({ ...data, url: '', urlStatus: '', urlTimeLimit: 0 });
-  } catch (e) {
-    setdataToast({ open: true, message: 'Invalid URL', type: 'error' });
-    return null;
-  }
 };
+

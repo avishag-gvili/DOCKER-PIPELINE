@@ -1,3 +1,4 @@
+
 export const INPUT_LABELS = {
     PROFILE_NAME: 'Profile Name',
     TIME_START: 'Time Start',
@@ -5,7 +6,26 @@ export const INPUT_LABELS = {
     STATUS_BLOCKED_SITES: 'Status Blocked Sites',
     WEBSITE_NAME: 'Website Name',
     URL: 'URL',
+    STATUS: 'status',
     LIMIT_MINUTES: 'Limit Minutes'
+};
+
+export const TOOLTIP_TEXTS = {
+    ADD_WEBSITE: 'Add Website',
+    WEBSITE_NAME: 'This field is optional',
+    URL: 'Enter the URL of the website',
+    STATUS: 'Select the site mode',
+    LIMIT_MINUTES: 'Enter the number of minutes limited to the website',
+    CANCEL: 'Cancel',
+    SAVE: 'Save',
+    EDIT_PROFILE: 'Edit Profile',
+    PROFILE_NAME: 'Profile Name',
+    TIME_START: 'Start Time',
+    TIME_END: 'End Time',
+    STATUS_BLOCKED_SITES: 'Blocked Sites Status',
+    DELETE_PROFILE: 'Delete Profile',
+    DELETE: 'Delete',
+    CONFIRM_DELETE: 'Are you sure you want to delete this profile?'
 };
 
 export const SELECT_OPTIONS = {
@@ -61,6 +81,7 @@ export const VALIDATE_MESSAGES = {
 export const CONSOLE_MESSAGES = {
     PROFILE_CREATE_ERROR: 'Error creating profile:',
 };
+
 export const TOOLTIP_MESSAGES = {
     FORM_NOT_FILLED: 'The button is disabled because not all fields are filled.',
 };

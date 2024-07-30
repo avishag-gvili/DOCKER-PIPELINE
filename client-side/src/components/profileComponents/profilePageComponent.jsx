@@ -29,6 +29,7 @@ const ProfilePageComponent = () => {
   const [time, setTime] = useState(0);
   const profiles = useAppSelector(selectProfile);
   const navigate = useNavigate();
+  
   const fetchProfiles = async () => {
     try {
       const userId = '6698da056e5c07ebd3c11ec1';
