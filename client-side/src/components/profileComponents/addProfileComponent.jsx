@@ -13,6 +13,17 @@ import RadioButton from '../../stories/RadioButton/radio-Button.jsx';
 import ToastMessage from '../../stories/Toast/ToastMessage.jsx';
 import '../../styles/profilePageStyle.scss';
 
+export const options = {
+  black: [
+    { text: 'open', value: 'open' },
+    { text: 'limit', value: 'limit' }
+  ],
+  white: [
+    { text: 'blocked', value: 'blocked' },
+    { text: 'limit', value: 'limit' }
+  ]
+};
+
 export default function AddProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -62,18 +73,7 @@ export default function AddProfile() {
     });
     setArrUrl([]);
     setOpen(false);
-  };
-
-  const options = {
-    black: [
-      { text: 'open', value: 'open' },
-      { text: 'limit', value: 'limit' }
-    ],
-    white: [
-      { text: 'blocked', value: 'blocked' },
-      { text: 'limit', value: 'limit' }
-    ]
-  };
+  }; 
 
   const handleChange = (e) => {
     console.log(e.target.name)

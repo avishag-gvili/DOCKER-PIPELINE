@@ -3,9 +3,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import PropTypes from 'prop-types';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Tooltip from '@mui/material/Tooltip';
 import './TableComponent.scss';
 
-const TableComponent = ({ dataObject, widthOfTable = "80%", widthOfColums, actions, editRowId, handleFieldChange }) => {
+const TableComponent = ({ dataObject, widthOfTable = "80%", widthOfColums, actions, editRowId, handleFieldChange, statusOptions = [] }) => {
   let columns = dataObject.headers.map((header, i) => ({
     field: header,
     headerName: header,
@@ -14,11 +17,28 @@ const TableComponent = ({ dataObject, widthOfTable = "80%", widthOfColums, actio
     headerAlign: 'center',
     renderCell: (params) => {
       if (editRowId && editRowId === params.row.id && header !== 'Actions') {
+        if (header === 'status') {
+          return (
+            <Select
+              value={params.value}
+              onChange={(e) => handleFieldChange && handleFieldChange(e, params.row.id)}
+              name={header}
+              fullWidth
+            >
+              {statusOptions.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.text}
+                </MenuItem>
+              ))}
+            </Select>
+          );
+        }
         return (
           <TextField
             value={params.value}
             onChange={(e) => handleFieldChange && handleFieldChange(e, params.row.id)}
             name={header}
+            fullWidth
           />
         );
       }
@@ -26,9 +46,11 @@ const TableComponent = ({ dataObject, widthOfTable = "80%", widthOfColums, actio
         return (
           <div>
             {actions && actions.filter(action => action.condition(params.row.id)).map((action, index) => (
-              <IconButton key={index} onClick={() => action.func(params.row.id)} aria-label={action.label}>
-                {React.createElement(action.icon)}
-              </IconButton>
+              <Tooltip key={index} title={action.label}>
+                <IconButton onClick={() => action.func(params.row.id)} aria-label={action.label}>
+                  {React.createElement(action.icon)}
+                </IconButton>
+              </Tooltip>
             ))}
           </div>
         );
@@ -47,9 +69,11 @@ const TableComponent = ({ dataObject, widthOfTable = "80%", widthOfColums, actio
       renderCell: (params) => (
         <div>
           {actions && actions.filter(action => action.condition(params.row.id)).map((action, index) => (
-            <IconButton key={index} onClick={() => action.func(params.row.id)} aria-label={action.label}>
-              {React.createElement(action.icon)}
-            </IconButton>
+            <Tooltip key={index} title={action.label}>
+              <IconButton onClick={() => action.func(params.row.id)} aria-label={action.label}>
+                {React.createElement(action.icon)}
+              </IconButton>
+            </Tooltip>
           ))}
         </div>
       ),
@@ -89,6 +113,7 @@ TableComponent.propTypes = {
   ),
   editRowId: PropTypes.string,
   handleFieldChange: PropTypes.func,
+  statusOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 TableComponent.defaultProps = {

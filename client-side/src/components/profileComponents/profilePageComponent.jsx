@@ -8,17 +8,15 @@ import { deleteWebsite, updateWebsite } from '../../services/websiteService.js';
 import { useAppSelector } from '../../redux/store.jsx';
 import { setProfiles, updateProfile } from '../../redux/profile/profile.slice.js';
 import { selectProfile } from '../../redux/profile/profile.selector.js';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import CancelIcon from '@mui/icons-material/Cancel';
+import { Delete as DeleteIcon, Edit as EditIcon, Save as SaveIcon, Cancel as CancelIcon } from '@mui/icons-material';
 import AddProfileComponent from './addProfileComponent.jsx';
 import UpdateProfileComponent from './updateProfileCpmponent.jsx';
 import ProfileActivationTimer from './profileActivationComponent.jsx';
+import AddWebsite from './addWebsiteComponent.jsx'
+import { getStatusOptions } from '../../utils/profileUtil.js';
 import '../../styles/profilePageStyle.scss';
 
 const ProfilePageComponent = () => {
-  const dispatch = useDispatch();
   const [selectedProfile, setSelectedProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editRowId, setEditRowId] = useState(null);
@@ -26,14 +24,14 @@ const ProfilePageComponent = () => {
   const [time, setTime] = useState(0);
   const profiles = useAppSelector(selectProfile);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const statusOptions = selectedProfile ? getStatusOptions(selectedProfile.statusBlockedSites) : [];
+  
   const fetchProfiles = async () => {
-    debugger
     try {
       const userId = '669df26ef8a111309dc9e862';
       const profileData = await getProfilesByUserId(userId);
-      debugger
       dispatch(setProfiles(profileData));
-      console.log('1', profiles)
       setLoading(false);
     } catch (err) {
       console.error('Failed to fetch profiles:', err);
@@ -51,7 +49,6 @@ const ProfilePageComponent = () => {
     setSelectedProfile(profile);
     setEditRowId(null);
     setEditedRows(null);
-    debugger
     const start = parseTimeStringToDate(profile.timeProfile.start);
     const end = parseTimeStringToDate(profile.timeProfile.end);
     const durationMinutes = (end - start) / 1000 / 60;
@@ -72,7 +69,7 @@ const ProfilePageComponent = () => {
       listWebsites: updatedWebsites
     };
     try {
-      deleteWebsite(id)
+      deleteWebsite(id);
       await updateProfileApi(selectedProfile._id, profileToUpdate);
       dispatch(updateProfile(profileToUpdate));
       setSelectedProfile(profileToUpdate);
@@ -88,12 +85,14 @@ const ProfilePageComponent = () => {
       name: website.websiteId.name,
       url: website.websiteId.url,
       status: website.status,
-      limitedMinutes: website.status === 'limit' ? website.limitedMinutes : '-',
+      limitedMinutes: website.status === 'limit' ? website.limitedMinutes : 0,
     });
   };
 
   const handleSave = async (id) => {
-    if (!selectedProfile || !editRowId || !editedRows) return;
+    if (!selectedProfile || !editRowId || !editedRows ||
+      (editedRows.status === 'limit' && editedRows.limitedMinutes === 0)
+    ) return;
 
     const websiteAfterUpdate = {
       websiteId: {
@@ -101,8 +100,8 @@ const ProfilePageComponent = () => {
         name: editedRows.name,
         url: editedRows.url,
       },
-      status: selectedProfile.listWebsites.find(website => website.websiteId._id === id).status,
-      limitedMinutes: selectedProfile.listWebsites.find(website => website.websiteId._id === id).status === 'limit' ? editedRows.limitedMinutes : selectedProfile.listWebsites.find(website => website.websiteId._id === id).limitedMinutes,
+      status: editedRows.status,
+      limitedMinutes: editedRows.limitedMinutes
     };
 
     const updatedWebsites = selectedProfile.listWebsites.map(website =>
@@ -118,7 +117,6 @@ const ProfilePageComponent = () => {
       await updateWebsite(id, { name: editedRows.name, url: editedRows.url });
       await updateProfileApi(selectedProfile._id, profileToUpdate);
       dispatch(updateProfile(profileToUpdate));
-      console.log('2', profiles)
       setSelectedProfile(profileToUpdate);
       setEditRowId(null);
       setEditedRows(null);
@@ -131,19 +129,18 @@ const ProfilePageComponent = () => {
     setEditRowId(null);
     setEditedRows(null);
   };
-
-  const handleFieldChange = (e, id) => {
+  
+  const handleFieldChange = (e) => {
     const { value, name } = e.target;
-    if (name === 'status' && editRowId === id) {
+    if (name === 'limitedMinutes' && editedRows.status !== 'limit') {
       return;
     }
-    if (name === 'limitedMinutes' && selectedProfile.listWebsites.find(website => website.websiteId._id === id).status !== 'limit') {
-      return;
+    let updatedRows = { ...editedRows, [name]: value };
+
+    if (name === 'status' && (value === 'open' || value === 'block')) {
+      updatedRows = { ...updatedRows, limitedMinutes: 0 };
     }
-    setEditedRows({
-      ...editedRows,
-      [name]: value
-    });
+    setEditedRows(updatedRows);
   };
 
   const handleProfileUpdated = async (updatedProfile) => {
@@ -170,7 +167,7 @@ const ProfilePageComponent = () => {
         id: website.websiteId ? website.websiteId._id : '',
         name: (editRowId === website.websiteId._id && editedRows) ? editedRows.name : website.websiteId.name,
         url: (editRowId === website.websiteId._id && editedRows) ? editedRows.url : website.websiteId.url,
-        status: website.status || '',
+        status: (editRowId === website.websiteId._id && editedRows) ? editedRows.status : website.status,
         limitedMinutes: (editRowId === website.websiteId._id && editedRows)
           ? (editedRows.limitedMinutes === 0 ? '-' : editedRows.limitedMinutes)
           : (website.limitedMinutes === 0 ? '-' : website.limitedMinutes),
@@ -182,6 +179,7 @@ const ProfilePageComponent = () => {
       rows: rows,
     };
   };
+
   return (
     <div className="profile-list-container">
       <div className="profile-list-select-wrapper">
@@ -194,9 +192,7 @@ const ProfilePageComponent = () => {
           className="profile-list-select"
         />
 
-
-
-        {time!==0 &&
+        {time !== 0 &&
           <div className='timer'>
             <ProfileActivationTimer profileActivationTime={time} />
           </div>}
@@ -215,6 +211,7 @@ const ProfilePageComponent = () => {
             {selectedProfile?.timeProfile?.start + " / " + selectedProfile?.timeProfile?.end}
             . Below are the sites that your profile contains:
           </h1>
+
           <TableComponent
             dataObject={generateTableData(selectedProfile)}
             widthOfTable="80%"
@@ -222,8 +219,12 @@ const ProfilePageComponent = () => {
             actions={actions}
             editRowId={editRowId}
             handleFieldChange={handleFieldChange}
+            statusOptions={statusOptions}
             className="profile-list-table"
           />
+          {selectedProfile && (
+            <AddWebsite profile={selectedProfile} />
+          )}
         </div>
       ) : (
         <h1>No profile selected</h1>
@@ -231,4 +232,5 @@ const ProfilePageComponent = () => {
     </div>
   );
 };
+
 export default ProfilePageComponent;

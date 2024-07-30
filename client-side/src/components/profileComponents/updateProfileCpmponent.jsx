@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Alert from '@mui/material/Alert';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Grid, Box, Tooltip } from '@mui/material';
 import GenericInput from '../../stories/GenericInput/genericInput.jsx';
 import Select from '../../stories/Select/Select.jsx';
 import GenericButton from '../../stories/Button/GenericButton.jsx';
 import { updateProfileApi, deleteProfileApi } from '../../services/profileService.js';
-import { createWebsite, updateWebsite } from '../../services/websiteService.js';
 import { deleteProfile } from '../../redux/profile/profile.slice.js';
-import { useDispatch } from 'react-redux';
 import ToastMessage from '../../stories/Toast/ToastMessage.jsx';
+import { formatProfileData, updateFormDataWithStatusBlockedSites } from '../../utils/profileUtil.js';
+import {
+    INPUT_LABELS,
+    SELECT_OPTIONS,
+    DIALOG_TITLES,
+    TOAST_MESSAGES,
+    BUTTON_LABELS,
+    TOOLTIP_TEXTS
+} from '../../constants/profileConstants.js';
+
 export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
     const [toastOpen, setToastOpen] = useState(false);
@@ -24,97 +28,35 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
     const [toastMessage, setToastMessage] = useState('');
     const [formData, setFormData] = useState({
         userId: '',
-        profileName: 'Default Profile Name',
+        profileName: '',
         timeProfile: {
             timeStart: new Date().toISOString(),
             timeEnd: new Date().toISOString(),
         },
         statusBlockedSites: '',
-        websites: [
-            {
-                id: '',
-                name: '',
-                url: '',
-                status: '',
-                limitedMinutes: 0
-            }
-        ],
+        websites: []
     });
 
     useEffect(() => {
         if (profile) {
-            setFormData({
-                id: profile._id,
-                userId: profile.userId,
-                profileName: profile.profileName || 'Default Profile Name',
-                timeProfile: {
-                    timeStart: profile?.timeProfile?.start || '00:00',
-                    timeEnd: profile?.timeProfile?.end || '00:00'
-                },
-                statusBlockedSites: profile.statusBlockedSites || 'black list',
-                websites: profile.listWebsites.map((website, index) => ({
-                    index: index,
-                    websiteId: website.websiteId._id,
-                    name: website.websiteId.name,
-                    url: website.websiteId.url,
-                    status: website.status || 'open',
-                    limitedMinutes: website.limitedMinutes || 0
-                }))
-            });
+            setFormData(formatProfileData(profile));
         }
     }, [profile]);
 
-    const handleClickOpen = () => {
+    const handleClickOpen = useCallback(() => {
         setOpen(true);
-    };
+    }, []);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setOpen(false);
         setConfirmDeleteOpen(false);
         setToastOpen(false);
-    };
+    }, []);
 
-    const getStatusOptions = () => {
-        const { statusBlockedSites } = formData;
-
-        if (statusBlockedSites === 'black list') {
-            return [
-                { text: 'Open', value: 'open' },
-                { text: 'Limit', value: 'limit' }
-            ];
-        } else if (statusBlockedSites === 'white list') {
-            return [
-                { text: 'Block', value: 'block' },
-                { text: 'Limit', value: 'limit' }
-            ];
-        }
-        return [
-            { text: 'Block', value: 'block' },
-            { text: 'Open', value: 'open' },
-            { text: 'Limit', value: 'limit' }
-        ];
-    };
-
-    const handleFieldChange = (e) => {
+    const handleFieldChange = useCallback((e) => {
         const { name, value } = e.target;
         if (name === "statusBlockedSites") {
-            setFormData(prevState => {
-                const updatedWebsites = prevState.websites.map(website => {
-                    if (website.status === 'limit') {
-                        return website;
-                    }
-                    return {
-                        ...website,
-                        status: value === 'black list' ? 'open' : 'block'
-                    };
-                });
-
-                return {
-                    ...prevState,
-                    statusBlockedSites: value,
-                    websites: updatedWebsites
-                };
-            });
+            setFormData(prevState => updateFormDataWithStatusBlockedSites(prevState, value));
         } else if (name === "timeStart" || name === "timeEnd") {
             setFormData(prevState => ({
                 ...prevState,
@@ -124,284 +66,170 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
                 }
             }));
         } else {
-            setFormData({ ...formData, [name]: value });
+            setFormData(prevState => ({ ...prevState, [name]: value }));
         }
-    };
+    }, []);
 
-    const handleWebsiteChange = (e, index) => {
-        const { name, value } = e.target;
-
-        setFormData(prevState => {
-            const updatedWebsites = [...prevState.websites];
-            const updatedWebsite = {
-                ...updatedWebsites[index],
-                [name]: value
-            };
-            if (name === 'url') {
-                try {
-                    const parsedUrl = new URL(value);
-                    updatedWebsite.name = parsedUrl.hostname;
-                } catch (error) {
-                    console.error('Invalid URL:', value, error);
-                }
-            }
-            updatedWebsites[index] = updatedWebsite;
-            return {
-                ...prevState,
-                websites: updatedWebsites
-            };
-        });
-    };
-
-    const handleAddWebsite = () => {
-        setFormData(prevState => ({
-            ...prevState,
-            websites: [...prevState.websites, {
-                id: '',
-                name: '',
-                url: '',
-                status: '',
-                limitedMinutes: 0
-            }]
-        }));
-    };
-
-    const handleSave = async () => {
+    const handleSave = useCallback(async () => {
         try {
-            const updatedWebsites = await Promise.all(formData.websites.map(async (website) => {
-                if (!website.websiteId || website.websiteId === '') {
-                    const newWebsite = await createWebsite({ name: website.name, url: website.url });
-                    return {
-                        websiteId: newWebsite._id,
-                        name: website.name,
-                        url: website.url,
-                        status: website.status,
-                        limitedMinutes: website.limitedMinutes
-                    };
-                } else {
-                    const updatedWebsiteData = {
-                        name: website.name,
-                        url: website.url,
-                        status: website.status,
-                        limitedMinutes: website.limitedMinutes
-                    };
-                    await updateWebsite(website.websiteId, updatedWebsiteData);
-                    return {
-                        websiteId: website.websiteId,
-                        ...updatedWebsiteData
-                    };
-                }
-            }));
-
             const updatedProfile = {
                 userId: formData.userId,
                 profileName: formData.profileName,
                 statusBlockedSites: formData.statusBlockedSites,
-                listWebsites: updatedWebsites,
                 timeProfile: {
                     start: formData.timeProfile.timeStart,
                     end: formData.timeProfile.timeEnd
                 },
+                listWebsites: formData.websites
             };
             await updateProfileApi(profile._id, updatedProfile);
             setToastOpen(true);
             setToastType('success');
-            setToastMessage('Profile updated successfully!');
+            setToastMessage(TOAST_MESSAGES.PROFILE_UPDATED_SUCCESS);
             handleClose();
             if (onProfileUpdated) onProfileUpdated({ id: profile._id, ...updatedProfile });
         } catch (error) {
             console.error('Error updating profile:', error);
             setToastOpen(true);
             setToastType('error');
-            setToastMessage('Error updating profile!');
+            setToastMessage(TOAST_MESSAGES.PROFILE_UPDATED_ERROR);
         }
-    };
+    }, [formData, profile, handleClose, onProfileUpdated]);
 
-    const handleDelete = async () => {
+    const handleDelete = useCallback(async () => {
         if (profile && profile._id) {
             try {
                 await deleteProfileApi(profile._id);
                 dispatch(deleteProfile(profile._id));
                 setToastOpen(true);
-                setToastType('error');
-                setToastMessage('Profile deleted successfully!');
+                setToastType('success');
+                setToastMessage(TOAST_MESSAGES.PROFILE_DELETED_SUCCESS);
+                navigate(0);
             } catch (err) {
                 console.error('Error handling delete:', err);
                 setToastOpen(true);
                 setToastType('error');
-                setToastMessage('Error deleting profile!');
+                setToastMessage(TOAST_MESSAGES.PROFILE_DELETED_ERROR);
             }
         }
-    };
+    }, [dispatch, profile]);
 
-    const isFormValid = () => {
+    const isFormValid = useCallback(() => {
         return formData.profileName.trim() !== '' &&
             formData.timeProfile.timeStart.trim() !== '' &&
             formData.timeProfile.timeEnd.trim() !== '';
-    };
+    }, [formData]);
 
     return (
         <div>
-            <GenericButton label='Edit Profile'onClick={handleClickOpen} size = "medium" className="profile-list-button"/>
+            <Tooltip title={TOOLTIP_TEXTS.EDIT_PROFILE}>
+                <GenericButton label={BUTTON_LABELS.EDIT_PROFILE} onClick={handleClickOpen} size="medium" className="profile-list-button" />
+            </Tooltip>
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
-                <DialogTitle>Edit Profile</DialogTitle>
+                <DialogTitle>{DIALOG_TITLES.EDIT_PROFILE}</DialogTitle>
                 <DialogContent>
-                    <Box sx={{ flexGrow: 1 }} ml={15}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={1} sm={3}>
+                    <Box mt={2}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={6}>
                                 <Box mt={3.2}>
-                                    <GenericInput
-                                        label="Profile Name"
-                                        name="profileName"
-                                        value={formData.profileName}
-                                        onChange={(e) => handleFieldChange(e)}
-                                        width='100%'
-                                    />
+                                    <Tooltip title={TOOLTIP_TEXTS.PROFILE_NAME}>
+                                        <GenericInput
+                                            label={INPUT_LABELS.PROFILE_NAME}
+                                            name="profileName"
+                                            value={formData.profileName}
+                                            onChange={handleFieldChange}
+                                            width='100%'
+                                        />
+                                    </Tooltip>
                                 </Box>
                             </Grid>
-                            <Grid item xs={1} sm={2}>
-                                <Box mt={3.2}>
-                                    <GenericInput
-                                        name="timeStart"
-                                        type="time"
-                                        value={formData.timeProfile.timeStart}
-                                        onChange={(e) => handleFieldChange(e)}
-                                        width='100%'
-                                    />
+                        </Grid>
+                        <Grid container spacing={3} mt={2}>
+                            <Grid item xs={12} sm={3}>
+                                <Box mt={1}>
+                                    <Tooltip title={TOOLTIP_TEXTS.TIME_START}>
+                                        <GenericInput
+                                            label={INPUT_LABELS.TIME_START}
+                                            name="timeStart"
+                                            value={formData.timeProfile.timeStart}
+                                            onChange={handleFieldChange}
+                                            type="time"
+                                            width='100%'
+                                        />
+                                    </Tooltip>
                                 </Box>
                             </Grid>
-                            <Grid item xs={1} sm={2}>
-                                <Box mt={3.2}>
-                                    <GenericInput
-                                        name="timeEnd"
-                                        type="time"
-                                        value={formData.timeProfile.timeEnd}
-                                        onChange={(e) => handleFieldChange(e)}
-                                        width='100%'
-                                    />
+                            <Grid item xs={12} sm={3}>
+                                <Box mt={1}>
+                                    <Tooltip title={TOOLTIP_TEXTS.TIME_END}>
+                                        <GenericInput
+                                            label={INPUT_LABELS.TIME_END}
+                                            name="timeEnd"
+                                            value={formData.timeProfile.timeEnd}
+                                            onChange={handleFieldChange}
+                                            type="time"
+                                            width='100%'
+                                        />
+                                    </Tooltip>
                                 </Box>
                             </Grid>
-                            <Grid item xs={1} sm={2}>
-                                <Box mt={3.2}>
-                                    <Select
-                                        name="statusBlockedSites"
-                                        label="Status Blocked Sites"
-                                        value={formData.statusBlockedSites}
-                                        onChange={(e) => handleFieldChange(e)}
-                                        options={[
-                                            { text: 'Black List', value: 'black list' },
-                                            { text: 'White List', value: 'white list' }
-                                        ]}
-                                        widthOfSelect='4.5cm'
-                                    />
-                                </Box>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Box mt={3.2}>
-                                    {formData.websites.map((website, index) => (
-                                        <Box key={index} mb={2}>
-                                            <Grid container spacing={2}>
-                                                <Grid item xs={2}>
-                                                    <GenericInput
-                                                        label="Website Name"
-                                                        name="name"
-                                                        value={website.name}
-                                                        onChange={(e) => handleWebsiteChange(e, index)}
-                                                        width='100%'
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <GenericInput
-                                                        label="URL"
-                                                        name="url"
-                                                        value={website.url}
-                                                        onChange={(e) => handleWebsiteChange(e, index)}
-                                                        width='100%'
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={2}>
-                                                    <Select
-                                                        name="status"
-                                                        value={website.status}
-                                                        onChange={(e) => handleWebsiteChange(e, index)}
-                                                        options={getStatusOptions()}
-                                                         widthOfSelect='2.5cm'
-                                                    />
-                                                </Grid>
-                                                {website.status === 'limit' && (
-                                                    <Grid item sm={2}>
-                                                        <GenericInput
-                                                            label="Limit Minutes"
-                                                            name="limitedMinutes"
-                                                            type="number"
-                                                            value={website.limitedMinutes}
-                                                            onChange={(e) => handleWebsiteChange(e, index)}
-                                                            width='100%'
-                                                        />
-                                                    </Grid>
-                                                )}
-                                            </Grid>
-                                        </Box>
-                                    ))}
-                                    <Button
-                                        variant="outlined"
-                                        onClick={handleAddWebsite}
-                                    >
-                                        Add Website
-                                    </Button>
+                            <Grid item xs={12} sm={5}>
+                                <Box mt={1}>
+                                    <Tooltip title={TOOLTIP_TEXTS.STATUS_BLOCKED_SITES}>
+                                        <Select
+                                            label={INPUT_LABELS.STATUS_BLOCKED_SITES}
+                                            name="statusBlockedSites"
+                                            value={formData.statusBlockedSites}
+                                            onChange={handleFieldChange}
+                                            options={SELECT_OPTIONS.STATUS_BLOCKED_SITES}
+                                            widthOfSelect='100%'
+                                        />
+                                    </Tooltip>
                                 </Box>
                             </Grid>
                         </Grid>
                     </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={handleSave}
-                        variant="contained"
-                        color="success"
-                        disabled={!isFormValid()}
-                    >
-                        Save
-                    </Button>
-                    <Button
-                        onClick={() => setConfirmDeleteOpen(true)}
-                        color="error"
-                    >
-                        Delete
-                    </Button>
+                    <Tooltip title={TOOLTIP_TEXTS.CANCEL}>
+                        <GenericButton label={BUTTON_LABELS.CANCEL} onClick={handleClose} />
+                    </Tooltip>
+                    <Tooltip title={TOOLTIP_TEXTS.SAVE}>
+                        <GenericButton
+                            label={BUTTON_LABELS.SAVE}
+                            onClick={handleSave}
+                            disabled={!isFormValid()}
+                        />
+                    </Tooltip>
+                    <Tooltip title={TOOLTIP_TEXTS.DELETE_PROFILE}>
+                        <GenericButton
+                            label={BUTTON_LABELS.DELETE_PROFILE}
+                            onClick={() => setConfirmDeleteOpen(true)}
+                            color="error"
+                        />
+                    </Tooltip>
                 </DialogActions>
             </Dialog>
-            <Dialog
-                open={confirmDeleteOpen}
-                onClose={() => setConfirmDeleteOpen(false)}
-            >
-                <DialogTitle>Confirm Deletion</DialogTitle>
-                <DialogContent>
-                    Are you sure you want to delete this profile?
-                </DialogContent>
+            <Dialog open={confirmDeleteOpen} onClose={handleClose}>
+                <DialogTitle>{DIALOG_TITLES.CONFIRM_DELETE}</DialogTitle>
                 <DialogActions>
-                    <Button onClick={() => setConfirmDeleteOpen(false)} color="primary">
-                        Cancel
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            handleDelete();
-                            setConfirmDeleteOpen(false);
-                        }}
-                        color="error"
-                    >
-                        Delete
-                    </Button>
+                    <Tooltip title={TOOLTIP_TEXTS.CANCEL}>
+                        <GenericButton label={BUTTON_LABELS.CANCEL} onClick={handleClose} />
+                    </Tooltip>
+                    <Tooltip title={TOOLTIP_TEXTS.DELETE}>
+                        <GenericButton
+                            label={BUTTON_LABELS.DELETE}
+                            onClick={handleDelete}
+                            color="error"
+                        />
+                    </Tooltip>
                 </DialogActions>
             </Dialog>
             <ToastMessage
                 open={toastOpen}
-                onClose={handleClose}
                 type={toastType}
                 message={toastMessage}
+                onClose={handleClose}
             />
         </div>
     );
