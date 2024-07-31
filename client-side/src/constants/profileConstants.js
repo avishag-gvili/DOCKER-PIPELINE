@@ -51,7 +51,6 @@ export const BUTTON_LABELS = {
     SAVE: 'Save',
     DELETE: 'Delete',
     ADDING: 'Adding'
-
 };
 
 export const DIALOG_TITLES = {
@@ -75,7 +74,10 @@ export const TOAST_MESSAGES = {
 
 export const VALIDATE_MESSAGES = {
     PROFILE_NAME_SHORT: 'Name must be at least 2 characters long.',
-    PROFILE_NAME_LONG: 'Name cannot be more than 50 characters long.'
+    PROFILE_NAME_LONG: 'Name cannot be more than 50 characters long.',
+    UPDATE_NAME_LENGHT:'Profile name must be between 2 and 25 characters',
+    TIME_START:'Start time is a mandatory field',
+    TIME_END:'End time is a mandatory field',
 };
 
 export const CONSOLE_MESSAGES = {

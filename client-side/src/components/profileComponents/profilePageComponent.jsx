@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Select from '../../stories/Select/Select.jsx';
 import TableComponent from '../../stories/table/TableComponent.jsx';
 import { updateProfileApi, getProfilesByUserId } from '../../services/profileService.js';
-import { deleteWebsite, updateWebsite } from '../../services/websiteService.js';
+import { deleteWebsite, updateWebsite,createWebsite } from '../../services/websiteService.js';
 import { useAppSelector } from '../../redux/store.jsx';
 import { setProfiles, updateProfile } from '../../redux/profile/profile.slice.js';
 import { selectProfile } from '../../redux/profile/profile.selector.js';
@@ -12,7 +12,6 @@ import { Delete as DeleteIcon, Edit as EditIcon, Save as SaveIcon, Cancel as Can
 import AddProfileComponent from './addProfileComponent.jsx';
 import UpdateProfileComponent from './updateProfileCpmponent.jsx';
 import ProfileActivationTimer from './profileActivationComponent.jsx';
-import AddWebsite from './addWebsiteComponent.jsx'
 import { getStatusOptions } from '../../utils/profileUtil.js';
 import '../../styles/profilePageStyle.scss';
 
@@ -26,7 +25,7 @@ const ProfilePageComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const statusOptions = selectedProfile ? getStatusOptions(selectedProfile.statusBlockedSites) : [];
-  
+
   const fetchProfiles = async () => {
     try {
       const userId = '6698da056e5c07ebd3c11ec1';
@@ -54,8 +53,8 @@ const ProfilePageComponent = () => {
     const durationMinutes = (end - start) / 1000 / 60;
     if (durationMinutes >= 0) {
       setTime(durationMinutes);
-    }else{
-      setTime(durationMinutes*-1);
+    } else {
+      setTime(durationMinutes * -1);
     }
 
   };
@@ -74,7 +73,7 @@ const ProfilePageComponent = () => {
       listWebsites: updatedWebsites
     };
     try {
-      deleteWebsite(id);
+      await deleteWebsite(id);
       await updateProfileApi(selectedProfile._id, profileToUpdate);
       dispatch(updateProfile(profileToUpdate));
       setSelectedProfile(profileToUpdate);
@@ -99,43 +98,74 @@ const ProfilePageComponent = () => {
       (editedRows.status === 'limit' && editedRows.limitedMinutes === 0)
     ) return;
 
-    const websiteAfterUpdate = {
-      websiteId: {
-        _id: id,
-        name: editedRows.name,
-        url: editedRows.url,
-      },
-      status: editedRows.status,
-      limitedMinutes: editedRows.limitedMinutes
-    };
+    if ((editRowId === 'new')&&(editedRows.url===''||editedRows.status===''))return;
 
-    const updatedWebsites = selectedProfile.listWebsites.map(website =>
-      website.websiteId._id === id ? websiteAfterUpdate : website
-    );
+    let updatedWebsites;
+    if (editRowId === 'new') {
+        try {
+            const response = await createWebsite({
+                name: editedRows.name,
+                url: editedRows.url
+            });
+            const newWebsiteId = response._id;
+
+            const newWebsite = {
+                websiteId: {
+                    _id: newWebsiteId,
+                    name: editedRows.name,
+                    url: editedRows.url
+                },
+                status: editedRows.status,
+                limitedMinutes: editedRows.limitedMinutes
+            };
+
+            updatedWebsites = [...selectedProfile.listWebsites, newWebsite];
+        } catch (err) {
+            console.error('Error creating new website:', err);
+            return;
+        }
+    } else {
+        const websiteAfterUpdate = {
+            websiteId: {
+                _id: id,
+                name: editedRows.name,
+                url: editedRows.url,
+            },
+            status: editedRows.status,
+            limitedMinutes: editedRows.limitedMinutes
+        };
+
+        updatedWebsites = selectedProfile.listWebsites.map(website =>
+            website.websiteId._id === id ? websiteAfterUpdate : website
+        );
+    }
 
     const profileToUpdate = {
-      ...selectedProfile,
-      listWebsites: updatedWebsites
+        ...selectedProfile,
+        listWebsites: updatedWebsites
     };
 
     try {
-      await updateWebsite(id, { name: editedRows.name, url: editedRows.url });
-      await updateProfileApi(selectedProfile._id, profileToUpdate);
-      dispatch(updateProfile(profileToUpdate));
-      setSelectedProfile(profileToUpdate);
-      setEditRowId(null);
-      setEditedRows(null);
+        if (editRowId !== 'new') {
+            await updateWebsite(id, { name: editedRows.name, url: editedRows.url });
+        }
+        await updateProfileApi(selectedProfile._id, profileToUpdate);
+        dispatch(updateProfile(profileToUpdate));
+        setSelectedProfile(profileToUpdate);
+        setEditRowId(null);
+        setEditedRows(null);
     } catch (err) {
-      console.error('Error saving profile:', err);
+        console.error('Error saving profile:', err);
     }
-  };
+};
 
   const handleCancel = () => {
     setEditRowId(null);
     setEditedRows(null);
   };
-  
+
   const handleFieldChange = (e) => {
+    debugger
     const { value, name } = e.target;
     if (name === 'limitedMinutes' && editedRows.status !== 'limit') {
       return;
@@ -161,30 +191,47 @@ const ProfilePageComponent = () => {
     { func: handleSave, icon: SaveIcon, label: 'save', condition: (id) => id === editRowId },
     { func: handleCancel, icon: CancelIcon, label: 'cancel', condition: (id) => id === editRowId },
   ];
-
   const generateTableData = (profile) => {
     if (!profile || !profile.listWebsites || profile.listWebsites.length === 0) {
-      return { headers: [], rows: [] };
+        return { headers: [], rows: [] };
     }
-    const rows = profile.listWebsites
-      .filter(website => website && website.websiteId)
-      .map(website => ({
-        id: website.websiteId ? website.websiteId._id : '',
-        name: (editRowId === website.websiteId._id && editedRows) ? editedRows.name : website.websiteId.name,
-        url: (editRowId === website.websiteId._id && editedRows) ? editedRows.url : website.websiteId.url,
-        status: (editRowId === website.websiteId._id && editedRows) ? editedRows.status : website.status,
-        limitedMinutes: (editRowId === website.websiteId._id && editedRows)
-          ? (editedRows.limitedMinutes === 0 ? '-' : editedRows.limitedMinutes)
-          : (website.limitedMinutes === 0 ? '-' : website.limitedMinutes),
-        Actions: 'Actions',
-      }));
+    const headers = Object.keys(profile.listWebsites[0].websiteId)
+        .filter(header => header !== '_id' && header !== '__v')
+    headers.push('status', 'limitedMinutes', 'Actions');
+    const rows = profile.listWebsites.map((website) => {
+        const isEditing = editRowId === website.websiteId._id;
+        const row = {};
+        headers.forEach((header) => {
+            if (header in website.websiteId) {
+                row[header] = isEditing && editedRows ? editedRows[header] : website.websiteId[header];
+            } else if (header in website) {
+                row[header] = isEditing && editedRows ? editedRows[header] : website[header];
+            }
+        });
 
-    return {
-      headers: ['name', 'url', 'status', 'limitedMinutes', 'Actions'],
-      rows: rows,
-    };
+        row.Actions = actions.filter(action => action.condition(website.websiteId._id));
+        return { ...row, id: website.websiteId._id };
+    });
+    if (editRowId === 'new') {
+        const newRow = { id: 'new' };
+        headers.forEach(header => {
+            newRow[header] = editedRows ? editedRows[header] : '';
+        });
+        rows.push(newRow);
+    }
+
+    return { headers, rows };
+};
+
+  const handleAddRow = () => {
+    setEditRowId('new');
+    setEditedRows({
+      name: '',
+      url: '',
+      status: '',
+      limitedMinutes: 0,
+    });
   };
-
   return (
     <div className="profile-list-container">
       <div className="profile-list-select-wrapper">
@@ -224,11 +271,9 @@ const ProfilePageComponent = () => {
             editRowId={editRowId}
             handleFieldChange={handleFieldChange}
             statusOptions={statusOptions}
-            className="profile-list-table"
+            addButton={true}
+            handleAddRow={handleAddRow}
           />
-          {selectedProfile && (
-            <AddWebsite profile={selectedProfile} />
-          )}
         </div>
       ) : (
         <h1>No profile selected</h1>

@@ -13,18 +13,6 @@ import ToastMessage from '../../stories/Toast/ToastMessage.jsx';
 import { handleAddUrl } from '../../utils/profileUtil.js';
 import { SELECT_OPTIONS,INPUT_LABELS,DIALOG_TITLES, TOAST_MESSAGES, VALIDATE_MESSAGES, CONSOLE_MESSAGES, BUTTON_LABELS, TOOLTIP_MESSAGES } from '../../constants/profileConstants.js';
 import '../../styles/profilePageStyle.scss';
-
-export const options = {
-  black: [
-    { text: 'open', value: 'open' },
-    { text: 'limit', value: 'limit' }
-  ],
-  white: [
-    { text: 'blocked', value: 'blocked' },
-    { text: 'limit', value: 'limit' }
-  ]
-};
-
 export default function AddProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,7 +21,6 @@ export default function AddProfile() {
   const [dataToast, setDataToast] = useState(getInitialToastData());
   const [URLSUser, setURLSUser] = useState([]);
   const [errorText, setErrorText] = useState('');
-
   function getInitialData() {
     return {
       name: '',
@@ -45,7 +32,6 @@ export default function AddProfile() {
       urlStatus: ''
     };
   }
-
   function getInitialToastData() {
     return {
       open: false,
@@ -53,27 +39,23 @@ export default function AddProfile() {
       type: 'error',
     };
   }
-
   const handleCloseToast = useCallback(() => {
     setDataToast({ open: false });
   }, []);
-
   const handleClickOpen = useCallback(() => {
     setData(getInitialData());
     setURLSUser([]);
     setOpen(true);
   }, []);
-
   const handleClose = useCallback(() => {
     setOpen(false);
   }, []);
-
   const handleAddUrlWrapper = useCallback((event) => {
     handleAddUrl(data, URLSUser, setURLSUser, setDataToast, setData);
   }, [data, URLSUser]);
-
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     if (name === 'status') {
       if (URLSUser.length > 0 && value !== data.status && data.status !== '') {
         setDataToast({ open: true, message: TOAST_MESSAGES.TYPE_LIST_CHANGE_ERROR, type: 'error' });
@@ -84,13 +66,11 @@ export default function AddProfile() {
       ...prevData,
       [name]: value
     }));
-
     if (name === 'name') {
       const validationMessage = validateName(value);
       setErrorText(validationMessage);
     }
   }, [data.status, URLSUser]);
-
   const validateName = (inputValue) => {
     if (inputValue.length < 2) {
       return VALIDATE_MESSAGES.PROFILE_NAME_SHORT;
@@ -99,14 +79,13 @@ export default function AddProfile() {
     }
     return '';
   };
-
   const handleSubmit = useCallback(async (event) => {
     event.preventDefault();
     const userId = '6698da056e5c07ebd3c11ec1';
     const profileData = {
       userId: userId,
       profileName: data.name,
-      statusBlockedSites: data.status === 'isWhiteList' ? 'white list' : 'black list',
+      statusBlockedSites: data.status,
       listWebsites: URLSUser.map(url => ({
         websiteId: url.id,
         status: url.urlStatus === 'blocked' ? 'block' : url.urlStatus,
@@ -126,7 +105,6 @@ export default function AddProfile() {
       console.error(CONSOLE_MESSAGES.PROFILE_CREATE_ERROR, error);
     }
   }, [data, URLSUser, dispatch, navigate, handleClose]);
-
   const tableData = {
     headers: ['URL', 'Status', 'Time Limit'],
     rows: URLSUser.map((item, index) => ({
@@ -136,7 +114,6 @@ export default function AddProfile() {
       'Time Limit': item.urlStatus === 'limit' ? item.urlTimeLimit : '-'
     }))
   };
-
   return (
     <React.Fragment>
       <GenericButton label={DIALOG_TITLES.ADD_PROFILE} variant="outlined" className="profile-list-button" onClick={handleClickOpen} size="medium">
@@ -153,7 +130,7 @@ export default function AddProfile() {
         <DialogTitle>{BUTTON_LABELS.NEW_PROFILE}</DialogTitle>
         <DialogContent>
           <DialogContentText className='dialog-content-text'>
-          {DIALOG_TITLES.CREATE_FORM}         
+          {DIALOG_TITLES.CREATE_FORM}
            </DialogContentText>
           <ToastMessage open={dataToast.open} type={dataToast.type} message={dataToast.message} onClose={handleCloseToast} />
           <GenericInput
@@ -189,7 +166,6 @@ export default function AddProfile() {
           </div>
           <div>
           <DialogContentText className='dialog-content-text'>{DIALOG_TITLES.STATUS_LIST} </DialogContentText>
-
             <RadioButton
               name="status"
               options={SELECT_OPTIONS.STATUS_BLOCKED_SITES}
@@ -197,7 +173,6 @@ export default function AddProfile() {
               onChange={handleChange}
             />
           <DialogContentText className='dialog-content-text'>{DIALOG_TITLES.ADD_WEBSITE}</DialogContentText>
-
             <div className='divAddUrl'>
               <GenericInput
                 name="url"
@@ -211,7 +186,7 @@ export default function AddProfile() {
               <Select
                 name='urlStatus'
                 size="small"
-                options={data.status === 'isWhiteList' ? SELECT_OPTIONS.WEBSITE_STATUS_OPEN : SELECT_OPTIONS.WEBSITE_STATUS_BLOCK}
+                options={data.status === 'white list' ? SELECT_OPTIONS.WEBSITE_STATUS_OPEN : SELECT_OPTIONS.WEBSITE_STATUS_BLOCK}
                 value={data.urlStatus}
                 onChange={handleChange}
                 title="Site Status"

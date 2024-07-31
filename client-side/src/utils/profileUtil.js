@@ -1,4 +1,4 @@
-import { SELECT_OPTIONS } from '../constants/profileConstants.js';
+import { SELECT_OPTIONS,VALIDATE_MESSAGES} from '../constants/profileConstants.js';
 import { createWebsite } from "../services/websiteService";
 
 export const formatProfileData = (profile) => {
@@ -81,3 +81,28 @@ export const handleAddUrl = async (data, URLSUser, setURLSUser, setdataToast, se
     }
 };
 
+export function validateProfileForm(formData) {
+    let isValid = true;
+    const errors = {
+        profileName: '',
+        timeStart: '',
+        timeEnd: '',
+    };
+
+    if (!formData.profileName.trim() || formData.profileName.trim().length < 2 || formData.profileName.trim().length > 25) {
+        errors.profileName = VALIDATE_MESSAGES.UPDATE_NAME_LENGHT;
+        isValid = false;
+    }
+
+    if (!formData.timeProfile.timeStart.trim()) {
+        errors.timeStart = VALIDATE_MESSAGES.TIME_START;
+        isValid = false;
+    }
+
+    if (!formData.timeProfile.timeEnd.trim()) {
+        errors.timeEnd = VALIDATE_MESSAGES.TIME_END;
+        isValid = false;
+    }
+
+    return { isValid, errors };
+}

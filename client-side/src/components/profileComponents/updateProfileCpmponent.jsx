@@ -8,7 +8,8 @@ import GenericButton from '../../stories/Button/GenericButton.jsx';
 import { updateProfileApi, deleteProfileApi } from '../../services/profileService.js';
 import { deleteProfile } from '../../redux/profile/profile.slice.js';
 import ToastMessage from '../../stories/Toast/ToastMessage.jsx';
-import { formatProfileData, updateFormDataWithStatusBlockedSites } from '../../utils/profileUtil.js';
+import { formatProfileData } from '../../utils/profileUtil.js';
+import { validateProfileForm, updateFormDataWithStatusBlockedSites } from '../../utils/profileUtil.js';
 import {
     INPUT_LABELS,
     SELECT_OPTIONS,
@@ -22,7 +23,6 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
-    const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
     const [toastOpen, setToastOpen] = useState(false);
     const [toastType, setToastType] = useState('success');
     const [toastMessage, setToastMessage] = useState('');
@@ -30,11 +30,16 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
         userId: '',
         profileName: '',
         timeProfile: {
-            timeStart: new Date().toISOString(),
-            timeEnd: new Date().toISOString(),
+            timeStart: new Date().toISOString().substr(11, 5),
+            timeEnd: new Date().toISOString().substr(11, 5),
         },
         statusBlockedSites: '',
         websites: []
+    });
+    const [errorMessages, setErrorMessages] = useState({
+        profileName: '',
+        timeStart: '',
+        timeEnd: '',
     });
 
     useEffect(() => {
@@ -49,7 +54,6 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
 
     const handleClose = useCallback(() => {
         setOpen(false);
-        setConfirmDeleteOpen(false);
         setToastOpen(false);
     }, []);
 
@@ -71,6 +75,11 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
     }, []);
 
     const handleSave = useCallback(async () => {
+        const { isValid, errors } = validateProfileForm(formData);
+        if (!isValid) {
+            setErrorMessages(errors);
+            return;
+        }
         try {
             const updatedProfile = {
                 userId: formData.userId,
@@ -104,7 +113,7 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
                 setToastOpen(true);
                 setToastType('success');
                 setToastMessage(TOAST_MESSAGES.PROFILE_DELETED_SUCCESS);
-                navigate(0);
+                setTimeout(() => navigate(0), 6000);
             } catch (err) {
                 console.error('Error handling delete:', err);
                 setToastOpen(true);
@@ -113,12 +122,6 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
             }
         }
     }, [dispatch, profile]);
-
-    const isFormValid = useCallback(() => {
-        return formData.profileName.trim() !== '' &&
-            formData.timeProfile.timeStart.trim() !== '' &&
-            formData.timeProfile.timeEnd.trim() !== '';
-    }, [formData]);
 
     return (
         <div>
@@ -141,6 +144,7 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
                                             width='100%'
                                         />
                                     </Tooltip>
+                                    {errorMessages.profileName && <Box color="red">{errorMessages.profileName}</Box>}
                                 </Box>
                             </Grid>
                         </Grid>
@@ -157,6 +161,7 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
                                             width='100%'
                                         />
                                     </Tooltip>
+                                    {errorMessages.timeStart && <Box color="red">{errorMessages.timeStart}</Box>}
                                 </Box>
                             </Grid>
                             <Grid item xs={12} sm={3}>
@@ -171,6 +176,7 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
                                             width='100%'
                                         />
                                     </Tooltip>
+                                    {errorMessages.timeEnd && <Box color="red">{errorMessages.timeEnd}</Box>}
                                 </Box>
                             </Grid>
                             <Grid item xs={12} sm={5}>
@@ -198,27 +204,11 @@ export default function UpdateProfileComponent({ profile, onProfileUpdated }) {
                         <GenericButton
                             label={BUTTON_LABELS.SAVE}
                             onClick={handleSave}
-                            disabled={!isFormValid()}
                         />
                     </Tooltip>
                     <Tooltip title={TOOLTIP_TEXTS.DELETE_PROFILE}>
                         <GenericButton
                             label={BUTTON_LABELS.DELETE_PROFILE}
-                            onClick={() => setConfirmDeleteOpen(true)}
-                            color="error"
-                        />
-                    </Tooltip>
-                </DialogActions>
-            </Dialog>
-            <Dialog open={confirmDeleteOpen} onClose={handleClose}>
-                <DialogTitle>{DIALOG_TITLES.CONFIRM_DELETE}</DialogTitle>
-                <DialogActions>
-                    <Tooltip title={TOOLTIP_TEXTS.CANCEL}>
-                        <GenericButton label={BUTTON_LABELS.CANCEL} onClick={handleClose} />
-                    </Tooltip>
-                    <Tooltip title={TOOLTIP_TEXTS.DELETE}>
-                        <GenericButton
-                            label={BUTTON_LABELS.DELETE}
                             onClick={handleDelete}
                             color="error"
                         />
