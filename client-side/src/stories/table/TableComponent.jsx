@@ -44,6 +44,18 @@ const TableComponent = ({
             </Select>
           );
         }
+        if (header === 'name') {
+          return (
+            <Tooltip title='This field is optional'>
+              <TextField
+                value={params.value}
+                onChange={(e) => handleFieldChange && handleFieldChange(e, params.row.id)}
+                name={header}
+                fullWidth
+              />
+            </Tooltip>
+          );
+        }
         return (
           <TextField
             value={params.value}
@@ -93,11 +105,6 @@ const TableComponent = ({
 
   return (
     <div className="table" style={{ width: widthOfTable, marginTop: "8%" }}>
-      {addButton && (
-        <div style={{ textAlign: 'left', marginBottom: '10px' }}>
-          <GenericButton variant="outlined" size="medium" onClick={handleAddRow} className="profile-list-button" label='Add Website'/>
-        </div>
-      )}
       <DataGrid
         rows={dataObject.rows}
         columns={columns}
@@ -108,6 +115,11 @@ const TableComponent = ({
         }}
         pageSizeOptions={[4, 8]}
       />
+      {addButton && (
+        <div style={{ textAlign: 'center', marginTop: '10px' }}>
+          <GenericButton variant="outlined" size="medium" onClick={handleAddRow} className="profile-list-button" label='Add Website' />
+        </div>
+      )}
     </div>
   );
 };
@@ -145,5 +157,4 @@ TableComponent.defaultProps = {
   addButton: false,
   handleAddRow: null,
 };
-
 export default TableComponent;

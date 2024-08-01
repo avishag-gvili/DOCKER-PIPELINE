@@ -39,7 +39,7 @@ export const SELECT_OPTIONS = {
     ],
     WEBSITE_STATUS_OPEN: [
         { text: 'limit', value: 'limit' },
-        { text: 'blocked', value: 'blocked' }
+        { text: 'block', value: 'block' }
     ]
 };
 
@@ -69,7 +69,19 @@ export const TOAST_MESSAGES = {
     PROFILE_UPDATED_ERROR: 'Error updating profile!',
     PROFILE_DELETED_SUCCESS: 'Profile deleted successfully!',
     PROFILE_DELETED_ERROR: 'Error deleting profile!',
-    TYPE_LIST_CHANGE_ERROR: 'You cannot change the list type after adding URLs.'
+    PROFILE_FROM_SERVER_ERROR: 'An error occurred in fetching the data from the server!',
+    TYPE_LIST_CHANGE_ERROR: 'You cannot change the list type after adding URLs.',
+    WEBSITE_DELETED_ERROR: 'Error deleting webSite!',
+    WEBSITE_WITHOUT_TIME: 'It is not possible to set a limited site without time!',
+    WEBSITE_UPDATED_ERROR: 'Error updating website!',
+    WEBSITE_CREATE_ERROR: 'Error creating new website!',
+    PROFILE_SAVE_ERROR: 'Error saving profile!',
+    WEBSITE_SAVE_ERROR: 'Not all mandatory fields are filled!',
+    WEBSITE_DELETE_SUCCESS:'Website deleted successfully!',
+    WEBSITE_UPDATED_SUCCESS: 'The site has been successfully update!',
+    CHANGE_BLOCK_OR_OPEN_TIME: 'There is no time setting on a blocked or open site!',
+    WEBSITE_ALREADY_EXISTS:'The URL already exists in this profile',
+    INVALID_URL:'The URL is invalid!',
 };
 
 export const VALIDATE_MESSAGES = {
