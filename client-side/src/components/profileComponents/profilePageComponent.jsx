@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import Select from '../../stories/Select/Select.jsx';
 import TableComponent from '../../stories/table/TableComponent.jsx';
@@ -11,15 +10,16 @@ import { useAppSelector } from '../../redux/store.jsx';
 import { setProfiles, updateProfile } from '../../redux/profile/profile.slice.js';
 import { selectProfile } from '../../redux/profile/profile.selector.js';
 import { Delete as DeleteIcon, Edit as EditIcon, Save as SaveIcon, Cancel as CancelIcon } from '@mui/icons-material';
+import Loader from '../../stories/loader/loader.jsx';
 import AddProfileComponent from './addProfileComponent.jsx';
 import UpdateProfileComponent from './updateProfileCpmponent.jsx';
 import ProfileActivationTimer from './profileActivationComponent.jsx';
-import { getStatusOptions } from '../../utils/profileUtil.js';
+import { extractWebsiteName, isValidURL, isWebsiteInProfile, getStatusOptions } from '../../utils/profileUtil.js';
+import { TOAST_MESSAGES } from '../../constants/profileConstants.js';
 import '../../styles/profilePageStyle.scss';
-import { extractWebsiteName, isValidURL, isWebsiteInProfile } from '../../utils/profileUtil.js';
-import { TOAST_MESSAGES, } from '../../constants/profileConstants.js';
 
-const ProfilePageComponent = () => {
+const ProfilePageComponent = ({ userId }) => {
+  const dispatch = useDispatch();
   const [selectedProfile, setSelectedProfile] = useState(null);
   const { enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(true);
@@ -27,12 +27,10 @@ const ProfilePageComponent = () => {
   const [editedRows, setEditedRows] = useState(null);
   const [time, setTime] = useState(0);
   const profiles = useAppSelector(selectProfile);
-  const dispatch = useDispatch();
   const statusOptions = selectedProfile ? getStatusOptions(selectedProfile.statusBlockedSites) : [];
 
   const fetchProfiles = async () => {
     try {
-      const userId = '6698da056e5c07ebd3c11ec1';
       const profileData = await getProfilesByUserId(userId);
       dispatch(setProfiles(profileData));
       setLoading(false);
@@ -52,6 +50,7 @@ const ProfilePageComponent = () => {
     setSelectedProfile(profile);
     setEditRowId(null);
     setEditedRows(null);
+
     const start = parseTimeStringToDate(profile.timeProfile.start);
     const end = parseTimeStringToDate(profile.timeProfile.end);
     const durationMinutes = (end - start) / 1000 / 60;
@@ -94,90 +93,15 @@ const ProfilePageComponent = () => {
       name: website.websiteId.name,
       url: website.websiteId.url,
       status: website.status,
-      limitedMinutes: website.status === 'limit' ? website.limitedMinutes : 0,
+      limitedMinutes: website.status === 'limit' ? website.limitedMinutes :0,
     });
   };
-
-  // const handleSave = async (id) => {
-  //   if (!selectedProfile || !editRowId || !editedRows) {
-  //     enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.WEBSITE_UPDATED_ERROR} type="error" />);
-  //     return;
-  //   }
-  //   if (editedRows.status === 'limit' && editedRows.limitedMinutes === 0) {
-  //     enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.WEBSITE_WITHOUT_TIME} type="error" />);
-  //     return;
-  //   }
-  //   if ((editRowId === 'new') && (editedRows.url === '' || editedRows.status === '')) {
-  //     enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.WEBSITE_SAVE_ERROR} type="error" />);
-  //     return;
-  //   }
-
-  //   let updatedWebsites;
-  //   if (editRowId === 'new') {
-  //     try {
-  //       const response = await createWebsite({
-  //         name: editedRows.name,
-  //         url: editedRows.url
-  //       });
-  //       const newWebsiteId = response._id;
-
-  //       const newWebsite = {
-  //         websiteId: {
-  //           _id: newWebsiteId,
-  //           name: editedRows.name,
-  //           url: editedRows.url
-  //         },
-  //         status: editedRows.status,
-  //         limitedMinutes: editedRows.limitedMinutes
-  //       };
-
-  //       updatedWebsites = [...selectedProfile.listWebsites, newWebsite];
-  //       enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.WEBSITE_CREATE_SUCCESS} type="success" />);
-  //     } catch (err) {
-  //       enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.WEBSITE_WITHOUT_TIME} type="error" />);
-  //       return;
-  //     }
-  //   } else {
-  //     const websiteAfterUpdate = {
-  //       websiteId: {
-  //         _id: id,
-  //         name: editedRows.name,
-  //         url: editedRows.url,
-  //       },
-  //       status: editedRows.status,
-  //       limitedMinutes: editedRows.limitedMinutes
-  //     };
-
-  //     updatedWebsites = selectedProfile.listWebsites.map(website =>
-  //       website.websiteId._id === id ? websiteAfterUpdate : website
-  //     );
-  //   }
-
-  //   const profileToUpdate = {
-  //     ...selectedProfile,
-  //     listWebsites: updatedWebsites
-  //   };
-
-  //   try {
-  //     if (editRowId !== 'new') {
-  //       await updateWebsite(id, { name: editedRows.name, url: editedRows.url });
-  //       enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.WEBSITE_UPDATED_SUCCESS} type="success" />);
-  //     }
-  //     await updateProfileApi(selectedProfile._id, profileToUpdate);
-  //     dispatch(updateProfile(profileToUpdate));
-  //     setSelectedProfile(profileToUpdate);
-  //     setEditRowId(null);
-  //     setEditedRows(null);
-  //   } catch (err) {
-  //     enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.PROFILE_SAVE_ERROR} type="error" />);
-  //   }
-  // };
   const handleSave = async (id) => {
     if (!selectedProfile || !editRowId || !editedRows) {
       enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.WEBSITE_UPDATED_ERROR} type="error" />);
       return;
     }
-    if (editedRows.status === 'limit' && editedRows.limitedMinutes === 0) {
+    if (editedRows.status === 'limit'&& (editedRows.limitedMinutes===''||editedRows.limitedMinutes === 0)){
       enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.WEBSITE_WITHOUT_TIME} type="error" />);
       return;
     }
@@ -189,7 +113,7 @@ const ProfilePageComponent = () => {
       enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.INVALID_URL} type="error" />);
       return;
     }
-    if (isWebsiteInProfile(editedRows.url, selectedProfile)) {
+    if (editedRows.id==='new'&&(isWebsiteInProfile(editedRows.url, selectedProfile))) {
       enqueueSnackbar(<ToastMessage message={TOAST_MESSAGES.WEBSITE_ALREADY_EXISTS} type="error" />);
       return;
     }
@@ -298,10 +222,22 @@ const ProfilePageComponent = () => {
     { func: handleSave, icon: SaveIcon, label: 'save', condition: (id) => id === editRowId },
     { func: handleCancel, icon: CancelIcon, label: 'cancel', condition: (id) => id === editRowId },
   ];
+
   const generateTableData = (profile) => {
     if (!profile || !profile.listWebsites || profile.listWebsites.length === 0) {
-      return { headers: [], rows: [] };
+      return {
+        headers: ['name', 'url', 'status', 'limitedMinutes', 'Actions'],
+        rows: editRowId === 'new' ? [{
+          id: 'new',
+          name: editedRows ? editedRows.name : '',
+          url: editedRows ? editedRows.url : '',
+          status: editedRows ? editedRows.status : '',
+          limitedMinutes: (editedRows && editedRows.limitedMinutes === 0) ? '-' : (editedRows ? editedRows.limitedMinutes : ''),
+          Actions: actions.filter(action => action.condition('new'))
+        }] : []
+      };
     }
+
     const websiteIdKeys = profile.listWebsites[0]?.websiteId ? Object.keys(profile.listWebsites[0].websiteId) : [];
     const headers = websiteIdKeys.filter(header => header !== '_id' && header !== '__v');
     headers.push('status', 'limitedMinutes', 'Actions');
@@ -328,7 +264,7 @@ const ProfilePageComponent = () => {
     if (editRowId === 'new') {
       const newRow = { id: 'new' };
       headers.forEach(header => {
-        newRow[header] = editedRows ? editedRows[header] : '';
+        newRow[header] = (header === 'limitedMinutes' && editedRows && editedRows[header] === 0) ? '-' : (editedRows ? editedRows[header] : '');
       });
       rows.push(newRow);
     }
@@ -340,7 +276,7 @@ const ProfilePageComponent = () => {
     <div className="profile-list-container">
       <div className="profile-list-select-wrapper">
         <div className="component-add">
-          <AddProfileComponent />
+          <AddProfileComponent userId={userId} />
         </div>
         <Select
           options={profiles.map((profile) => ({ text: profile.profileName, value: profile._id }))}
@@ -357,7 +293,7 @@ const ProfilePageComponent = () => {
           </div>}
       </div>
       {loading ? (
-        <div className="profile-list-loading">Loading profiles...</div>
+        <div className="profile-list-loading"><Loader/></div>
       ) : selectedProfile ? (
         <div className="profile-list-details">
           <h1>
@@ -388,5 +324,4 @@ const ProfilePageComponent = () => {
     </div>
   );
 };
-
 export default ProfilePageComponent;

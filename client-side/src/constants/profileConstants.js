@@ -30,8 +30,8 @@ export const TOOLTIP_TEXTS = {
 
 export const SELECT_OPTIONS = {
     STATUS_BLOCKED_SITES: [
-        { label: 'Black List',text: 'Black List', value: 'black list' },
-        { label: 'White List', text: 'White List',  value: 'white list' }
+        { label: 'Black List', text: 'Black List', value: 'black list' },
+        { label: 'White List', text: 'White List', value: 'white list' }
     ],
     WEBSITE_STATUS_BLOCK: [
         { text: 'open', value: 'open' },
@@ -56,12 +56,10 @@ export const BUTTON_LABELS = {
 export const DIALOG_TITLES = {
     ADD_PROFILE: 'Add a new profile',
     EDIT_PROFILE: 'Edit Profile',
-    CONFIRM_DELETION: 'Confirm Deletion',
-    PROFILE_TIME:' Enter profile start time and profile end time',
-    CREATE_FORM:'  To create a new profile please enter the required data.',
-    NEW_PROFILE:'New profile',
-    ADD_WEBSITE:'Enter the URL of the site you want to add, select a site status and add to your list of sites',
-    STATUS_LIST:'Choose a white/black list to set how the sites are blocked.'
+    PROFILE_TIME: ' Enter profile start time and profile end time',
+    CREATE_FORM: '  To create a new profile please enter the required data.',
+    NEW_PROFILE: 'New profile',
+    STATUS_LIST: 'Choose a white/black list to set how the sites are blocked.'
 };
 
 export const TOAST_MESSAGES = {
@@ -77,25 +75,25 @@ export const TOAST_MESSAGES = {
     WEBSITE_CREATE_ERROR: 'Error creating new website!',
     PROFILE_SAVE_ERROR: 'Error saving profile!',
     WEBSITE_SAVE_ERROR: 'Not all mandatory fields are filled!',
-    WEBSITE_DELETE_SUCCESS:'Website deleted successfully!',
+    WEBSITE_DELETE_SUCCESS: 'Website deleted successfully!',
     WEBSITE_UPDATED_SUCCESS: 'The site has been successfully update!',
     CHANGE_BLOCK_OR_OPEN_TIME: 'There is no time setting on a blocked or open site!',
-    WEBSITE_ALREADY_EXISTS:'The URL already exists in this profile',
-    INVALID_URL:'The URL is invalid!',
+    WEBSITE_ALREADY_EXISTS: 'The URL already exists in this profile',
+    INVALID_URL: 'The URL is invalid!',
+    PROFILE_CREATE_ERROR: 'Error creating profile',
+    PROFILE_CREATE_SUCCESS: 'Success creating profile',
+    FORM_NOT_FILLED: 'The button is disabled because not all fields are filled.',
+    WEBSITE_CREATE_SUCCESS:'Profile created successfully!'
 };
 
 export const VALIDATE_MESSAGES = {
     PROFILE_NAME_SHORT: 'Name must be at least 2 characters long.',
     PROFILE_NAME_LONG: 'Name cannot be more than 50 characters long.',
-    UPDATE_NAME_LENGHT:'Profile name must be between 2 and 25 characters',
-    TIME_START:'Start time is a mandatory field',
-    TIME_END:'End time is a mandatory field',
+    UPDATE_NAME_LENGHT: 'Profile name must be between 2 and 25 characters',
+    TIME_START: 'Start time is a mandatory field',
+    TIME_END: 'End time is a mandatory field',
 };
 
 export const CONSOLE_MESSAGES = {
     PROFILE_CREATE_ERROR: 'Error creating profile:',
-};
-
-export const TOOLTIP_MESSAGES = {
-    FORM_NOT_FILLED: 'The button is disabled because not all fields are filled.',
 };
