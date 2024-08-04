@@ -7,6 +7,6 @@ profileRouter.get('/:id',getProfileById);
 profileRouter.post('/',createProfile);
 profileRouter.delete('/:id',deleteProfile);
 profileRouter.put('/:id', updateProfile);
-profileRouter.get('/userId////////:id', getProfilesByUserId);
+profileRouter.get('profile/userId/:id', getProfilesByUserId);
 export default profileRouter;
 
