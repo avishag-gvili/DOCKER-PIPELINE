@@ -25,25 +25,28 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push server Docker image
-        uses: docker/build-push-action@v3
-        with:
-          context: ./server-side
-          file: ./server-side/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/my-project-server:latest
+        run: |
+          if [ -f ./server-side/Dockerfile ]; then
+            echo "Dockerfile found in server-side. Building and pushing Docker image..."
+            docker buildx build --file ./server-side/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/my-project-server:latest --push ./server-side
+          else
+            echo "No Dockerfile found in server-side. Skipping build."
+          fi
 
       - name: Build and push client Docker image
-        uses: docker/build-push-action@v3
-        with:
-          context: ./client-side
-          file: ./client-side/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/my-project-client:latest
+        run: |
+          if [ -f ./client-side/Dockerfile ]; then
+            echo "Dockerfile found in client-side. Building and pushing Docker image..."
+            docker buildx build --file ./client-side/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/my-project-client:latest --push ./client-side
+          else
+            echo "No Dockerfile found in client-side. Skipping build."
+          fi
 
       - name: Build and push extension Docker image
-        uses: docker/build-push-action@v3
-        with:
-          context: ./extension-ui
-          file: ./extension-ui/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/my-project-extension:latest
+        run: |
+          if [ -f ./extension-ui/Dockerfile ]; then
+            echo "Dockerfile found in extension-ui. Building and pushing Docker image..."
+            docker buildx build --file ./extension-ui/Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/my-project-extension:latest --push ./extension-ui
+          else
+            echo "No Dockerfile found in extension-ui. Skipping build."
+          fi
